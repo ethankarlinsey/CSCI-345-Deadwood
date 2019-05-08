@@ -1,10 +1,12 @@
+import java.util.ArrayList;
 
 public class Player {
 
 	private String name;
 	private int rank, dollarCount, creditCount, rehearsalCount;
 	private Role role;
-	private Point location;
+	private Location location;
+	private ArrayList<Action> actionsThisTurn;
 	
 	
 	public Player(String name) {
@@ -14,10 +16,13 @@ public class Player {
 		creditCount = 0;
 		rehearsalCount = 0;
 		role = null;
-		location = new Point(0, 0); //trailer location
+		location = new Location(); //trailer location
+		actionsThisTurn = new ArrayList<Action>();
 	}
 	
 	
+//--- Getters and Setters ------------------------------------------------------------------
+//------------------------------------------------------------------------------------------
 	
 	public Role getRole() {return role;}
 	public void setRole(Role role) {this.role = role;}
@@ -32,10 +37,13 @@ public class Player {
 	
 	public int getRehearsalCount() {return rehearsalCount;}
 	
-	public Point getLocation() {return location;}
+	public Location getLocation() {return location;}
+	public void setLocation(Location location) {this.location = location;}
 	
 	
-
+//--- Public Methods ----------------------------------------------------------------------	
+//-----------------------------------------------------------------------------------------	
+	
 	public void addDollars(int dollars) {
 		dollarCount += dollars;
 	}
@@ -52,10 +60,6 @@ public class Player {
 		rank = newRank;
 	}
 	
-	public void moveTo(Point newLocation) {
-		location = newLocation;
-	}
-	
 	public void removeDollars(int cost) {
 		dollarCount -= cost;
 	}
@@ -63,5 +67,17 @@ public class Player {
 	public void removeCredits(int cost) {
 		creditCount -= cost;
 	}
-
+	
+	public void addAction(Action a) {
+		actionsThisTurn.add(a);
+	}
+	
+	public void clearActions() {
+		actionsThisTurn.clear();
+	}
+	
+	public boolean hasPerformedAction(Class c) {
+		return actionsThisTurn.stream()
+						.anyMatch(a -> c.isInstance(a) );
+	}
 }

@@ -17,7 +17,7 @@ public class Location {
     }
 
     public boolean isAdjLocation(Location room){
-        boolean adj = false;
+        boolean adj = true; //changed to true for testing
         int[] indices = room.getIndices();
         // incomplete
         return adj;

@@ -3,9 +3,9 @@ public class Move implements Action {
 
 	private Player player;
 	private BoardModel board;
-	private Point newLocation;
+	private Location newLocation;
 	
-	public Move(Player player, BoardModel board, Point newLocation) {
+	public Move(Player player, BoardModel board, Location newLocation) {
 		this.player = player;
 		this.board = board;
 		this.newLocation = newLocation;
@@ -13,13 +13,15 @@ public class Move implements Action {
 
 	@Override
 	public boolean isValid() {
-		// TODO Auto-generated method stub
-		return false;
+		boolean adjascent = player.getLocation().isAdjLocation(newLocation);
+		boolean didNotMoveYet = !player.hasPerformedAction(Move.class);
+		return adjascent && didNotMoveYet;
 	}
 
 	@Override
 	public void excecute() {
-		player.moveTo(newLocation);
+		player.setLocation(newLocation);
+		player.addAction((Action)this);
 	}
 
 }

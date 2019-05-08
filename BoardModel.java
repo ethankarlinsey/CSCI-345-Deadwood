@@ -37,7 +37,7 @@ public class BoardModel {
 
         // move all players
         for (Player p: this.players) {
-            p.moveTo(trailer);
+            p.setLocation(trailer.getLocation());
         }
     }
 }
