@@ -11,8 +11,8 @@ public class Act implements Action {
 
 	@Override
 	public boolean isValid() {
-		// TODO Auto-generated method stub
-		return false;
+		// As long as the player has a role, she can act
+		return player.getRole() != null;
 	}
 
 	@Override

@@ -9,8 +9,8 @@ public class Rehearse implements Action {
 
 	@Override
 	public boolean isValid() {
-		// TODO Auto-generated method stub
-		return false;
+		// NOTE: Assuming rehearse is one of the action choices, it is always valid.
+		return player.getRole() != null;
 	}
 
 	@Override

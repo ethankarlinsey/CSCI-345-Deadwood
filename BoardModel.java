@@ -40,4 +40,14 @@ public class BoardModel {
             p.setLocation(trailer.getLocation());
         }
     }
+    
+    public Player[] getPlayers() {
+    	return players;
+    }
+    
+    //TODO Ethan added this method but isn't quite sure how to implement it
+    public Area getAreaFromLocation(Location loc) {
+    	// find the area that has this location
+    	return new Set();
+    }
 }

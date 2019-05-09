@@ -63,4 +63,9 @@ class Set extends Area {
     public void resetRoles(){
         this.remainingSRoles = this.setRoles;
     }
+    
+    //TODO added by Ethan, accessing the card and its roles
+    public Card getCard() {
+    	return card;
+    }
 }
