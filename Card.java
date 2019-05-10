@@ -39,4 +39,5 @@ public class Card {
     public void resetRoles(){
         this.remainingCRoles = this.cardRoles;
     }
+
 }

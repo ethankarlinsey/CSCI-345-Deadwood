@@ -1,7 +1,7 @@
 public abstract class Area {
     protected String name;
-    protected Location location;
-    protected Location[] adjacentAreas;
+    protected String[] adjacentAreas;
+    protected String[] potentialActions;
 
     public Area(){
 
@@ -11,31 +11,34 @@ public abstract class Area {
         this.name = title;
     }
 
-    public Area(String title, Location locale, Location[] adjacents){
+    public Area(String title, String[] adjacents, String[] potenActions){
         this.name = title;
-        this.location = locale;
         this.adjacentAreas = adjacents;
-    }
-
-    final Location getLocation(){
-        return this.location;
+        this.potentialActions = potenActions;
     }
 
     // added to aid in containing Area's functionality to one class
     final boolean isAdjacent(Area a) {
         boolean isAdj = false;
-        if (a.getLocation().isAdjLocation(this.location)) {
-            isAdj = true;
+        String areaStr = a.getName();
+
+        for (String name : this.adjacentAreas) {
+            if (areaStr.equals(name)) {
+                isAdj = true;
+                break;
+            }
         }
 
         return isAdj;
     }
 
+
+
     final String getName(){
         return this.name;
     }
 
-    final Location[] getAdjacentAreas(){
+    final String[] getAdjacentAreas(){
         return this.adjacentAreas;
     }
 
