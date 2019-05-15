@@ -5,7 +5,7 @@ public class Player {
 	private String name;
 	private int rank, dollarCount, creditCount, rehearsalCount;
 	private Role role;
-	private Location location;
+	private Area area;
 	private ArrayList<Action> actionsThisTurn;
 	
 	
@@ -16,7 +16,6 @@ public class Player {
 		creditCount = 0;
 		rehearsalCount = 0;
 		role = null;
-		location = new Location(); //trailer location
 		actionsThisTurn = new ArrayList<Action>();
 	}
 	
@@ -37,8 +36,8 @@ public class Player {
 	
 	public int getRehearsalCount() {return rehearsalCount;}
 	
-	public Location getLocation() {return location;}
-	public void setLocation(Location location) {this.location = location;}
+	public Area getArea() {return area;}
+	public void setArea(Area area) {this.area = area;}
 	
 	
 //--- Public Methods ----------------------------------------------------------------------	
@@ -54,6 +53,10 @@ public class Player {
 	
 	public void addRehearsal() {
 		rehearsalCount++;
+	}
+	
+	public void resetRehearsals() {
+		rehearsalCount = 0;
 	}
 	
 	public void upgradeRank(int newRank) {

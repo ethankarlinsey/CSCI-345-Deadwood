@@ -1,7 +1,7 @@
 public abstract class Area {
     protected String name;
     protected String[] adjacentAreas;
-    protected String[] potentialActions;
+    protected Class[] potentialActions;
 
     public Area(){
 
@@ -11,10 +11,9 @@ public abstract class Area {
         this.name = title;
     }
 
-    public Area(String title, String[] adjacents, String[] potenActions){
+    public Area(String title, String[] adjacents, Class[] potenActions){
         this.name = title;
         this.adjacentAreas = adjacents;
-        this.potentialActions = potenActions;
     }
 
     // added to aid in containing Area's functionality to one class
@@ -41,7 +40,7 @@ public abstract class Area {
     final String[] getAdjacentAreas(){
         return this.adjacentAreas;
     }
-
+/*
     final void setLocation(Location loc){
         this.location = loc;
     }
@@ -49,4 +48,5 @@ public abstract class Area {
     final void setAdjacentAreas(Location[] areas){
         this.adjacentAreas = areas;
     }
+*/
 }

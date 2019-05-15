@@ -11,8 +11,8 @@ public class Act implements Action {
 
 	@Override
 	public boolean isValid() {
-		// As long as the player has a role, she can act
-		return player.getRole() != null;
+		// As long as the player has a role and hasn't acted yet, she can act
+		return player.getRole() != null && !player.hasPerformedAction(Act.class);
 	}
 
 	@Override

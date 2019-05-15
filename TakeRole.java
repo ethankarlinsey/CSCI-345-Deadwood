@@ -43,7 +43,7 @@ public class TakeRole implements Action {
 	//Double-checks that the player is in the same area as the role, and if the role is free
 	// NOTE: This method isn't designed in a good way. NEEDS WORK
 	public boolean sameArea() {
-		Area a = board.getAreaFromLocation(player.getLocation());
+		Area a = board.getAreaByName(player.getArea().getName());
 		if (a instanceof Set) {
 			Set s = (Set) a;
 			return Arrays.stream(s.getFreeRoles()).anyMatch(r -> r == role) //checks roles on set

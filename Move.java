@@ -3,24 +3,24 @@ public class Move implements Action {
 
 	private Player player;
 	private BoardModel board;
-	private Location newLocation;
+	private Area area;
 	
-	public Move(Player player, BoardModel board, Location newLocation) {
+	public Move(Player player, BoardModel board, Area area) {
 		this.player = player;
 		this.board = board;
-		this.newLocation = newLocation;
+		this.area = area;
 	}
 
 	@Override
 	public boolean isValid() {
-		boolean adjascent = player.getLocation().isAdjLocation(newLocation);
+		boolean adjascent = player.getArea().isAdjacent(area);
 		boolean didNotMoveYet = !player.hasPerformedAction(Move.class);
 		return adjascent && didNotMoveYet;
 	}
 
 	@Override
 	public void excecute() {
-		player.setLocation(newLocation);
+		player.setArea(area);
 		player.addAction((Action)this);
 	}
 
