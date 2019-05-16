@@ -4,9 +4,8 @@ class Trailer extends Area {
         this.name = "Trailer";
     }
 
-    public Trailer(Location locale, Location[] adjacents){
+    public Trailer(String[] adjacents){
         this.name = "Trailer";
-        this.location = locale;
         this.adjacentAreas = adjacents;
     }
 }

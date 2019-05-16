@@ -51,7 +51,7 @@ public class Controller {
 		System.out.println("Welcome to Deadwood! The cheapass game of acting badly!");
 		
 		// Initialize the board
-		System.out.println("What board layout will you use? (default)");
+		System.out.println("What board layout will you use? (default)"); // TODO: Can you clarify what this means? - Serena
 		manager.initializeBoard(reader.next()); //TODO implement layout validity check
 		
 		System.out.println("How many players are there? (There can be 2 to 8.)");

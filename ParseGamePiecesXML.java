@@ -20,7 +20,7 @@ public class ParseGamePiecesXML{
     //
     // building a document from the XML file
     // returns a Document object after loading the book.xml file.
-    public Document getDocFromFile(String filename)
+    private Document getDocFromFile(String filename)
             throws ParserConfigurationException{
         {
 
@@ -68,11 +68,8 @@ public class ParseGamePiecesXML{
 
                 Node sub = children.item(j);
 
-                else if("part".equals(sub.getNodeName())){
-                    String roleName = sub.getAttributes().getNamedItem("name").getNodeValue();
-                    int rank = Integer.parseInt(sub.getAttributes().getNamedItem("level").getNodeValue());
-                    String line = sub.getChildNodes().item(1).getNodeValue();
-                    role[j-1] = new Role(rank, roleName, line);
+                if("part".equals(sub.getNodeName())){
+                    role[j-1] = getRole(sub);
                 }
 
             } //for childnodes
@@ -95,7 +92,7 @@ public class ParseGamePiecesXML{
 
         Area[] areaArray = new Area[sets.getLength()+2];
 
-        for (int i=0; i<sets.getLength();i++){
+        for (int i=0; i<sets.getLength(); i++){
 
             //reads data from the nodes
             Node set = sets.item(i);
@@ -104,36 +101,87 @@ public class ParseGamePiecesXML{
 
         }//for set nodes
 
-        NodeList trailer = root.getElementsByTagName("trailer");
+        Node trailer = root.getElementsByTagName("trailer").item(0);
+        areaArray[sets.getLength()] = initTrailer(trailer);
 
-        NodeList trailer = root.getElementsByTagName("trailer");
+        Node office = root.getElementsByTagName("office").item(0);
+        areaArray[sets.getLength()+1] = initCastingOffice(office);
 
     }// method
 
     // reads data from XML file and initializes Trailer
-    public Area initTrailer(Node newOffice){
-        String[] actions = {};
+    private Area initTrailer(Node newTrailer){
+        String[] neighbors = getNeighbors(newTrailer);
 
+        Trailer trailer = new Trailer(neighbors);
+
+        return trailer;
     }// method
 
 
     // reads data from XML file and initializes CastingOffice
-    public Area initCastingOffice(Node newOffice){
-        String[] actions = {"Move", "Upgrade"};
+    private Area initCastingOffice(Node newOffice){
+        String[] neighbors = getNeighbors(newOffice);
 
+        CastingOffice office = new CastingOffice(neighbors);
+
+        return office;
     }// method
 
 
     // reads data from XML file and initializes a Set and its Roles
-    public Area initSet(Node newSet){
-        String[] actions = {"Move", "Take Role", "Rehearse", "Act"};
-        Set setObj;
-
-        //reads data
+    private Area initSet(Node newSet){
+        String setName = newSet.getAttributes().getNamedItem("name").getNodeValue();
+        String[] neighbors = getNeighbors(newOffice);
+        Role[] roles;
+        int takes = 0;
 
         NodeList children = newSet.getChildNodes();
-        
 
+        for(int i=0; i < children.getLength(); i++){
+            Node temp = children.item(i);
+
+            if("takes".equals(temp.getNodeName())){
+                // get total number of takes
+                takes = Integer.parseInt(temp.getFirstChild().getAttributes().getNamedItem("number").getNodeValue());
+            } else if ("parts".equals(temp.getNodeName())){
+                NodeList parts = temp.getChildNodes();
+                roles = new Role[parts.getLength()];
+
+                for(int j=0; j < parts.getLength(); j++){
+                    Node temp_part = parts.item(j);
+                    if("part".equals(temp_part.getNodeName())) {
+                        roles[j] = getRole(temp_part);
+                    }
+                }
+            }
+        }
+
+        Set set = new Set(setName, roles, takes, neighbors);
+
+        return set;
     }// method
+
+    private String[] getNeighbors(Node node){
+        NodeList neighbors = node.getElementsByTagName("neighbors").getElementsByTagName("neighbor");
+        String[] adjacents = new String[neighbors.getLength()];
+
+        for (int i=0; i < neighbors.getLength(); i++){
+            Node temp = neighbors.item(i);
+
+            adjacents[i] = temp.getAttributes().getNamedItem("name").getNodeValue();
+        }
+
+        return adjacents;
+    }
+
+    private Role getRole(Node node){
+        String roleName = node.getAttributes().getNamedItem("name").getNodeValue();
+        int rank = Integer.parseInt(node.getAttributes().getNamedItem("level").getNodeValue());
+        String line = node.getChildNodes().item(1).getNodeValue();
+        Role role = new Role(rank, roleName, line);
+
+        return role;
+    }
 
 }//class

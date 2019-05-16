@@ -11,7 +11,7 @@ class Set extends Area {
 
     }
 
-    public Set(String title, Role[] roles, int cardShots, int cardShotsRemaining){
+    public Set(String title, Role[] roles, int cardShots){
         this.name = title;
         this.setRoles = roles;
         this.remainingSRoles = roles;
@@ -20,13 +20,12 @@ class Set extends Area {
     }
 
 
-    public Set(String title, Role[] roles, int cardShots, int cardShotsRemaining, Location locale, Location[] adjacents){
+    public Set(String title, Role[] roles, int cardShots, String[] adjacents){
         this.name = title;
         this.setRoles = roles;
         this.remainingSRoles = roles;
         this.shots = cardShots;
-        this.shotsRemaining = cardShotsRemaining;
-        this.location = locale;
+        this.shotsRemaining = cardShots;
         this.adjacentAreas = adjacents;
     }
 
@@ -49,6 +48,8 @@ class Set extends Area {
     public Role[] getFreeRoles(){
         return this.remainingSRoles;
     }
+
+    public Role getRoleByName() {}
 
     // how do we want this to relate to player?
     public void takeRole(Role toTake){

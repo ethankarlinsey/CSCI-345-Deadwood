@@ -1,6 +1,8 @@
 import java.util.Arrays;
 
 public class BoardModel {
+    private static final String XMLBoardName = "board.xml";
+    private static final String XMLCardsName = "cards.xml";
     private Area[] areas;
     private Player[] players;
     private Card[] cards; //TODO: when setting up cards, remember to shuffle
@@ -19,14 +21,14 @@ public class BoardModel {
     	return null;
     }
 
-    public void movePlayer(Location loc, Player player){
+    public void movePlayer(Player player){ // TODO: update
 
     }
 
     public void nextDayReset(){
     	dealNewCards();
     	sendPlayersToTrailers();
-    	replaceShotCounters(); //TODO: implement replaceShotCounters
+    	replaceShotCounters();
     	
     	//Return players to the trailers (include resetting role and rehearsalCount)
     	//Remove the last scene card from the board
