@@ -20,6 +20,10 @@ public class BoardModel {
     public Area getAreaByName(String name) {
     	return null;
     }
+    
+    public Role getRoleByName(String name) {
+    	return null;
+    }
 
     public void movePlayer(Player player){ // TODO: update
 
