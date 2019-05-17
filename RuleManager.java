@@ -150,6 +150,7 @@ public class RuleManager {
 		return "That upgrade isn't going to work out buddy.";
 	}
 
+	//The controller calls newDay, so no need to worry about counting scenes
 	public void wrapScene(Set set) {//pays the players when a scene wraps. Also resets their roles and rehearsals
 		set.setInactive(); //emplties the list of available roles, removes the card.
 		payout(set);
