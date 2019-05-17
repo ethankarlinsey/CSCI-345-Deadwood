@@ -1,5 +1,9 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.Random;
+import java.util.stream.Collectors;
 
 public class RuleManager {
 
@@ -99,8 +103,7 @@ public class RuleManager {
 	
 	public void checkSetShots(Set set) {
 		if (set.getShotsRemaining() <= 0) {
-			payout(); //Payout should also reset player rehearsals and roles
-			set.setInactive();
+			wrapScene(set); //Payout should also reset player rehearsals and roles
 			// countRemainingScenes(); NOTE: controller counts how many scenes are left at the end of each turn
 		}
 	}
@@ -147,8 +150,61 @@ public class RuleManager {
 		return "That upgrade isn't going to work out buddy.";
 	}
 
-	public void payout() {//pays the players when a scene wraps. Also resets their roles and rehearsals
+	public void wrapScene(Set set) {//pays the players when a scene wraps. Also resets their roles and rehearsals
+		set.setInactive(); //emplties the list of available roles, removes the card.
+		payout(set);
+		//release the players
+		ArrayList<Player> playersOnSet = board.getPlayersByArea(set);
+		for (Player p : playersOnSet) {
+			p.setRole(null);
+			p.resetRehearsals();
+		}
+	}
+	
+	public void payout(Set set) { //TODO test payout
 		
+		ArrayList<Player> playersOnSet = board.getPlayersByArea(set);
+		
+		// 1. check if someone was on the card. If no one was on the card, there is no payout.
+		ArrayList<Player> playersOnCard = (ArrayList<Player>) playersOnSet.stream()
+																.filter(p -> set.getCard().getCardRoles().contains(p.getRole()))
+																.collect(Collectors.toList());	
+		
+		if (playersOnCard.size() > 0) {
+			
+			// 2. roll same number of dice as budget, pay to players on card by rank.
+			//setup the bonuses
+			int budget = set.getCard().getBudget();
+			int[] bonuses = new int[budget];
+			Random rand = new Random();
+			for (int i = 0; i < budget; i++) {
+				bonuses[i] = rand.nextInt(6) + 1; //rolls the dice and adds its value to the list
+			}
+			Arrays.sort(bonuses);
+			
+			// pay the players on the card with the bonuses.
+			//Sort players on card by rank in descending order
+			Comparator<Player> compareByRoleRank = new Comparator<Player>() {
+				public int compare(Player p1, Player p2) {
+					return p1.getRole().getRank() - p2.getRole().getRank();					
+				}
+			};			
+			playersOnCard = (ArrayList<Player>) playersOnCard.stream().sorted(compareByRoleRank).collect(Collectors.toList());
+			
+			//distribute bonuses
+			int playerIndex = 0;
+			for (int i = bonuses.length - 1; i > -1; i--) {
+				if (playerIndex >= playersOnCard.size()) playerIndex = 0; //distribution of bonuses loops back if there are more bonuses than players.
+				playersOnCard.get(playerIndex).addDollars(bonuses[i]);
+				playerIndex++;
+			}
+			
+			// 3. Pay extras the same dollar value as the rank of their roles
+			playersOnSet.stream()
+						.filter(p -> set.getRoles().contains(p.getRole()))
+						.forEach(p -> p.addDollars(p.getRole().getRank()));
+		}
+		// if playersOnCard.size() == 0, there is no payout.
 	}
 	
 	public void setNextPlayerActive() {
