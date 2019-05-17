@@ -12,6 +12,8 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ParseGamePiecesXML{
 
@@ -61,7 +63,7 @@ public class ParseGamePiecesXML{
             //reads data
 
             NodeList children = card.getChildNodes();
-            String sceneDescription = children.item(0).getTextContent;
+            String sceneDescription = children.item(0).getTextContent();
             Role[] roles = new Role[children.getLength()-1];
 
             for (int j=1; j< children.getLength(); j++){
@@ -69,12 +71,11 @@ public class ParseGamePiecesXML{
                 Node sub = children.item(j);
 
                 if("part".equals(sub.getNodeName())){
-                    role[j-1] = getRole(sub);
+                    roles[j-1] = getRole(sub);
                 }
 
             } //for childnodes
-
-            cardArray[i] = new Card(roles, sceneName, sceneDesciption, budget);
+            cardArray[i] = new Card(new ArrayList<Role>(Arrays.asList(roles)), sceneName, sceneDescription, budget);
 
         }//for card nodes
 

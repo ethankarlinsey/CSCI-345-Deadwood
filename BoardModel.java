@@ -34,7 +34,7 @@ public class BoardModel {
     	sendPlayersToTrailers();
     	replaceShotCounters();
     	
-    	//Return players to the trailers (include resetting role and rehearsalCount)
+    	//Return players to the trailers (include resetting role, and rehearsalCount)
     	//Remove the last scene card from the board
     	//Deal ten new scene cards onto the board, face-down
     	//Replace all shot counters

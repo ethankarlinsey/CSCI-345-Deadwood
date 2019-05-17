@@ -5,9 +5,8 @@ class CastingOffice extends Area {
     }
 
 
-    public CastingOffice(Location locale, Location[] adjacents){
+    public CastingOffice(String[] adjacents){
         this.name = "Casting Office";
-        this.location = locale;
         this.adjacentAreas = adjacents;
     }
 }

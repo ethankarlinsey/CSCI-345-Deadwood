@@ -55,7 +55,7 @@ public class RuleManager {
 		if (activePlayer.getRole() == null) {
 			if (activePlayer.getArea() instanceof Set) {
 				Set set = (Set) activePlayer.getArea();
-				if (set.getFreeRoles().length > 0)
+				if (set.getFreeRoles().size() > 0)
 					actions.add(TakeRole.class);
 			}
 		}
@@ -91,9 +91,18 @@ public class RuleManager {
 		
 		if (act.isValid()) {
 			act.excecute();
-			return "Nice acting!"; //TODO: display how much they earned
+			checkSetShots((Set) activePlayer.getArea());
+			return "Nice acting!"; //TODO: display how much they earned? Display whether they acted sucessfully
 		}
 		return "You cannot act right now.";
+	}
+	
+	public void checkSetShots(Set set) {
+		if (set.getShotsRemaining() <= 0) {
+			payout(); //Payout should also reset player rehearsals and roles
+			set.setInactive();
+			// countRemainingScenes(); NOTE: controller counts how many scenes are left at the end of each turn
+		}
 	}
 	
 	public String tryMove(String areaName) {
@@ -138,7 +147,7 @@ public class RuleManager {
 		return "That upgrade isn't going to work out buddy.";
 	}
 
-	public void payout() {
+	public void payout() {//pays the players when a scene wraps. Also resets their roles and rehearsals
 		
 	}
 	

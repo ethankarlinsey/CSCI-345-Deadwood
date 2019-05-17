@@ -1,8 +1,11 @@
+import java.util.ArrayList;
+import java.util.Optional;
+
 class Set extends Area {
 
     private Card card;
-    private Role[] setRoles;
-    private Role[] remainingSRoles;
+    private ArrayList<Role> setRoles;
+    private ArrayList<Role> remainingSRoles;
     private int shots;
     private int shotsRemaining;
     private boolean cardVisible;
@@ -11,16 +14,16 @@ class Set extends Area {
 
     }
 
-    public Set(String title, Role[] roles, int cardShots){
+    public Set(String title, ArrayList<Role> roles, int cardShots){
         this.name = title;
         this.setRoles = roles;
         this.remainingSRoles = roles;
         this.shots = cardShots;
-        this.shotsRemaining = cardShotsRemaining;
+        this.shotsRemaining = cardShots;
     }
 
 
-    public Set(String title, Role[] roles, int cardShots, String[] adjacents){
+    public Set(String title, ArrayList<Role> roles, int cardShots, String[] adjacents){
         this.name = title;
         this.setRoles = roles;
         this.remainingSRoles = roles;
@@ -41,24 +44,40 @@ class Set extends Area {
         this.card = newCard;
     }
 
-    public Role[] getRoles(){
+    public ArrayList<Role> getRoles(){
         return this.setRoles;
     }
 
-    public Role[] getFreeRoles(){
+    public ArrayList<Role> getFreeRoles(){
         return this.remainingSRoles;
     }
 
-    public Role getRoleByName() {}
+    public Role getRoleByName(String roleName) {
+    	Optional<Role> role = setRoles.parallelStream().filter(r -> r.getName() == roleName).findFirst();
+    	if (role.isPresent()) return role.get();
+    	return null;
+    }
+    
+    public int getShotsRemaining() {
+    	return shotsRemaining;
+    }
+    
+    public boolean isRolePresent(Role role) {
+    	return setRoles.contains(role);
+    }
 
     // how do we want this to relate to player?
-    public void takeRole(Role toTake){
-        for(int i = 0; i < this.remainingSRoles.length; i++){
-            if(this.remainingSRoles[i] == toTake){
-                this.remainingSRoles[i] = null;
-                break;
-            }
-        }
+    public void takeRole(Role toTake, Player player){
+    	player.setRole(toTake);
+        setRoles.remove(toTake);
+    }
+    
+    // removes all available roles once the shots are gone
+    public void setInactive() {
+    	if (shotsRemaining <= 0) {
+    		remainingSRoles.clear();
+    		card.setInactive();
+    	}
     }
 
     public void resetRoles(){
