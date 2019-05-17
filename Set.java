@@ -8,7 +8,7 @@ class Set extends Area {
     private ArrayList<Role> remainingSRoles;
     private int shots;
     private int shotsRemaining;
-    private boolean cardVisible;
+    private boolean cardVisible = false;
 
     public Set(){
 
@@ -67,9 +67,8 @@ class Set extends Area {
     }
 
     // how do we want this to relate to player?
-    public void takeRole(Role toTake, Player player){
-    	player.setRole(toTake);
-        setRoles.remove(toTake);
+    public void setRoleUnavailable(Role role){
+        setRoles.remove(role);
     }
     
     // removes all available roles once the shots are gone
@@ -77,6 +76,7 @@ class Set extends Area {
     	if (shotsRemaining <= 0) {
     		remainingSRoles.clear();
     		card.setInactive();
+    		card = null;
     	}
     }
 
@@ -87,5 +87,9 @@ class Set extends Area {
     //TODO added by Ethan, accessing the card and its roles
     public Card getCard() {
     	return card;
+    }
+    
+    public void setCardVisible() {
+    	cardVisible = true;
     }
 }

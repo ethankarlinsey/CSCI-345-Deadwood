@@ -22,6 +22,7 @@ public class Move implements Action {
 	public void excecute() {
 		player.setArea(area);
 		player.addAction((Action)this);
+		if (area instanceof Set) ((Set) area).setCardVisible();
 	}
 
 }

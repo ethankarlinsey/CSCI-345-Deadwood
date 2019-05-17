@@ -28,8 +28,13 @@ public class TakeRole implements Action {
 
 	@Override
 	public void excecute() {
-		player.setRole(role);
+		Set set = (Set) player.getArea();
+		if (set.isRolePresent(role)) set.setRoleUnavailable(role);
+		else if (set.getCard().isRolePresent(role)) set.getCard().setRoleUnavailable(role);
+		else System.out.println("ERROR: the player took a role in an area they weren't in!!!?");
 
+		player.addAction(this);
+		player.setRole(role);
 	}
 	
 	// Checks if a role is open

@@ -37,9 +37,8 @@ public class Card {
     }
 
     // how do we want this to relate to player?
-    public void takeRole(Role toTake, Player player){
-    	player.setRole(toTake);
-        cardRoles.remove(toTake);
+    public void setRoleUnavailable(Role role){
+        cardRoles.remove(role);
     }
 
     public void resetRoles(){

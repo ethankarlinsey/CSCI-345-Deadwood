@@ -18,6 +18,7 @@ public class Act implements Action {
 
 	@Override
 	public void excecute() {
+		player.addAction(this);
 		Random rand = new Random();
 		int roll = rand.nextInt(6) + 1 + player.getRehearsalCount(); //Rolls the die and adds the number of rehearsals
 		int budget = ((Set) player.getArea()).getCard().getBudget();

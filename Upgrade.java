@@ -42,6 +42,7 @@ public class Upgrade implements Action {
 
 	@Override
 	public void excecute() {
+		player.addAction(this);
 		if (currency == "dollar") {
 			player.removeDollars(dollarCosts[newRank]); // deduct dollars
 			player.upgradeRank(newRank);				// upgrade player rank

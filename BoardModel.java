@@ -1,4 +1,6 @@
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 public class BoardModel {
     private static final String XMLBoardName = "board.xml";
@@ -83,5 +85,9 @@ public class BoardModel {
     
     public Player[] getPlayers() {
     	return players;
+    }
+    
+    public ArrayList<Player> getPlayersByArea(Area area) { //returns a list of players in an area
+    	return (ArrayList<Player>) Arrays.stream(players).filter(p -> p.getArea() == area).collect(Collectors.toList());
     }
 }

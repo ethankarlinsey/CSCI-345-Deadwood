@@ -18,6 +18,7 @@ public class Rehearse implements Action {
 
 	@Override
 	public void excecute() {
+		player.addAction(this);
 		player.addRehearsal();
 	}
 
