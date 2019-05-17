@@ -55,7 +55,7 @@ public class RuleManager {
 		if (activePlayer.getRole() == null) {
 			if (activePlayer.getArea() instanceof Set) {
 				Set set = (Set) activePlayer.getArea();
-				if (set.getFreeRoles().length > 0)
+				if (set.getFreeRoles().size() > 0)
 					actions.add(TakeRole.class);
 			}
 		}
@@ -91,39 +91,63 @@ public class RuleManager {
 		
 		if (act.isValid()) {
 			act.excecute();
-			return "Nice acting!";
+			checkSetShots((Set) activePlayer.getArea());
+			return "Nice acting!"; //TODO: display how much they earned? Display whether they acted sucessfully
 		}
-		else {
-			return "You cannot act right now.";
+		return "You cannot act right now.";
+	}
+	
+	public void checkSetShots(Set set) {
+		if (set.getShotsRemaining() <= 0) {
+			payout(); //Payout should also reset player rehearsals and roles
+			set.setInactive();
+			// countRemainingScenes(); NOTE: controller counts how many scenes are left at the end of each turn
 		}
-		
 	}
 	
 	public String tryMove(String areaName) {
-		String message = null;
+		Area area = board.getAreaByName(areaName);
+		Move move = new Move(activePlayer, board, area);
 		
-		return message;
+		if (move.isValid()) {
+			move.excecute();
+			return activePlayer.getName() + " moved to " + areaName;
+		}
+		return "Bruh. you can't move there";
 	}
 	
 	public String tryRehearse() {
-		String message = null;
+		Rehearse rehearse = new Rehearse(activePlayer);
 		
-		return message;
+		if (rehearse.isValid()) {
+			rehearse.excecute();
+			return "Nice practice. You're getting better!";
+		}
+		return "You can't rehearse if you don't have a roll silly!";
 	}
 	
 	public String tryTakeRole(String roleName) {
-		String message = null;
+		Role role = board.getRoleByName(roleName);
+		TakeRole takeRole = new TakeRole(activePlayer,board, role);
 		
-		return message;
+		if (takeRole.isValid()) {
+			takeRole.excecute();
+			return activePlayer + " is now acting as " + roleName;
+		}
+		return "You can't take this role.";
 	}
 	
 	public String tryUpgrade(int rank, String currency) {
-		String message = null;
+		Upgrade upgrade = new Upgrade(activePlayer, rank, currency);
 		
-		return message;
+		if (upgrade.isValid()) {
+			upgrade.excecute();
+			return activePlayer + " upgraded to rank " + rank;
+		}
+		return "That upgrade isn't going to work out buddy.";
 	}
 
-	public void payout() {
+	public void payout() {//pays the players when a scene wraps. Also resets their roles and rehearsals
 		
 	}
 	

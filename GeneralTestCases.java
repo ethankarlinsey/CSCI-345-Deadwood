@@ -7,8 +7,8 @@ class GeneralTestCases {
 	void moveTest() {
 		BoardModel board = new BoardModel();
 		Player player = new Player("Ethan");
-		Area location = new Set();
-		Move move = new Move(player, board, location);
+		Area area = new Set();
+		Move move = new Move(player, board, area);
 		
 		//Player can move if she hasn't moved yet
 		assertTrue(move.isValid());
@@ -17,7 +17,7 @@ class GeneralTestCases {
 		move.excecute();
 		assertFalse(move.isValid());
 		
-		assertEquals(location, player.getArea());
+		assertEquals(area, player.getArea());
 		
 		//Other actions should not interfere with Movement Validity.
 		player.clearActions();

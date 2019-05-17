@@ -46,9 +46,9 @@ public class TakeRole implements Action {
 		Area a = board.getAreaByName(player.getArea().getName());
 		if (a instanceof Set) {
 			Set s = (Set) a;
-			return Arrays.stream(s.getFreeRoles()).anyMatch(r -> r == role) //checks roles on set
+			return s.getFreeRoles().stream().anyMatch(r -> r == role) //checks roles on set
 					||
-					Arrays.stream(s.getCard().getRemainingCRoles()).anyMatch(r -> r == role); //checks roles on card
+					s.getCard().getRemainingCRoles().stream().anyMatch(r -> r == role); //checks roles on card
 		}
 		else return false;
 	}

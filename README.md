@@ -1,1 +1,1 @@
-For the skeleton classes, Controler is the entry point for the program.
+Controller is the entry point for the program. This version uses console commands to navigate the game.

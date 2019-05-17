@@ -1,7 +1,9 @@
+import java.util.ArrayList;
+
 public class Card {
 
-    private Role[] cardRoles;
-    private Role[] remainingCRoles;
+    private ArrayList<Role> cardRoles;
+    private ArrayList<Role> remainingCRoles;
     private String title;
     private String description;
     private int budget;
@@ -10,34 +12,42 @@ public class Card {
 
     }
 
-    public Card(Role[] roles, String filmTitle, String filmDescription, int filmBudget){
+    public Card(ArrayList<Role> roles, String filmTitle, String filmDescription, int filmBudget){
         this.cardRoles = roles;
         this.remainingCRoles = roles;
         this.title = filmTitle;
         this.description = filmDescription;
         this.budget = filmBudget;
     }
+    
+    public boolean isRolePresent(Role role) {
+    	return cardRoles.contains(role);
+    }
 
-    public Role[] getCardRoles(){
+    public ArrayList<Role> getCardRoles(){
         return this.cardRoles;
     }
 
-    public Role[] getRemainingCRoles(){
+    public ArrayList<Role> getRemainingCRoles(){
         return this.remainingCRoles;
+    }
+    
+    public int getBudget() {
+    	return budget;
     }
 
     // how do we want this to relate to player?
-    public void takeRole(Role toTake){
-        for(int i = 0; i < this.remainingCRoles.length; i++){
-            if(this.remainingCRoles[i] == toTake){
-                this.remainingCRoles[i] = null;
-                break;
-            }
-        }
+    public void takeRole(Role toTake, Player player){
+    	player.setRole(toTake);
+        cardRoles.remove(toTake);
     }
 
     public void resetRoles(){
         this.remainingCRoles = this.cardRoles;
+    }
+    
+    public void setInactive() {
+    	remainingCRoles.clear();
     }
 
 }
