@@ -1,29 +1,40 @@
-import java.util.Arrays;
+import java.util.*;
 
 public class BoardModel {
     private static final String XMLBoardName = "board.xml";
     private static final String XMLCardsName = "cards.xml";
     private Area[] areas;
-    private Player[] players;
+    private Player[] players; // is this needed?
     private Card[] cards; //TODO: when setting up cards, remember to shuffle
     
     private int cardIndex = 0;
 
     public BoardModel(){
-    	
+    	setUpCards();
+    	setUpAreaLocations();
     }
 
-    public void setUpAreaLocations(){
-
+    private void setUpCards(){
+        ParseGamePiecesXML cardParser = new ParseGamePiecesXML();
+        Card[] temp_cards = cardParser.initCards(XMLCardsName);
+        ArrayList toShuffle = new ArrayList<>(Arrays.asList(temp_cards));
+        Collections.shuffle(toShuffle);
+        this.cards = temp_cards;
     }
-    
+
+    private void setUpAreaLocations(){
+        ParseGamePiecesXML areaParser = new ParseGamePiecesXML();
+        this.areas = areaParser.initAreas(XMLBoardName);
+    }
+
+    public boolean hasAreaByName(String name) {
+        return Areas.hasAreaByName(this.areas, name);
+    }
+
     public Area getAreaByName(String name) {
-    	return null;
+        return Areas.getAreaByName(this.areas, name);
     }
 
-    public void movePlayer(Player player){ // TODO: update
-
-    }
 
     public void nextDayReset(){
     	dealNewCards();
@@ -38,7 +49,7 @@ public class BoardModel {
     }
 
     //deals the next 10 cards
-    private void dealNewCards(){
+    private void dealNewCards(){ // TODO: Implement this so we don't always do the same process
     	int endIndex = cardIndex + 10;
     	for(int i = cardIndex; i < endIndex; cardIndex++) {
     		

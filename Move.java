@@ -13,9 +13,9 @@ public class Move implements Action {
 
 	@Override
 	public boolean isValid() {
-		boolean adjascent = player.getArea().isAdjacent(area);
+		boolean adjacent = player.getArea().isAdjacent(area);
 		boolean didNotMoveYet = !player.hasPerformedAction(Move.class);
-		return adjascent && didNotMoveYet;
+		return adjacent && didNotMoveYet;
 	}
 
 	@Override

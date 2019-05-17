@@ -7,9 +7,9 @@ public class Controller {
 
 	//private static View view;
 	private static RuleManager manager;
-	
+
 	private static HashMap<Class, String> actionTypeToString;
-	
+
 	private static String defaultErrorString = "Incorrect Syntax. type 'help' to see valid commands";
 	
 	private static String[] commandDescriptions = {
@@ -26,14 +26,14 @@ public class Controller {
 	
 	
 	public static Scanner initialize() {//initializes maps and Scanner
-		
+
 		//initialize the actionTypeToString map
 		actionTypeToString.put(Act.class, "Act");
 		actionTypeToString.put(Move.class, "Move");
 		actionTypeToString.put(Rehearse.class, "Rehearse");
 		actionTypeToString.put(TakeRole.class, "Take Role");
 		actionTypeToString.put(Upgrade.class, "Upgrade");
-		
+
 		return new Scanner(System.in);
 	}
 	
@@ -51,7 +51,7 @@ public class Controller {
 		System.out.println("Welcome to Deadwood! The cheapass game of acting badly!");
 		
 		// Initialize the board
-		System.out.println("What board layout will you use? (default)"); // TODO: Can you clarify what this means? - Serena
+		System.out.println("What board layout will you use? (default)");
 		manager.initializeBoard(reader.next()); //TODO implement layout validity check
 		
 		System.out.println("How many players are there? (There can be 2 to 8.)");

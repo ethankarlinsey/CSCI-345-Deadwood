@@ -16,7 +16,7 @@ class Set extends Area {
         this.setRoles = roles;
         this.remainingSRoles = roles;
         this.shots = cardShots;
-        this.shotsRemaining = cardShotsRemaining;
+        this.shotsRemaining = cardShots;
     }
 
 
@@ -49,7 +49,7 @@ class Set extends Area {
         return this.remainingSRoles;
     }
 
-    public Role getRoleByName() {}
+    public void getRoleByName() {} // TODO: Change return to Role, implement.
 
     // how do we want this to relate to player?
     public void takeRole(Role toTake){

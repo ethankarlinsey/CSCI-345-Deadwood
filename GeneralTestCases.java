@@ -1,6 +1,5 @@
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 class GeneralTestCases {
 
@@ -8,7 +7,7 @@ class GeneralTestCases {
 	void moveTest() {
 		BoardModel board = new BoardModel();
 		Player player = new Player("Ethan");
-		Location location = new Location();
+		Area location = new Set();
 		Move move = new Move(player, board, location);
 		
 		//Player can move if she hasn't moved yet
@@ -18,7 +17,7 @@ class GeneralTestCases {
 		move.excecute();
 		assertFalse(move.isValid());
 		
-		assertEquals(location, player.getLocation());
+		assertEquals(location, player.getArea());
 		
 		//Other actions should not interfere with Movement Validity.
 		player.clearActions();
@@ -48,6 +47,18 @@ class GeneralTestCases {
 	void rehearseTest() {
 		//TODO write tests for rehearsal. Make sure the player can't rehearse if they aren't on a role
 		fail("not yet implemented");
+	}
+
+	@Test
+	void hasAreaByNameTest(){
+		BoardModel board = new BoardModel();
+		assertTrue(board.hasAreaByName("Secret Hideout"));
+	}
+
+	@Test
+	void getAreaByNameTest() {
+		BoardModel board = new BoardModel();
+		assertNotNull(board.getAreaByName("Secret Hideout"));
 	}
 
 }

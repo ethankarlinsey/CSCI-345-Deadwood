@@ -1,7 +1,6 @@
 public abstract class Area {
     protected String name;
     protected String[] adjacentAreas;
-    protected Class[] potentialActions;
 
     public Area(){
 
@@ -11,7 +10,7 @@ public abstract class Area {
         this.name = title;
     }
 
-    public Area(String title, String[] adjacents, Class[] potenActions){
+    public Area(String title, String[] adjacents){
         this.name = title;
         this.adjacentAreas = adjacents;
     }

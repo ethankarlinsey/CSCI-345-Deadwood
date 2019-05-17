@@ -2,16 +2,13 @@
 //
 // CSCI 345
 
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.ParserConfigurationException;
-
-
 import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Node;
 import org.w3c.dom.Element;
-import java.io.File;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 public class ParseGamePiecesXML{
 
@@ -20,13 +17,16 @@ public class ParseGamePiecesXML{
     //
     // building a document from the XML file
     // returns a Document object after loading the book.xml file.
-    private Document getDocFromFile(String filename)
-            throws ParserConfigurationException{
-        {
-
+    private Document getDocFromFile(String filename){
 
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-            DocumentBuilder db = dbf.newDocumentBuilder();
+            DocumentBuilder db = null;
+            try {
+                db = dbf.newDocumentBuilder();
+            } catch (Exception ex) {
+                System.out.println("Create document builder failure");
+                ex.printStackTrace();
+            }
             Document doc = null;
 
             try{
@@ -36,7 +36,7 @@ public class ParseGamePiecesXML{
                 ex.printStackTrace();
             }
             return doc;
-        } // exception handling
+            // exception handling
 
     }
 
@@ -61,7 +61,7 @@ public class ParseGamePiecesXML{
             //reads data
 
             NodeList children = card.getChildNodes();
-            String sceneDescription = children.item(0).getTextContent;
+            String sceneDescription = children.item(0).getTextContent();
             Role[] roles = new Role[children.getLength()-1];
 
             for (int j=1; j< children.getLength(); j++){
@@ -69,12 +69,12 @@ public class ParseGamePiecesXML{
                 Node sub = children.item(j);
 
                 if("part".equals(sub.getNodeName())){
-                    role[j-1] = getRole(sub);
+                    roles[j-1] = getRole(sub);
                 }
 
             } //for childnodes
 
-            cardArray[i] = new Card(roles, sceneName, sceneDesciption, budget);
+            cardArray[i] = new Card(roles, sceneName, sceneName, budget);
 
         }//for card nodes
 
@@ -84,9 +84,11 @@ public class ParseGamePiecesXML{
 
 
     // reads data from XML file and initializes all areas
-    public Area[] initAreas(Document d){
+    public Area[] initAreas(String boardFileName){
 
-        Element root = d.getDocumentElement();
+        Document areasD = getDocFromFile(boardFileName);
+
+        Element root = areasD.getDocumentElement();
 
         NodeList sets = root.getElementsByTagName("set");
 
@@ -97,7 +99,7 @@ public class ParseGamePiecesXML{
             //reads data from the nodes
             Node set = sets.item(i);
 
-            Area[i] = initSet(set);
+            areaArray[i] = initSet(set);
 
         }//for set nodes
 
@@ -106,6 +108,8 @@ public class ParseGamePiecesXML{
 
         Node office = root.getElementsByTagName("office").item(0);
         areaArray[sets.getLength()+1] = initCastingOffice(office);
+
+        return areaArray;
 
     }// method
 
@@ -132,8 +136,8 @@ public class ParseGamePiecesXML{
     // reads data from XML file and initializes a Set and its Roles
     private Area initSet(Node newSet){
         String setName = newSet.getAttributes().getNamedItem("name").getNodeValue();
-        String[] neighbors = getNeighbors(newOffice);
-        Role[] roles;
+        String[] neighbors = getNeighbors(newSet);
+        Role[] roles = null;
         int takes = 0;
 
         NodeList children = newSet.getChildNodes();
@@ -163,7 +167,7 @@ public class ParseGamePiecesXML{
     }// method
 
     private String[] getNeighbors(Node node){
-        NodeList neighbors = node.getElementsByTagName("neighbors").getElementsByTagName("neighbor");
+        NodeList neighbors = node.getFirstChild().getChildNodes();
         String[] adjacents = new String[neighbors.getLength()];
 
         for (int i=0; i < neighbors.getLength(); i++){
