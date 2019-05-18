@@ -12,7 +12,7 @@ public class RuleManager {
 	private BoardModel board;
 	
 	private int currentDay = 0;
-	private final int lastDay = 4;	
+	private int lastDay = 4;
 	private int playerTurnIndex = 0;
 	
 	public RuleManager() {
@@ -21,6 +21,10 @@ public class RuleManager {
 	
 	//TODO this method needs work
 	public void startGame() {
+		board.setPlayers(players);
+
+		setGameParameters();
+
 		activePlayer = players.get(0);
 		newDay(); //currentDay increments from 0 to 1
 	}
@@ -35,6 +39,7 @@ public class RuleManager {
 	}
 	
 	public boolean initializeBoard(String layout) {
+		board = new BoardModel();
 		return true; //returns whether the layout string is actually an option
 	}
 	
@@ -96,7 +101,7 @@ public class RuleManager {
 		if (act.isValid()) {
 			act.excecute();
 			checkSetShots((Set) activePlayer.getArea());
-			return "Nice acting!"; //TODO: display how much they earned? Display whether they acted sucessfully
+			return "Nice acting!"; //TODO: display how much they earned? Display whether they acted successfully
 		}
 		return "You cannot act right now.";
 	}
@@ -126,7 +131,7 @@ public class RuleManager {
 			rehearse.excecute();
 			return "Nice practice. You're getting better!";
 		}
-		return "You can't rehearse if you don't have a roll silly!";
+		return "You can't rehearse if you don't have a role silly!";
 	}
 	
 	public String tryTakeRole(String roleName) {
@@ -152,7 +157,7 @@ public class RuleManager {
 
 	//The controller calls newDay, so no need to worry about counting scenes
 	public void wrapScene(Set set) {//pays the players when a scene wraps. Also resets their roles and rehearsals
-		set.setInactive(); //emplties the list of available roles, removes the card.
+		set.setInactive(); //empties the list of available roles, removes the card.
 		payout(set);
 		//release the players
 		ArrayList<Player> playersOnSet = board.getPlayersByArea(set);
@@ -225,5 +230,21 @@ public class RuleManager {
 	public void declareWinner() {
 		
 	}
-	
+
+	private void setGameParameters(){
+		// change game parameters based on number of players
+		if(players.size() < 4){
+			this.lastDay = 3;
+		} else if(players.size() == 5){
+			players.stream()
+					.forEach(p -> p.addCredits(2));
+		} else if(players.size() == 6){
+			players.stream()
+					.forEach(p -> p.addCredits(3));
+		} else {
+			players.stream()
+					.forEach(p -> p.upgradeRank(2));
+		}
+
+	}
 }
