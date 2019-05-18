@@ -4,8 +4,10 @@ import java.util.Iterator;
 import java.util.stream.Collectors;
 
 public class BoardModel {
-    private static final String XMLBoardName = "board.xml";
-    private static final String XMLCardsName = "cards.xml";
+//    private static final String XMLBoardName = "board.xml";
+//    private static final String XMLCardsName = "cards.xml";
+    private static final String XMLBoardName = "/home/serena/345/Assignment_2/deadwood/board.xml";
+    private static final String XMLCardsName = "/home/serena/345/Assignment_2/deadwood/cards.xml";
     private ArrayList<Area> areas;
     private ArrayList<Player> players; // is this needed?
     private ArrayList<Card> cards;
@@ -44,7 +46,7 @@ public class BoardModel {
     }
 
     public Area getAreaByName(String name) { // returns an area with the same name. Does not account for multiple areas with same name.
-        return areas.stream().filter(a -> a.getName().contentEquals(name)).collect(Collectors.toList()).get(0);
+        return areas.stream().filter(a -> a.getName().toLowerCase().contentEquals(name.toLowerCase())).collect(Collectors.toList()).get(0);
     }
 
 
@@ -66,11 +68,6 @@ public class BoardModel {
     	areas.stream().filter(area -> area instanceof Set)
                 .map(area -> (Set) area)
                 .forEach(set -> set.replaceCard(cardIterator.next()));
-
-    	// testing
-        areas.stream().filter(area -> area instanceof Set)
-                .map(area -> (Set) area)
-                .forEach(set -> System.out.println(set.getCard().getCardRoles().get(0).getName()));
     }
 
     private void resetSetRoles(){
