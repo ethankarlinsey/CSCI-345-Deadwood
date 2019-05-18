@@ -1,13 +1,14 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.stream.Collectors;
 
 public class BoardModel {
     private static final String XMLBoardName = "board.xml";
     private static final String XMLCardsName = "cards.xml";
-    private Area[] areas;
-    private Player[] players; // is this needed?
-    private Card[] cards; //TODO: when setting up cards, remember to shuffle
+    private ArrayList<Area> areas;
+    private ArrayList<Player> players; // is this needed?
+    private ArrayList<Card> cards; //TODO: when setting up cards, remember to shuffle
     
     private int cardIndex = 0;
 
@@ -15,13 +16,16 @@ public class BoardModel {
     	setUpCards();
     	setUpAreaLocations();
     }
+    
+    public void setPlayers(ArrayList<Player> players) {
+    	this.players = players;
+    }
 
     private void setUpCards(){
         ParseGamePiecesXML cardParser = new ParseGamePiecesXML();
-        Card[] temp_cards = cardParser.initCards(XMLCardsName);
-        ArrayList toShuffle = new ArrayList<>(Arrays.asList(temp_cards));
-        Collections.shuffle(toShuffle);
-        this.cards = temp_cards;
+        ArrayList<Card> cards = cardParser.initCards(XMLCardsName);
+        Collections.shuffle(cards);
+        this.cards = cards;
     }
 
     private void setUpAreaLocations(){
@@ -34,11 +38,11 @@ public class BoardModel {
     }
 
     public boolean hasAreaByName(String name) {
-        return Areas.hasAreaByName(this.areas, name);
+        return areas.stream().anyMatch(a -> a.getName().equals(name));
     }
 
-    public Area getAreaByName(String name) {
-        return Areas.getAreaByName(this.areas, name);
+    public Area getAreaByName(String name) { // returns an area with the same name. Does not account for multiple areas with same name.
+        return areas.stream().filter(a -> a.getName().contentEquals(name)).collect(Collectors.toList()).get(0);
     }
 
 
@@ -64,7 +68,7 @@ public class BoardModel {
     }
     
     private void replaceShotCounters() {
-    	Arrays.stream(areas).filter(area -> area instanceof Set)
+    	areas.stream().filter(area -> area instanceof Set)
     			.map(area -> (Set) area)
     			.forEach(set -> set.resetShots());
     }
@@ -94,11 +98,11 @@ public class BoardModel {
         }
     }
     
-    public Player[] getPlayers() {
+    public ArrayList<Player> getPlayers() {
     	return players;
     }
     
     public ArrayList<Player> getPlayersByArea(Area area) { //returns a list of players in an area
-    	return (ArrayList<Player>) Arrays.stream(players).filter(p -> p.getArea() == area).collect(Collectors.toList());
+    	return (ArrayList<Player>) players.stream().filter(p -> p.getArea() == area).collect(Collectors.toList());
     }
 }

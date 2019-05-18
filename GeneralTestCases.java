@@ -1,14 +1,21 @@
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
+
 class GeneralTestCases {
 
 	@Test
 	void moveTest() {
 		BoardModel board = new BoardModel();
 		Player player = new Player("Ethan");
-		Area location = new Set();
-		Move move = new Move(player, board, location);
+		ArrayList<Player> players = new ArrayList<Player>();
+		players.add(player);
+		board.setPlayers(players);
+		player.setArea(board.getAreaByName("Trailer"));
+		
+		Area area = board.getAreaByName("Main Street");
+		Move move = new Move(player, board, area);
 		
 		//Player can move if she hasn't moved yet
 		assertTrue(move.isValid());
@@ -17,11 +24,12 @@ class GeneralTestCases {
 		move.excecute();
 		assertFalse(move.isValid());
 		
-		assertEquals(location, player.getArea());
+		assertEquals(area, player.getArea());
 		
 		//Other actions should not interfere with Movement Validity.
 		player.clearActions();
 		player.addAction(new Upgrade(player, 3, "dollar"));
+		player.setArea(board.getAreaByName("Trailer"));
 		assertTrue(move.isValid());
 	}
 	

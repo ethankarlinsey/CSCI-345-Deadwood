@@ -39,7 +39,7 @@ public class ParseGamePiecesXML{
     }
 
     // reads data from XML file and initializes Cards and their Roles
-    public Card[] initCards(String cardFilename){
+    public ArrayList<Card> initCards(String cardFilename){
 
         Document cardsD = getDocFromFile(cardFilename);
 
@@ -75,13 +75,13 @@ public class ParseGamePiecesXML{
 
         }//for card nodes
 
-        return cardArray.toArray(new Card[0]);
+        return cardArray;
 
     }// method
 
 
     // reads data from XML file and initializes all areas
-    public Area[] initAreas(String boardFileName){
+    public ArrayList<Area> initAreas(String boardFileName){
 
         Document areasD = getDocFromFile(boardFileName);
 
@@ -106,7 +106,7 @@ public class ParseGamePiecesXML{
         Node office = root.getElementsByTagName("office").item(0);
         areaArray.add(initCastingOffice(office));
 
-        return areaArray.toArray(new Area[0]);
+        return areaArray;
 
     }// method
 
