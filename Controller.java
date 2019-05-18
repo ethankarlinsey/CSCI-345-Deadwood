@@ -10,7 +10,7 @@ public class Controller {
 
 	private static HashMap<Class, String> actionTypeToString;
 
-	private static String defaultErrorString = "Incorrect Syntax. type 'help' to see valid commands";
+	private static String defaultErrorString = "Incorrect Syntax. Type 'help' to see valid commands";
 	
 	private static String[] commandDescriptions = {
 			"help - displays available commands",
@@ -27,6 +27,7 @@ public class Controller {
 	
 	public static Scanner initialize() {//initializes maps and Scanner
 
+		actionTypeToString = new HashMap<>();
 		//initialize the actionTypeToString map
 		actionTypeToString.put(Act.class, "Act");
 		actionTypeToString.put(Move.class, "Move");
@@ -119,16 +120,22 @@ public class Controller {
 			return tryEndTurn(command);
 		case "help":
 			help();
+			break;
 		case "act":
 			tryAct(command);
+			break;
 		case "move":
 			tryMove(command);
+			break;
 		case "rehearse":
 			tryRehearse(command);
+			break;
 		case "take":
 			tryTakeRole(command);
+			break;
 		case "upgrade":
 			tryUpgrade(command);
+			break;
 		default:
 			System.out.println(defaultErrorString);
 		}
@@ -141,14 +148,14 @@ public class Controller {
 	}
 	
 	private static boolean tryEndTurn(String[] command) { // if the command was "end turn" return false to end the turn.
-		if (command[1] == "turn") return false;
+		if (command[1].equals("turn")) return false;
 		System.out.println(defaultErrorString);
 		return true;
 	}
 	
 	private static void tryAct(String[] command) { // verifies command syntax and prompts manager to try the action
 		if (command.length != 1) {
-			System.out.println("defaultErrorMessage"); // if the command has more elements than "act", write an error and return.
+			System.out.println(defaultErrorString); // if the command has more elements than "act", write an error and return.
 			return;
 		}
 		
@@ -158,21 +165,21 @@ public class Controller {
 	
 	private static void tryMove(String[] command) { // verifies command syntax and prompts manager to try the action
 		if (command.length != 3) { 
-			System.out.println("defaultErrorMessage");
+			System.out.println(defaultErrorString);
 			return;
 		}
-		if (command[1] != "to") {
-			System.out.println("defaultErrorMessage");
+		if (!command[1].equals("to")) {
+			System.out.println(defaultErrorString);
 			return;
 		}
 		
-		String message = manager.tryMove(command[3]);
+		String message = manager.tryMove(command[2]);
 		System.out.println(message);
 	}
 	
 	private static void tryRehearse(String[] command) { // verifies command syntax and prompts manager to try the action
 		if (command.length != 1) {
-			System.out.println("defaultErrorMessage");
+			System.out.println(defaultErrorString);
 			return;
 		}
 		
@@ -182,11 +189,11 @@ public class Controller {
 	
 	private static void tryTakeRole(String[] command) { // verifies command syntax and prompts manager to try the action
 		if (command.length != 3) { 
-			System.out.println("defaultErrorMessage");
+			System.out.println(defaultErrorString);
 			return;
 		}
-		if (command[1] != "role") {
-			System.out.println("defaultErrorMessage");
+		if (!command[1].equals("role")) {
+			System.out.println(defaultErrorString);
 			return;
 		}
 		
@@ -196,15 +203,15 @@ public class Controller {
 	
 	private static void tryUpgrade(String[] command) { // verifies command syntax and prompts manager to try the action
 		if (command.length != 5) {
-			System.out.println("defaultErrorMessage");
+			System.out.println(defaultErrorString);
 			return;
 		}
-		if (command[1] != "to") {
-			System.out.println("defaultErrorMessage");
+		if (!command[1].equals("to")) {
+			System.out.println(defaultErrorString);
 			return;
 		}
-		if (command[3] != "with") {
-			System.out.println("defaultErrorMessage");
+		if (!command[3].equals("with")) {
+			System.out.println(defaultErrorString);
 			return;
 		}
 		
@@ -214,7 +221,7 @@ public class Controller {
 			rank = Integer.getInteger(command[2]);
 		}
 		catch (Exception e) {
-			System.out.println("defaultErrorMessage");
+			System.out.println(defaultErrorString);
 			return;
 		}
 		
@@ -223,7 +230,15 @@ public class Controller {
 	}
 	
 	private static void displayBoardState() {
-		
+		// TODO: Fill this in.
+	}
+
+	private static void displayRoomState() {
+		// TODO: Fill this in. If set, display role info, budget info, shot info, then card role info.
+	}
+
+	private static void displayAdjacentRooms() {
+		// TODO: Fill this in.
 	}
 	
 	private static void displayValidActions(ArrayList<Class> actions) {
@@ -240,6 +255,8 @@ public class Controller {
 	public static void main(String[] args) {
 		
 		Scanner reader = initialize();
+
+		reader.useDelimiter("\n");
 		
 		start(reader);
 		
