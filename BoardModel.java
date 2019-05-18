@@ -1,6 +1,6 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.stream.Collectors;
 
 public class BoardModel {
@@ -8,13 +8,13 @@ public class BoardModel {
     private static final String XMLCardsName = "cards.xml";
     private ArrayList<Area> areas;
     private ArrayList<Player> players; // is this needed?
-    private ArrayList<Card> cards; //TODO: when setting up cards, remember to shuffle
-    
-    private int cardIndex = 0;
+    private ArrayList<Card> cards;
+
+    Iterator<Card> cardIterator;
 
     public BoardModel(){
-    	setUpCards();
     	setUpAreaLocations();
+        setUpCards();
     }
     
     public void setPlayers(ArrayList<Player> players) {
@@ -26,6 +26,8 @@ public class BoardModel {
         ArrayList<Card> cards = cardParser.initCards(XMLCardsName);
         Collections.shuffle(cards);
         this.cards = cards;
+        cardIterator = cards.iterator();
+        dealNewCards();
     }
 
     private void setUpAreaLocations(){
@@ -48,6 +50,7 @@ public class BoardModel {
 
     public void nextDayReset(){
     	dealNewCards();
+    	resetSetRoles();
     	sendPlayersToTrailers();
     	replaceShotCounters();
     	
@@ -59,12 +62,21 @@ public class BoardModel {
     }
 
     //deals the next 10 cards
-    private void dealNewCards(){ // TODO: Implement this so we don't always do the same process
-    	int endIndex = cardIndex + 10;
-    	for(int i = cardIndex; i < endIndex; cardIndex++) {
-    		
-    	}
-    	cardIndex = endIndex;
+    private void dealNewCards(){
+    	areas.stream().filter(area -> area instanceof Set)
+                .map(area -> (Set) area)
+                .forEach(set -> set.replaceCard(cardIterator.next()));
+
+    	// testing
+        areas.stream().filter(area -> area instanceof Set)
+                .map(area -> (Set) area)
+                .forEach(set -> System.out.println(set.getCard().getCardRoles().get(0).getName()));
+    }
+
+    private void resetSetRoles(){
+        areas.stream().filter(area -> area instanceof Set)
+                .map(area -> (Set) area)
+                .forEach(set -> set.resetRoles());
     }
     
     private void replaceShotCounters() {

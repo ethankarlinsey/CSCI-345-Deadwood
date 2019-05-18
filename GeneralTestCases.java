@@ -1,7 +1,8 @@
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class GeneralTestCases {
 
@@ -69,4 +70,9 @@ class GeneralTestCases {
 		assertNotNull(board.getAreaByName("Secret Hideout"));
 	}
 
+	@Test
+	void dealCardsBoardModel(){
+		BoardModel board = new BoardModel();
+		board.dealNewCards();
+	}
 }
