@@ -26,21 +26,21 @@ public class Act implements Action {
 		calculatePay(roll >= budget); //Calculate pay based on outcome of the roll
 	}
 	
-	private void calculatePay(boolean sucess) {
-		if (((Set) player.getArea()).isRolePresent(player.getRole())) offCardPay(sucess);
-		else if (((Set) player.getArea()).getCard().isRolePresent(player.getRole())) onCardPay(sucess);
+	private void calculatePay(boolean success) {
+		if (((Set) player.getArea()).isRolePresent(player.getRole())) offCardPay(success);
+		else if (((Set) player.getArea()).getCard().isRolePresent(player.getRole())) onCardPay(success);
 		else System.out.println("ERROR: The player somehow acted without a role in their area.");
 	}
 	
-	private void onCardPay(boolean sucess) {
-		if (sucess) {
+	private void onCardPay(boolean success) {
+		if (success) {
 			player.addCredits(2);
 			((Set) player.getArea()).removeShot();
 		}
 	}
 	
-	private void offCardPay(boolean sucess) {
-		if (sucess) {
+	private void offCardPay(boolean success) {
+		if (success) {
 			player.addDollars(1);
 			player.addCredits(1);
 			((Set) player.getArea()).removeShot();
@@ -49,5 +49,4 @@ public class Act implements Action {
 			player.addDollars(1);
 		}
 	}
-
 }
