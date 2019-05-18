@@ -73,6 +73,6 @@ class GeneralTestCases {
 	@Test
 	void dealCardsBoardModel(){
 		BoardModel board = new BoardModel();
-		board.dealNewCards();
+		//board.dealNewCards();
 	}
 }
