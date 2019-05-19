@@ -10,7 +10,7 @@ public class BoardModel {
     private static final String XMLBoardName = "board.xml";
     private static final String XMLCardsName = "cards.xml";
     private ArrayList<Area> areas;
-    private ArrayList<Player> players; // is this needed?
+    private ArrayList<Player> players;
     private ArrayList<Card> cards;
 
     Iterator<Card> cardIterator;
@@ -111,6 +111,10 @@ public class BoardModel {
     
     public ArrayList<Player> getPlayers() {
     	return players;
+    }
+    
+    public ArrayList<Area> getAreas(){
+    	return areas;
     }
     
     public ArrayList<Player> getPlayersByArea(Area area) { //returns a list of players in an area

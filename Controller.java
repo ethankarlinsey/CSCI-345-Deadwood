@@ -249,8 +249,8 @@ public class Controller {
 	}
 	
 	private static void displayBoardState() {
-		// displays the areas and the players in them
-		// TODO: Fill this in.
+		System.out.println("\nBoard state:\n");
+		System.out.println(manager.getBoardStateAsString());
 	}
 
 	private static void displayRoomState() {

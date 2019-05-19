@@ -29,9 +29,7 @@ public class RuleManager {
 		newDay(); //currentDay increments from 0 to 1
 	}
 	
-	/*
-	 * Randomizes player order and shuffles
-	 */
+	// Randomizes player order and shuffles
 	public void initializePlayers(ArrayList<String> names) {
 		players = new ArrayList<Player>();
 		Collections.shuffle(names);
@@ -84,6 +82,21 @@ public class RuleManager {
 			actions.add(Upgrade.class);
 		
 		return actions;
+	}
+	
+	public String getBoardStateAsString() { //building a string line by line might not be the best idea...
+		String state = "";
+		for (Area a : board.getAreas()) {
+			state += a.getName();
+			ArrayList<Player> areaPlayers = board.getPlayersByArea(a);
+			if (!areaPlayers.isEmpty()) {
+				state += " is occupied by:";
+				for (Player p : areaPlayers) state += " " + p.getName();
+			}
+			else state += " is unoccupied.";
+			state += "\n";
+		}
+		return state;
 	}
 	
 	public void newDay() {
