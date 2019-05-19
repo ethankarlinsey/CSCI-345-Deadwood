@@ -104,6 +104,13 @@ public class RuleManager {
 		if (board.hasAreaByName(areaName)) {
 			Area area = board.getAreaByName(areaName);
 			state = area.getStateString();
+			ArrayList<Player> areaPlayers = board.getPlayersByArea(area);
+			if (!areaPlayers.isEmpty()) {
+				state += "Occupied by:";
+				for (Player p : areaPlayers) state += " " + p.getName();
+			}
+			else state += "Unoccupied.";
+			state += "\n";
 		}
 		else state = areaName + " does not exist.\n";
 		return state;

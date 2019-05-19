@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.InputMismatchException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -54,12 +55,18 @@ public class Controller {
 		//First prompts - board layout, player count and player names
 		System.out.println("Welcome to Deadwood! The cheapass game of acting badly!");
 		
-		int playerCount;
+		int playerCount = -1;
 		
 		while (true) {
 			System.out.println("How many players are there? (There can be 2 to 8.)");
-			playerCount = reader.nextInt();
+			try {
+				playerCount = reader.nextInt();
+			}
+			catch (InputMismatchException e) {
+				reader.next();
+			}
 			if (playerCount > 1 && playerCount < 9) break;
+			
 			System.out.println("That's an invalid number of players!");
 		}
 		ArrayList<String> names = new ArrayList<String>();
@@ -118,6 +125,11 @@ public class Controller {
 	
 	private static boolean actionUpdate(Scanner reader) {
 		
+
+		// clear the reader
+		System.out.println("Press enter to continue.");
+		reader.nextLine();
+		
 		// Display valid actions, which always includes ending the turn
 		ArrayList<Class> actions = manager.getValidActions();	
 		displayValidActions(actions);
@@ -157,7 +169,6 @@ public class Controller {
 			System.out.println(defaultErrorString);
 			break;
 		}
-		reader.nextLine();
 		return true;
 	}
 	
