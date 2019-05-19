@@ -165,11 +165,21 @@ public class Controller {
 		case "upgrade":
 			tryUpgrade(reader);
 			break;
+		case "sendto":	// cheat code sends active player to specified area
+			cheatMove(reader);
+			break;
 		default:
 			System.out.println(defaultErrorString);
 			break;
 		}
 		return true;
+	}
+	
+	private static void cheatMove(Scanner reader) { // cheat format: sendto [playername] [areaname]
+		String playerName = reader.next();
+		String areaName = reader.nextLine().trim();
+		
+		System.out.println(manager.cheatMove(playerName, areaName));
 	}
 	
 	private static void help() {

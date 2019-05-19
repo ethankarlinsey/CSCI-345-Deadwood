@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -190,6 +191,16 @@ public class RuleManager {
 			}
 		}
 		return "Bruh. you can't move there";
+	}
+	
+	public String cheatMove(String playerName, String areaName) {
+		Area area = board.getAreaByName(areaName);
+		Optional<Player> optPlayer = players.stream().filter(p -> p.getName().equalsIgnoreCase(playerName)).findAny();
+		if(area != null && optPlayer.isPresent()) {
+			optPlayer.get().setArea(area);
+			return "Successfully entered the matrix!!! (cheat code worked)";
+		}
+		return "Invalid area or player name";
 	}
 	
 	public String tryRehearse() {
