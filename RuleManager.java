@@ -202,7 +202,7 @@ public class RuleManager {
 		}
 		return "Invalid area or player name";
 	}
-	
+
 	public String tryRehearse() {
 		Rehearse rehearse = new Rehearse(activePlayer);
 		
@@ -295,8 +295,10 @@ public class RuleManager {
 
 			for (Player p: playersOnSet
 				 ) {
-				state += "\n\tPlayer " + p.getName() +
-						" who acted in an off-card role earns a bonus of " + p.getRole().getRank() + " dollars.";
+				if(set.getRoles().contains(p.getRole())) {
+					state += "\n\tPlayer " + p.getName() +
+							" who acted in an off-card role earns a bonus of " + p.getRole().getRank() + " dollars.";
+				}
 			}
 		}
 		// if playersOnCard.size() == 0, there is no payout.

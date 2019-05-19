@@ -59,11 +59,10 @@ class Set extends Area {
 		if(this.cardVisible) {
             state += "This scene has a budget of "
                     + this.card.getBudget() + "\n";
-
-            state += "Off-card roles:\n";
+        }
+        if(this.card != null) {
             for (Role r : this.setRoles) {
-                state += r.getStateString();
-
+                state += "Off-card roles:\n";
                 state += "\n\tStatus: ";
                 if (this.freeSRoles.contains(r)) {
                     state += "free\n";
@@ -71,13 +70,14 @@ class Set extends Area {
                     state += "taken\n";
                 }
             }
-
+        }
+        if(this.cardVisible){
             state += "On-card roles:\n";
             state += this.card.getStateString();
         } else if(this.card == null){
-		    state += "Scene has wrapped.";
+		    state += "Scene has wrapped.\n";
         } else {
-		    state += "Card is not yet revealed. A player must visit the set to reveal the card.";
+		    state += "Card is not yet revealed. A player must visit the set to reveal the card.\n";
         }
 
         return state;
