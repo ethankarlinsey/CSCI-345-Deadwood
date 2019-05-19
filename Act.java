@@ -4,6 +4,10 @@ public class Act implements Action {
 
 	private Player player;
 	private BoardModel board;
+	private int diceRoll = 0;
+	private boolean actingSuccess = false;
+	int[] payment = {0,0}; // first index is credits, second index is dollars.
+
 	
 	public Act(Player player, BoardModel board) {
 		this.player = player;
@@ -12,18 +16,19 @@ public class Act implements Action {
 
 	@Override
 	public boolean isValid() {
-		// As long as the player has a role and hasn't acted yet, she can act
-		return player.getRole() != null && !player.hasPerformedAction(Act.class);
+		// As long as the player has a role, hasn't simply taken the role this turn, hasn't rehearsed in the same turn, and hasn't acted yet, she can act
+		return player.getRole() != null && !player.hasPerformedAction(Act.class) && !player.hasPerformedAction(TakeRole.class) && !player.hasPerformedAction(Rehearse.class);
 	}
 
 	@Override
 	public void excecute() {
 		player.addAction(this);
 		Random rand = new Random();
-		int roll = rand.nextInt(6) + 1 + player.getRehearsalCount(); //Rolls the die and adds the number of rehearsals
+		this.diceRoll = rand.nextInt(6) + 1 + player.getRehearsalCount(); //Rolls the die and adds the number of rehearsals
 		int budget = ((Set) player.getArea()).getCard().getBudget();
-		
-		calculatePay(roll >= budget); //Calculate pay based on outcome of the roll
+		this.actingSuccess = this.diceRoll >= budget;
+
+		calculatePay(this.actingSuccess); //Calculate pay based on outcome of the roll
 	}
 	
 	private void calculatePay(boolean success) {
@@ -34,6 +39,8 @@ public class Act implements Action {
 	
 	private void onCardPay(boolean success) {
 		if (success) {
+			this.payment[0] = 2;
+			this.payment[1] = 0;
 			player.addCredits(2);
 			((Set) player.getArea()).removeShot();
 		}
@@ -41,12 +48,28 @@ public class Act implements Action {
 	
 	private void offCardPay(boolean success) {
 		if (success) {
+			this.payment[0] = 1;
+			this.payment[1] = 1;
 			player.addDollars(1);
 			player.addCredits(1);
 			((Set) player.getArea()).removeShot();
 		}
 		else {
+			this.payment[0] = 0;
+			this.payment[1] = 1;
 			player.addDollars(1);
 		}
+	}
+
+	public boolean getActingSuccess(){
+		return this.actingSuccess;
+	}
+
+	public int getDiceRoll(){
+		return this.diceRoll;
+	}
+
+	public int[] getPayment(){
+		return this.payment;
 	}
 }

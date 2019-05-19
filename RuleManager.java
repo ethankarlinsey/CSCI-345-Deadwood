@@ -46,18 +46,20 @@ public class RuleManager {
 		
 		ArrayList<Class> actions = new ArrayList<Class>();
 		
-		//If the player has a role, hasn't acted yet, and hasn't moved or taken a role this turn, she can act
+		//If the player has a role, hasn't acted yet, and hasn't moved, rehearsed, or taken a role this turn, she can act
 		if (activePlayer.getRole() != null 
 							&& !activePlayer.hasPerformedAction(Act.class) 
 							&& !activePlayer.hasPerformedAction(Move.class)
-							&& !activePlayer.hasPerformedAction(TakeRole.class))
+							&& !activePlayer.hasPerformedAction(TakeRole.class)
+							&& !activePlayer.hasPerformedAction(Rehearse.class))
 			actions.add(Act.class);
 		
-		//If the player does not have a role and also hasn't taken a role, acted, or rehearsed yet, she can move
+		//If the player does not have a role and also hasn't taken a role, acted, moved, or rehearsed yet, she can move
 		if (activePlayer.getRole() == null 
 							&& !activePlayer.hasPerformedAction(TakeRole.class)
 							&& !activePlayer.hasPerformedAction(Act.class)
-							&& !activePlayer.hasPerformedAction(Rehearse.class))
+							&& !activePlayer.hasPerformedAction(Rehearse.class)
+							&& !activePlayer.hasPerformedAction(Move.class))
 			actions.add(Move.class);
 		
 		//If the player has a role and has not taken a role, rehearsed, or acted yet, she can rehearse
@@ -154,29 +156,38 @@ public class RuleManager {
 	
 	public String tryAct() {
 		Act act = new Act(activePlayer, board);
-		
+		String state = "";
+
 		if (act.isValid()) {
-			act.excecute(); // TODO: We need to display whether the acting was successful, but how should we address this?
-			checkSetShots((Set) activePlayer.getArea()); // TODO: Is this the right spot for this?
-			return "Nice acting!"; //TODO: display how much they earned? Display whether they acted successfully?
+			act.excecute();
+			state += "You have acted. " +
+					"\n\tYou rolled: " + act.getDiceRoll() +
+					"\n\tThe film's budget is: " + ((Set) this.activePlayer.getArea()).getCard().getBudget() +
+					"\n\tDid your performance pass muster? : " + act.getActingSuccess() +
+					"\n\tYou receive a payment of [credits, dollars]: " + Arrays.toString(act.getPayment());
+			String potentialBonus = checkSetShots((Set) activePlayer.getArea());
+			return state + potentialBonus;
 		}
 		return "You cannot act right now.";
 	}
 	
-	public void checkSetShots(Set set) {
+	public String checkSetShots(Set set) {
 		if (set.getShotsRemaining() <= 0) {
-			wrapScene(set); //Payout should also reset player rehearsals and roles
+			return wrapScene(set); //Payout should also reset player rehearsals and roles
 			// countRemainingScenes(); NOTE: controller counts how many scenes are left at the end of each turn
 		}
+		return "";
 	}
 	
 	public String tryMove(String areaName) {
 		Area area = board.getAreaByName(areaName);
-		Move move = new Move(activePlayer, board, area);
-		
-		if (move.isValid()) {
-			move.excecute();
-			return activePlayer.getName() + " moved to " + areaName;
+		if(area != null) {
+			Move move = new Move(activePlayer, board, area);
+
+			if (move.isValid()) {
+				move.excecute();
+				return activePlayer.getName() + " moved to " + areaName;
+			}
 		}
 		return "Bruh. you can't move there";
 	}
@@ -212,20 +223,23 @@ public class RuleManager {
 	}
 
 	//The controller calls newDay, so no need to worry about counting scenes
-	public void wrapScene(Set set) {//pays the players when a scene wraps. Also resets their roles and rehearsals
-		set.setInactive(); //empties the list of available roles, removes the card.
-		payout(set);
+	public String wrapScene(Set set) {//pays the players when a scene wraps. Also resets their roles and rehearsals
+		String payoutDetails = payout(set);
 		//release the players
 		ArrayList<Player> playersOnSet = board.getPlayersByArea(set);
 		for (Player p : playersOnSet) {
 			p.setRole(null);
 			p.resetRehearsals();
 		}
+		set.setInactive(); //empties the list of available roles, removes the card - must be the last item
+
+		return "\nThis Scene is wrapped.\n" + payoutDetails;
 	}
 	
-	public void payout(Set set) { //TODO test payout, find a way to print information about payments
+	public String payout(Set set) { //TODO test payout, find a way to print information about payments
 		
 		ArrayList<Player> playersOnSet = board.getPlayersByArea(set);
+		String state = "";
 		
 		// 1. check if someone was on the card. If no one was on the card, there is no payout.
 		ArrayList<Player> playersOnCard = (ArrayList<Player>) playersOnSet.stream()
@@ -258,6 +272,8 @@ public class RuleManager {
 			for (int i = bonuses.length - 1; i > -1; i--) {
 				if (playerIndex >= playersOnCard.size()) playerIndex = 0; //distribution of bonuses loops back if there are more bonuses than players.
 				playersOnCard.get(playerIndex).addDollars(bonuses[i]);
+				state += "\n\tPlayer " + playersOnCard.get(playerIndex).getName() +
+						" who acted in an on-card role earns a bonus of " + bonuses[i] + " dollars.";
 				playerIndex++;
 			}
 			
@@ -265,8 +281,15 @@ public class RuleManager {
 			playersOnSet.stream()
 						.filter(p -> set.getRoles().contains(p.getRole()))
 						.forEach(p -> p.addDollars(p.getRole().getRank()));
+
+			for (Player p: playersOnSet
+				 ) {
+				state += "\n\tPlayer " + p.getName() +
+						" who acted in an off-card role earns a bonus of " + p.getRole().getRank() + " dollars.";
+			}
 		}
 		// if playersOnCard.size() == 0, there is no payout.
+		return state;
 	}
 	
 	public void setNextPlayerActive() {

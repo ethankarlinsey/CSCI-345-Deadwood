@@ -46,7 +46,7 @@ class Set extends Area {
     
     public String getStateString() {
     	String state = "";
-		state += "Neighboors:";
+		state += "Neighbors:";
 		for (String s : this.adjacentAreas) state += " " + s;
 		state += "\n";
 		
@@ -56,23 +56,29 @@ class Set extends Area {
 				+ String.valueOf(shotsRemaining)
 				+ " shots remaining.\n";
 
-		state += "This scene has a budget of "
-                + this.card.getBudget() + "\n";
-		
-		state += "Off-card roles:\n";
-		for (Role r : this.setRoles) {
-		    state += r.getStateString();
+		if(this.cardVisible) {
+            state += "This scene has a budget of "
+                    + this.card.getBudget() + "\n";
 
-            state += "\n\tStatus: ";
-            if(this.freeSRoles.contains(r)){
-		        state += "free\n";
-            } else {
-		        state += "taken\n";
+            state += "Off-card roles:\n";
+            for (Role r : this.setRoles) {
+                state += r.getStateString();
+
+                state += "\n\tStatus: ";
+                if (this.freeSRoles.contains(r)) {
+                    state += "free\n";
+                } else {
+                    state += "taken\n";
+                }
             }
-        }
 
-        state += "On-card roles:\n";
-		state += this.card.getStateString();
+            state += "On-card roles:\n";
+            state += this.card.getStateString();
+        } else if(this.card == null){
+		    state += "Scene has wrapped.";
+        } else {
+		    state += "Card is not yet revealed. A player must visit the set to reveal the card.";
+        }
 
         return state;
     }
@@ -110,6 +116,7 @@ class Set extends Area {
     		freeSRoles.clear();
     		card.setInactive();
     		card = null;
+    		this.setCardInvisible();
     	}
     }
 
@@ -124,5 +131,9 @@ class Set extends Area {
     
     public void setCardVisible() {
     	cardVisible = true;
+    }
+
+    private void setCardInvisible() {
+        cardVisible = false;
     }
 }

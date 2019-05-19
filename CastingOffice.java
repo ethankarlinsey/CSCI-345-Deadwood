@@ -12,7 +12,7 @@ class CastingOffice extends Area {
     
     public String getStateString() {
     	String state = "";
-		state += "Neighboors:";
+		state += "Neighbors:";
 		for (String s : this.adjacentAreas) state += " " + s;
 		state += "\n";
 		
