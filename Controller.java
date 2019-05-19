@@ -165,8 +165,14 @@ public class Controller {
 		case "upgrade":
 			tryUpgrade(reader);
 			break;
+			
+			// ------------------ Cheat codes for debugging are below this line --------------------------
+			
 		case "sendto":	// cheat code sends active player to specified area
 			cheatMove(reader);
+			break;
+		case "newday":
+			manager.newDay();
 			break;
 		default:
 			System.out.println(defaultErrorString);
