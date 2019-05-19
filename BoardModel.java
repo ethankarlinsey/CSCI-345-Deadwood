@@ -7,8 +7,8 @@ import java.util.stream.Collectors;
 public class BoardModel {
 //    private static final String XMLBoardName = "board.xml";
 //    private static final String XMLCardsName = "cards.xml";
-    private static final String XMLBoardName = "/home/serena/345/Assignment_2/deadwood/board.xml";
-    private static final String XMLCardsName = "/home/serena/345/Assignment_2/deadwood/cards.xml";
+    private static final String XMLBoardName = "board.xml";
+    private static final String XMLCardsName = "cards.xml";
     private ArrayList<Area> areas;
     private ArrayList<Player> players; // is this needed?
     private ArrayList<Card> cards;

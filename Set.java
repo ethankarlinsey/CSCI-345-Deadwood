@@ -63,8 +63,6 @@ class Set extends Area {
     }
     
     public boolean isRolePresent(Role role) {
-    	System.out.println(role);
-    	System.out.println(setRoles);
     	return setRoles.contains(role);
     }
 

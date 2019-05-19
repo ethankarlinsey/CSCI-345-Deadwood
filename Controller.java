@@ -276,8 +276,6 @@ public class Controller {
 	public static void main(String[] args) {
 		
 		Scanner reader = initialize();
-
-		reader.useDelimiter("\n");
 		
 		start(reader);
 		
