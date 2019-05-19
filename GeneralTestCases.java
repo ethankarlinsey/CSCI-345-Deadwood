@@ -24,6 +24,7 @@ class GeneralTestCases {
 		move.excecute();
 		assertFalse(move.isValid());
 		
+		// Player should be in the right place.
 		assertEquals(area, player.getArea());
 		
 		//Other actions should not interfere with Movement Validity.

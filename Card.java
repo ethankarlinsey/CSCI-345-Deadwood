@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public class Card {
 
     private ArrayList<Role> cardRoles;
-    private ArrayList<Role> remainingCRoles;
+    private ArrayList<Role> freeCRoles;
     private String title;
     private String description;
     private int budget;
@@ -14,7 +14,7 @@ public class Card {
 
     public Card(ArrayList<Role> roles, String filmTitle, String filmDescription, int filmBudget){
         this.cardRoles = roles;
-        this.remainingCRoles = roles;
+        this.freeCRoles = new ArrayList<Role>(roles);
         this.title = filmTitle;
         this.description = filmDescription;
         this.budget = filmBudget;
@@ -28,8 +28,8 @@ public class Card {
         return this.cardRoles;
     }
 
-    public ArrayList<Role> getRemainingCRoles(){
-        return this.remainingCRoles;
+    public ArrayList<Role> getFreeCRoles(){
+        return this.freeCRoles;
     }
     
     public int getBudget() {
@@ -38,15 +38,15 @@ public class Card {
 
     // how do we want this to relate to player?
     public void setRoleUnavailable(Role role){
-        cardRoles.remove(role);
+        freeCRoles.remove(role);
     }
 
     public void resetRoles(){
-        this.remainingCRoles = this.cardRoles;
+        this.freeCRoles = this.cardRoles;
     }
     
     public void setInactive() {
-    	remainingCRoles.clear();
+    	freeCRoles.clear();
     }
 
 }

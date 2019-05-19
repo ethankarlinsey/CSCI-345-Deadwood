@@ -5,7 +5,7 @@ class Set extends Area {
 
     private Card card;
     private ArrayList<Role> setRoles;
-    private ArrayList<Role> remainingSRoles;
+    private ArrayList<Role> freeSRoles;
     private int shots;
     private int shotsRemaining;
     private boolean cardVisible = false;
@@ -17,7 +17,7 @@ class Set extends Area {
     public Set(String title, ArrayList<Role> roles, int cardShots){
         this.name = title;
         this.setRoles = roles;
-        this.remainingSRoles = roles;
+        this.freeSRoles = roles;
         this.shots = cardShots;
         this.shotsRemaining = cardShots;
     }
@@ -26,7 +26,7 @@ class Set extends Area {
     public Set(String title, ArrayList<Role> roles, int cardShots, String[] adjacents){
         this.name = title;
         this.setRoles = roles;
-        this.remainingSRoles = roles;
+        this.freeSRoles = new ArrayList<Role>(roles);
         this.shots = cardShots;
         this.shotsRemaining = cardShots;
         this.adjacentAreas = adjacents;
@@ -49,7 +49,7 @@ class Set extends Area {
     }
 
     public ArrayList<Role> getFreeRoles(){
-        return this.remainingSRoles;
+        return this.freeSRoles;
     }
 
     public Role getRoleByName(String roleName) {
@@ -63,25 +63,27 @@ class Set extends Area {
     }
     
     public boolean isRolePresent(Role role) {
+    	System.out.println(role);
+    	System.out.println(setRoles);
     	return setRoles.contains(role);
     }
 
     // how do we want this to relate to player?
     public void setRoleUnavailable(Role role){
-        setRoles.remove(role);
+        freeSRoles.remove(role);
     }
     
     // removes all available roles once the shots are gone
     public void setInactive() {
     	if (shotsRemaining <= 0) {
-    		remainingSRoles.clear();
+    		freeSRoles.clear();
     		card.setInactive();
     		card = null;
     	}
     }
 
     public void resetRoles(){
-        this.remainingSRoles = this.setRoles;
+        this.freeSRoles = this.setRoles;
     }
     
     //TODO added by Ethan, accessing the card and its roles

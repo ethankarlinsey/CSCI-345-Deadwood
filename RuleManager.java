@@ -35,23 +35,34 @@ public class RuleManager {
 	}
 	
 	public boolean initializeBoard(String layout) {
-		return true; //returns whether the layout string is actually an option
+		board = new BoardModel();
+		board.setPlayers(players);
+		return true;
 	}
 	
 	public ArrayList<Class> getValidActions(){ //builds a list of action types the player can generally do (as classes)
 		
 		ArrayList<Class> actions = new ArrayList<Class>();
 		
-		//If the player has a role and hasn't acted yet, she can act
-		if (activePlayer.getRole() != null && !activePlayer.hasPerformedAction(Act.class))
+		//If the player has a role, hasn't acted yet, and hasn't moved or taken a role this turn, she can act
+		if (activePlayer.getRole() != null 
+							&& !activePlayer.hasPerformedAction(Act.class) 
+							&& !activePlayer.hasPerformedAction(Move.class)
+							&& !activePlayer.hasPerformedAction(TakeRole.class))
 			actions.add(Act.class);
 		
-		//If the player does not have a role and also hasn't moved yet, she can move
-		if (activePlayer.getRole() == null && !activePlayer.hasPerformedAction(Move.class))
+		//If the player does not have a role and also hasn't taken a role, acted, or rehearsed yet, she can move
+		if (activePlayer.getRole() == null 
+							&& !activePlayer.hasPerformedAction(TakeRole.class)
+							&& !activePlayer.hasPerformedAction(Act.class)
+							&& !activePlayer.hasPerformedAction(Rehearse.class))
 			actions.add(Move.class);
 		
-		//If the player has a role and has not rehearsed yet, she can rehearse
-		if (activePlayer.getRole() != null && !activePlayer.hasPerformedAction(Rehearse.class))
+		//If the player has a role and has not taken a role, rehearsed, or acted yet, she can rehearse
+		if (activePlayer.getRole() != null 
+							&& !activePlayer.hasPerformedAction(TakeRole.class)
+							&& !activePlayer.hasPerformedAction(Rehearse.class)
+							&& !activePlayer.hasPerformedAction(Act.class))
 			actions.add(Rehearse.class);
 		
 		//If the player does not have a role and is on a set with open roles, she can take a role.
@@ -75,7 +86,7 @@ public class RuleManager {
 		currentDay++;
 		board.nextDayReset(); //anything else not handled by the BoardModel?
 		
-		// TODO: should we check if currentDay > lastDay?
+		// daysleft and scenesleft called by controller
 	}
 	
 	public boolean daysLeft() {
@@ -88,6 +99,10 @@ public class RuleManager {
 	
 	public boolean excecuteAction(Action action) {
 		return true;
+	}
+	
+	public Player getActivePlayer() {
+		return activePlayer;
 	}
 	
 	public String tryAct() {
@@ -130,12 +145,11 @@ public class RuleManager {
 	}
 	
 	public String tryTakeRole(String roleName) {
-		Role role = board.getRoleByName(roleName);
-		TakeRole takeRole = new TakeRole(activePlayer,board, role);
+		TakeRole takeRole = new TakeRole(activePlayer, roleName);
 		
 		if (takeRole.isValid()) {
 			takeRole.excecute();
-			return activePlayer + " is now acting as " + roleName;
+			return activePlayer.getName() + " is now acting as " + roleName;
 		}
 		return "You can't take this role.";
 	}
@@ -213,7 +227,7 @@ public class RuleManager {
 		activePlayer.clearActions();
 		
 		//cycle to the next turn
-		if (playerTurnIndex < players.size()) playerTurnIndex++;
+		if (playerTurnIndex < players.size() - 1) playerTurnIndex++;
 		else playerTurnIndex = 0;		
 		activePlayer = players.get(playerTurnIndex);
 	}

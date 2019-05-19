@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class BoardModel {
@@ -32,17 +33,15 @@ public class BoardModel {
         ParseGamePiecesXML areaParser = new ParseGamePiecesXML();
         this.areas = areaParser.initAreas(XMLBoardName);
     }
-    
-    public Role getRoleByName(String name) {
-    	return null;
-    }
 
     public boolean hasAreaByName(String name) {
-        return areas.stream().anyMatch(a -> a.getName().equals(name));
+        return areas.stream().anyMatch(a -> a.getName().equalsIgnoreCase(name));
     }
 
     public Area getAreaByName(String name) { // returns an area with the same name. Does not account for multiple areas with same name.
-        return areas.stream().filter(a -> a.getName().contentEquals(name)).collect(Collectors.toList()).get(0);
+    	List<Area> areasWithName = areas.stream().filter(a -> a.getName().equalsIgnoreCase(name)).collect(Collectors.toList());
+    	if (areasWithName.size() > 0) return areasWithName.get(0);
+        return null;
     }
 
 
@@ -60,22 +59,32 @@ public class BoardModel {
 
     //deals the next 10 cards
     private void dealNewCards(){ // TODO: Implement this so we don't always do the same process
-    	int endIndex = cardIndex + 10;
-    	for(int i = cardIndex; i < endIndex; cardIndex++) {
-    		
+    	ArrayList<Set> sets = (ArrayList<Set>) areas.stream()
+    												.filter(a -> a instanceof Set)
+    												.map(a -> (Set) a)
+    												.collect(Collectors.toList());   	
+    	if (sets.size() == 10) {
+    		for (Set set : sets) {
+    			set.replaceCard(cards.get(cardIndex));
+    			cardIndex++;
+    		}
     	}
-    	cardIndex = endIndex;
+    	else System.out.println("number of sets is not 10!");
     }
     
     private void replaceShotCounters() {
-    	areas.stream().filter(area -> area instanceof Set)
-    			.map(area -> (Set) area)
-    			.forEach(set -> set.resetShots());
+    	areas.stream().filter(area -> area instanceof Set)	// filter out non-set areas
+    			.map(area -> (Set) area)					// cast to a set
+    			.forEach(set -> set.resetShots());			// reset shots
     }
     
     public int getSceneCount() {//returns the number of scenes left
-    	return 2;
-    	
+    	ArrayList<Set> unfinishedSets = (ArrayList<Set>) areas.stream()
+				.filter(a -> a instanceof Set) 			// filter out non-set areas
+				.map(a -> (Set) a)						// cast to a set
+				.filter(s -> s.getShotsRemaining() > 0)	// filter out finished sets
+				.collect(Collectors.toList());			// collect to list (not necessary)
+    	return unfinishedSets.size();					// return the count
     }
 
     private void sendPlayersToTrailers(){
