@@ -118,7 +118,14 @@ public class RuleManager {
 	
 	public String getPlayerStateString(String playerName) {
 		String state = "";
-		// TODO build player string
+
+		if(board.hasPlayer(playerName)){
+			Player player = board.getPlayer(playerName);
+			state = player.getStateString();
+		} else {
+			state = "Player " + playerName + " does not exist. Please pick another action.";
+		}
+
 		return state;
 	}
 	
@@ -149,9 +156,9 @@ public class RuleManager {
 		Act act = new Act(activePlayer, board);
 		
 		if (act.isValid()) {
-			act.excecute();
-			checkSetShots((Set) activePlayer.getArea());
-			return "Nice acting!"; //TODO: display how much they earned? Display whether they acted successfully
+			act.excecute(); // TODO: We need to display whether the acting was successful, but how should we address this?
+			checkSetShots((Set) activePlayer.getArea()); // TODO: Is this the right spot for this?
+			return "Nice acting!"; //TODO: display how much they earned? Display whether they acted successfully?
 		}
 		return "You cannot act right now.";
 	}
@@ -216,7 +223,7 @@ public class RuleManager {
 		}
 	}
 	
-	public void payout(Set set) { //TODO test payout
+	public void payout(Set set) { //TODO test payout, find a way to print information about payments
 		
 		ArrayList<Player> playersOnSet = board.getPlayersByArea(set);
 		

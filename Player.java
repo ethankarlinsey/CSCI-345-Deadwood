@@ -83,4 +83,19 @@ public class Player {
 		return actionsThisTurn.stream()
 						.anyMatch(a -> c.isInstance(a) );
 	}
+
+	public String getStateString() {
+		// get: Rank, Credits, Dollars, Role, Rehearsal tokens, Room
+		String state = "Player: " + this.name +
+				"\n\t" + "Rank: " + this.rank +
+				"\n\t" + "Credits: " + this.creditCount +
+				"\n\t" + "Dollars: " + this.dollarCount;
+		if(this.role != null){
+			state += this.role.getStateString();
+			state += "\n\tRehearsal Count: " + this.rehearsalCount;
+		}
+		state += "\n\tArea: " + this.area.getName();
+
+		return state;
+	}
 }

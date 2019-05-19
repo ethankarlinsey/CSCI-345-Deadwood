@@ -55,6 +55,9 @@ class Set extends Area {
 				+ " shots and has " 
 				+ String.valueOf(shotsRemaining)
 				+ " shots remaining.\n";
+
+		state += "This scene has a budget of "
+                + this.card.getBudget() + "\n";
 		
 		state += "Off-card roles:\n";
 		for (Role r : this.setRoles) {

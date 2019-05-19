@@ -302,7 +302,8 @@ public class Controller {
 	}
 	
 	private static void displayPlayerState(String playerName) {
-		
+		System.out.println("\n" + playerName + " state: \n");
+		System.out.println(manager.getPlayerStateString(playerName));
 	}
 	
 	private static void displayValidActions(ArrayList<Class> actions) {

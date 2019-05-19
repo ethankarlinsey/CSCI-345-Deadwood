@@ -46,6 +46,17 @@ public class BoardModel {
         return null;
     }
 
+    public boolean hasPlayer(String playerName) {
+        return this.players.stream()
+                .anyMatch(p -> p.getName().equalsIgnoreCase(playerName));
+    }
+
+    public Player getPlayer(String playerName) {
+        List<Player> playersWithName = this.players.stream().filter(a -> a.getName().equalsIgnoreCase(playerName)).collect(Collectors.toList());
+        if (playersWithName.size() > 0) return playersWithName.get(0);
+        return null;
+    }
+
 
     public void nextDayReset(){
     	dealNewCards();
