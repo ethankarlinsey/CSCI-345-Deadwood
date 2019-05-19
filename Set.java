@@ -53,7 +53,7 @@ class Set extends Area {
     }
 
     public Role getRoleByName(String roleName) {
-    	Optional<Role> role = setRoles.parallelStream().filter(r -> r.getName() == roleName).findFirst();
+    	Optional<Role> role = setRoles.parallelStream().filter(r -> r.getName().equals(roleName)).findFirst();
     	if (role.isPresent()) return role.get();
     	return null;
     }

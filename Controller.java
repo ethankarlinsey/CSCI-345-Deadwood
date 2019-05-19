@@ -10,7 +10,7 @@ public class Controller {
 
 	private static HashMap<Class, String> actionTypeToString = new HashMap<Class, String>();
 
-	private static String defaultErrorString = "Incorrect Syntax. type 'help' to see valid commands";
+	private static String defaultErrorString = "Incorrect Syntax. Type 'help' to see valid commands";
 	
 	private static String[] commandDescriptions = {
 			"help - displays available commands",
@@ -28,6 +28,7 @@ public class Controller {
 	
 	public static Scanner initialize() {//initializes maps and Scanner
 
+		actionTypeToString = new HashMap<>();
 		//initialize the actionTypeToString map
 		actionTypeToString.put(Act.class, "Act");
 		actionTypeToString.put(Move.class, "Move");
@@ -159,14 +160,14 @@ public class Controller {
 	private static void help() {
 		Arrays.stream(commandDescriptions).forEach(str -> System.out.println(str));
 	}
-	
+
 	private static boolean tryEndTurn(Scanner reader) { // if the command was "end turn" return false to end the turn.
 		if (reader.next().toLowerCase().equals("turn")) return false;
 		System.out.println("Error ending turn");
 		System.out.println(defaultErrorString);
 		return true;
 	}
-	
+
 	private static void tryAct(Scanner reader) { // verifies command syntax and prompts manager to try the action
 		if (reader.nextLine().trim().length() > 0) {
 			System.out.println("Error acting");
@@ -177,7 +178,7 @@ public class Controller {
 		String message = manager.tryAct();
 		System.out.println(message);
 	}
-	
+
 	private static void tryView(Scanner reader) {
 		//TODO: implement viewing of players and areas
 	}
@@ -210,7 +211,7 @@ public class Controller {
 		String message = manager.tryRehearse();
 		System.out.println(message);
 	}
-	
+
 	private static void tryTakeRole(Scanner reader) { // verifies command syntax and prompts manager to try the action
 		try {
 			if (reader.next().toLowerCase().equals("role")) {
@@ -227,7 +228,7 @@ public class Controller {
 			return;
 		}
 	}
-	
+
 	private static void tryUpgrade(Scanner reader) { // verifies command syntax and prompts manager to try the action
 		try {
 			if (reader.next().toLowerCase().equals("to")) {
@@ -242,13 +243,22 @@ public class Controller {
 		}
 		catch (Exception e) {
 			System.out.println("Error upgrading - enough to throw an error... try matching the format listed under help");
+			return;
 		}
 		System.out.println("Error upgrading, but not enough to throw an error... try getting your words right");
 	}
 	
 	private static void displayBoardState() {
 		// displays the areas and the players in them
-		
+		// TODO: Fill this in.
+	}
+
+	private static void displayRoomState() {
+		// TODO: Fill this in. If set, display role info, budget info, shot info, then card role info.
+	}
+
+	private static void displayAdjacentRooms() {
+		// TODO: Fill this in.
 	}
 	
 	private static void displayValidActions(ArrayList<Class> actions) {
@@ -266,6 +276,8 @@ public class Controller {
 	public static void main(String[] args) {
 		
 		Scanner reader = initialize();
+
+		reader.useDelimiter("\n");
 		
 		start(reader);
 		

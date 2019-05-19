@@ -1,21 +1,23 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Iterator;
 import java.util.stream.Collectors;
 
 public class BoardModel {
-    private static final String XMLBoardName = "board.xml";
-    private static final String XMLCardsName = "cards.xml";
+//    private static final String XMLBoardName = "board.xml";
+//    private static final String XMLCardsName = "cards.xml";
+    private static final String XMLBoardName = "/home/serena/345/Assignment_2/deadwood/board.xml";
+    private static final String XMLCardsName = "/home/serena/345/Assignment_2/deadwood/cards.xml";
     private ArrayList<Area> areas;
     private ArrayList<Player> players; // is this needed?
-    private ArrayList<Card> cards; //TODO: when setting up cards, remember to shuffle
-    
-    private int cardIndex = 0;
+    private ArrayList<Card> cards;
+
+    Iterator<Card> cardIterator;
 
     public BoardModel(){
-    	setUpCards();
     	setUpAreaLocations();
+        setUpCards();
     }
     
     public void setPlayers(ArrayList<Player> players) {
@@ -27,6 +29,8 @@ public class BoardModel {
         ArrayList<Card> cards = cardParser.initCards(XMLCardsName);
         Collections.shuffle(cards);
         this.cards = cards;
+        cardIterator = cards.iterator();
+        dealNewCards();
     }
 
     private void setUpAreaLocations(){
@@ -47,6 +51,7 @@ public class BoardModel {
 
     public void nextDayReset(){
     	dealNewCards();
+    	resetSetRoles();
     	sendPlayersToTrailers();
     	replaceShotCounters();
     	
@@ -56,20 +61,17 @@ public class BoardModel {
     	//Replace all shot counters
     	
     }
+    
+    private void dealNewCards(){
+    	areas.stream().filter(area -> area instanceof Set)
+                .map(area -> (Set) area)
+                .forEach(set -> set.replaceCard(cardIterator.next()));
+    }
 
-    //deals the next 10 cards
-    private void dealNewCards(){ // TODO: Implement this so we don't always do the same process
-    	ArrayList<Set> sets = (ArrayList<Set>) areas.stream()
-    												.filter(a -> a instanceof Set)
-    												.map(a -> (Set) a)
-    												.collect(Collectors.toList());   	
-    	if (sets.size() == 10) {
-    		for (Set set : sets) {
-    			set.replaceCard(cards.get(cardIndex));
-    			cardIndex++;
-    		}
-    	}
-    	else System.out.println("number of sets is not 10!");
+    private void resetSetRoles(){
+        areas.stream().filter(area -> area instanceof Set)
+                .map(area -> (Set) area)
+                .forEach(set -> set.resetRoles());
     }
     
     private void replaceShotCounters() {
