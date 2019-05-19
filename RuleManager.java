@@ -99,6 +99,22 @@ public class RuleManager {
 		return state;
 	}
 	
+	public String getAreaStateString(String areaName) {
+		String state;
+		if (board.hasAreaByName(areaName)) {
+			Area area = board.getAreaByName(areaName);
+			state = area.getStateString();
+		}
+		else state = areaName + " does not exist.\n";
+		return state;
+	}
+	
+	public String getPlayerStateString(String playerName) {
+		String state = "";
+		// TODO build player string
+		return state;
+	}
+	
 	public void newDay() {
 		currentDay++;
 		board.nextDayReset(); //anything else not handled by the BoardModel?

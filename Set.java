@@ -43,6 +43,25 @@ class Set extends Area {
     public void replaceCard(Card newCard){
         this.card = newCard;
     }
+    
+    public String getStateString() {
+    	String state = "";
+		state += "Neighboors:";
+		for (String s : this.adjacentAreas) state += " " + s;
+		state += "\n";
+		
+		state += "This scene started with " 
+				+ String.valueOf(shots) 
+				+ " shots and has " 
+				+ String.valueOf(shotsRemaining)
+				+ " shots remaining.\n";
+		
+		state += "On-card roles:\n";
+		
+		// TODO display on and off card roles and whether they are open.
+		
+		return state;
+    }
 
     public ArrayList<Role> getRoles(){
         return this.setRoles;

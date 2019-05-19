@@ -18,6 +18,8 @@ public class Controller {
 			"end turn - ends the current player's turn",
 			"view player [playerName] - displays the stats of [playername]",
 			"view area [areaName] - displays the information for [areaName]",
+			"view board - displays the state of the board",
+			"view gamestate - displays the state of the game",
 			"act - if valid, the player will act",
 			"move to [areaName] - if valid, the player will move to [areaName]",
 			"rehearse - if valid, the player will rehearse",
@@ -102,6 +104,10 @@ public class Controller {
 	 */
 	private static void turnUpdate(Scanner reader) {
 		
+
+		// Display the updated board before each turn
+		displayBoardState();
+		
 		boolean continueTurn = true;
 		while (continueTurn) {
 			continueTurn = actionUpdate(reader);
@@ -111,9 +117,6 @@ public class Controller {
 	}
 	
 	private static boolean actionUpdate(Scanner reader) {
-		
-		// Display the updated board before each action
-		displayBoardState();
 		
 		// Display valid actions, which always includes ending the turn
 		ArrayList<Class> actions = manager.getValidActions();	
@@ -154,6 +157,7 @@ public class Controller {
 			System.out.println(defaultErrorString);
 			break;
 		}
+		reader.nextLine();
 		return true;
 	}
 	
@@ -180,7 +184,28 @@ public class Controller {
 	}
 
 	private static void tryView(Scanner reader) {
-		//TODO: implement viewing of players and areas
+		try {
+			String viewType = reader.next();
+			if (viewType.equalsIgnoreCase("player")) {
+				displayPlayerState(reader.nextLine().trim());
+			}
+			else if (viewType.equalsIgnoreCase("area")) {
+				displayAreaState(reader.nextLine().trim());
+			}
+			else if (viewType.equalsIgnoreCase("board")) {
+				displayBoardState();
+			}
+			else if (viewType.equalsIgnoreCase("gamestate")) {
+				displayGameState();
+			}
+			else System.out.println("that is an invalid view request.");
+		}
+		catch (Exception e) {
+			System.out.println("Error viewing");
+			System.out.println(e.getMessage());
+			e.printStackTrace(System.out);
+			System.out.println(defaultErrorString);
+		}
 	}
 	
 	private static void tryMove(Scanner reader) { // verifies command syntax and prompts manager to try the action
@@ -252,13 +277,21 @@ public class Controller {
 		System.out.println("\nBoard state:\n");
 		System.out.println(manager.getBoardStateAsString());
 	}
-
-	private static void displayRoomState() {
-		// TODO: Fill this in. If set, display role info, budget info, shot info, then card role info.
+	
+	// displays the number of days left, maybe number of scenes left in the day and who is in the lead?
+	private static void displayGameState() {
+		
 	}
 
-	private static void displayAdjacentRooms() {
-		// TODO: Fill this in.
+	// displays the area info including occupants and neighbors
+	// if set, display roles (open or taken by ___) budget info shot info, and card role info.
+	private static void displayAreaState(String areaName) {
+		System.out.println("\n" + areaName + " state: \n");
+		System.out.println(manager.getAreaStateString(areaName));
+	}
+	
+	private static void displayPlayerState(String playerName) {
+		
 	}
 	
 	private static void displayValidActions(ArrayList<Class> actions) {

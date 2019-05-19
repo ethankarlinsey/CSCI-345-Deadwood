@@ -14,6 +14,8 @@ public abstract class Area {
         this.name = title;
         this.adjacentAreas = adjacents;
     }
+    
+    public abstract String getStateString();
 
     // added to aid in containing Area's functionality to one class
     final boolean isAdjacent(Area a) {
@@ -30,8 +32,6 @@ public abstract class Area {
         return isAdj;
     }
 
-
-
     final String getName(){
         return this.name;
     }
@@ -39,13 +39,4 @@ public abstract class Area {
     final String[] getAdjacentAreas(){
         return this.adjacentAreas;
     }
-/*
-    final void setLocation(Location loc){
-        this.location = loc;
-    }
-
-    final void setAdjacentAreas(Location[] areas){
-        this.adjacentAreas = areas;
-    }
-*/
 }
