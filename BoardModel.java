@@ -5,8 +5,6 @@ import java.util.Iterator;
 import java.util.stream.Collectors;
 
 public class BoardModel {
-//    private static final String XMLBoardName = "board.xml";
-//    private static final String XMLCardsName = "cards.xml";
     private static final String XMLBoardName = "board.xml";
     private static final String XMLCardsName = "cards.xml";
     private ArrayList<Area> areas;

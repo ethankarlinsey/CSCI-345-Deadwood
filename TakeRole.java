@@ -1,6 +1,4 @@
-import java.util.Arrays;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 public class TakeRole implements Action {
 
@@ -18,10 +16,18 @@ public class TakeRole implements Action {
 		Area a = player.getArea();
 		if (a instanceof Set) {
 			Set s = (Set) a;
+			// get off-card roles
 			Optional<Role> optRole = s.getFreeRoles().stream().filter(r -> r.getName().equalsIgnoreCase(roleName)).findAny();
 			if (optRole.isPresent()) {
 				role = optRole.get();
 				return (s.getShotsRemaining() > 0 && player.getRank() >= role.getRank());
+			} else {
+				// get on-card roles
+				optRole = s.getCard().getFreeCRoles().stream().filter(r -> r.getName().equalsIgnoreCase(roleName)).findAny();
+				if(optRole.isPresent()){
+					role = optRole.get();
+					return (s.getShotsRemaining() > 0 && player.getRank() >= role.getRank());
+				}
 			}
 		}
 		return false;

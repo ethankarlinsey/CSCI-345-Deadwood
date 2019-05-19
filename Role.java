@@ -25,4 +25,16 @@ public class Role {
     public String getLine(){
         return this.line;
     }
+
+    public String getStateString() {
+        String state = "";
+        state += "\tRole Name: ";
+        state += this.name;
+        state += "\n\tRole Rank: ";
+        state += this.rank;
+        state += "\n\tRole Line: ";
+        state += this.line;
+
+        return state;
+    };
 }

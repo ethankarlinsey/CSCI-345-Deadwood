@@ -42,11 +42,27 @@ public class Card {
     }
 
     public void resetRoles(){
-        this.freeCRoles = this.cardRoles;
+        this.freeCRoles = new ArrayList<>(this.cardRoles);
     }
     
     public void setInactive() {
     	freeCRoles.clear();
+    }
+
+    public String getStateString() {
+        String state = "";
+        for (Role r : this.cardRoles) {
+            state += r.getStateString();
+
+            state += "\n\tStatus: ";
+            if(this.freeCRoles.contains(r)){
+                state += "free\n";
+            } else {
+                state += "taken\n";
+            }
+        }
+
+        return state;
     }
 
 }

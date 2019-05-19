@@ -239,7 +239,7 @@ public class Controller {
 	
 	private static void tryRehearse(Scanner reader) { // verifies command syntax and prompts manager to try the action
 		if (reader.nextLine().trim().length() > 0) {
-			System.out.println("Error rehearsing - too many arguements");
+			System.out.println("Error rehearsing - too many arguments");
 			System.out.println(defaultErrorString);
 			return;
 		}

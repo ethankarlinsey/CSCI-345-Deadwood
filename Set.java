@@ -17,7 +17,7 @@ class Set extends Area {
     public Set(String title, ArrayList<Role> roles, int cardShots){
         this.name = title;
         this.setRoles = roles;
-        this.freeSRoles = roles;
+        this.freeSRoles = new ArrayList<Role>(roles);
         this.shots = cardShots;
         this.shotsRemaining = cardShots;
     }
@@ -51,16 +51,27 @@ class Set extends Area {
 		state += "\n";
 		
 		state += "This scene started with " 
-				+ String.valueOf(shots) 
+				+ String.valueOf(shots)
 				+ " shots and has " 
 				+ String.valueOf(shotsRemaining)
 				+ " shots remaining.\n";
 		
-		state += "On-card roles:\n";
-		
-		// TODO display on and off card roles and whether they are open.
-		
-		return state;
+		state += "Off-card roles:\n";
+		for (Role r : this.setRoles) {
+		    state += r.getStateString();
+
+            state += "\n\tStatus: ";
+            if(this.freeSRoles.contains(r)){
+		        state += "free\n";
+            } else {
+		        state += "taken\n";
+            }
+        }
+
+        state += "On-card roles:\n";
+		state += this.card.getStateString();
+
+        return state;
     }
 
     public ArrayList<Role> getRoles(){
@@ -100,7 +111,7 @@ class Set extends Area {
     }
 
     public void resetRoles(){
-        this.freeSRoles = this.setRoles;
+        this.freeSRoles = new ArrayList<>(this.setRoles);
     }
     
     //TODO added by Ethan, accessing the card and its roles
