@@ -162,17 +162,13 @@ public class RuleManager {
 	}
 	
 	public boolean daysLeft() {
-		return currentDay <= lastDay;
+		return currentDay < lastDay;
 	}
 	
 	public boolean scenesLeft() { // checks whether there are scenes left to continue the day
 		return board.getSceneCount() > 1;
 	}
-	
-	public boolean excecuteAction(Action action) {
-		return true;
-	}
-	
+
 	public Player getActivePlayer() {
 		return activePlayer;
 	}
@@ -184,7 +180,7 @@ public class RuleManager {
 		if (act.isValid()) {
 			act.excecute();
 			state += "You have acted. " +
-					"\n\tYou rolled: " + act.getDiceRoll() +
+					"\n\tYou rolled (roll + rehearsal bonus): " + act.getDiceRoll() + " using a rehearsal bonus of " + activePlayer.getRehearsalCount() +
 					"\n\tThe film's budget is: " + ((Set) this.activePlayer.getArea()).getCard().getBudget() +
 					"\n\tDid your performance pass muster? : " + act.getActingSuccess() +
 					"\n\tYou receive a payment of [credits, dollars]: " + Arrays.toString(act.getPayment());
@@ -222,7 +218,7 @@ public class RuleManager {
 			rehearse.excecute();
 			return "Nice practice. You're getting better!";
 		}
-		return "You can't rehearse if you don't have a role silly!";
+		return "You can't rehearse right now.";
 	}
 	
 	public String tryTakeRole(String roleName) {
@@ -240,7 +236,7 @@ public class RuleManager {
 		
 		if (upgrade.isValid()) {
 			upgrade.excecute();
-			return activePlayer + " upgraded to rank " + rank;
+			return activePlayer.getName() + " upgraded to rank " + rank;
 		}
 		return "That upgrade isn't going to work out buddy.";
 	}
@@ -281,7 +277,7 @@ public class RuleManager {
 		return "\nThis Scene is wrapped.\n" + payoutDetails;
 	}
 	
-	public String payout(Set set) { //TODO test payout, find a way to print information about payments
+	public String payout(Set set) {
 		
 		ArrayList<Player> playersOnSet = board.getPlayersByArea(set);
 		String state = "";

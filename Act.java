@@ -6,7 +6,7 @@ public class Act implements Action {
 	private BoardModel board;
 	private int diceRoll = 0;
 	private boolean actingSuccess = false;
-	int[] payment = {0,0}; // first index is credits, second index is dollars.
+	private int[] payment = {0,0}; // first index is credits, second index is dollars.
 
 	
 	public Act(Player player, BoardModel board) {
