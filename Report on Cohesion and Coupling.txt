@@ -1,7 +1,0 @@
-Report specifying use of cohesion and coupling:
-Cohesion:
-    We made strong efforts to use functional cohesion, e.g. ParseGamePiecesXML, Player, Move, Set. This was preferred for purposes of clarity and clean interactions of classes. I believe that the RuleManager Class ended up growing as we wrote, and by the end it is likely only Logically Cohesive. I believe the same occurred with BoardModel.
-Coupling:
-    RuleManager and Controller are coupled via data coupling. This is necessary as Controller parses the input text from the user, then calls the appropriate functions with the appropriate functions in RuleManager. ParseGamePiecesXML and BoardModel are externally coupled, as PGPXML reads in data from a file and creates the board pieces that BoardModel relies on. Set and BoardModel are message coupled so that BoardModel can coordinate scene resets at the end of a day. We used message coupling as opposed to data coupling with getters and setters when at all possible in attempts to isolate class specific logic where possible.
-
-This does not detail all instances, but rather is intended to give a broad overview of our intentions, reasons, and the actual results.

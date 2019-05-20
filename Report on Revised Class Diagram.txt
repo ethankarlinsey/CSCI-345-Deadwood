@@ -1,4 +1,0 @@
-Our class diagram remained mostly the same. We added a significant number of methods, clearly, but the overall structure had been conceptually successful for us. It made sense for us to use an action interface for actions so we had standardized behaviors, it made sense for us to have an abstract Area class to standardize information about locations, and so on.
-
-We did consolidate the view into the controller, I believe because with a text-based implementation, the view was not significantly abstracted from the data Controller already worked with. It did become necessary for BoardModel to know about players- otherwise there was no way to get a collection of players by area.
-
