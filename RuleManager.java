@@ -224,6 +224,18 @@ public class RuleManager {
 		}
 		return "Invalid area or player name";
 	}
+	
+	public String cheatSetInactive() {
+		String message = "All areas except Main Street and Hotel set to inactive?";
+		
+		board.getAreas().stream()
+						.filter(a -> a instanceof Set)
+						.map(a -> (Set) a)
+						.filter(s -> !(s.getName().equals("Main Street") || s.getName().equals("Hotel")))
+						.forEach(s -> s.setInactive());
+		
+		return message;
+	}
 
 	public String tryRehearse() {
 		Rehearse rehearse = new Rehearse(activePlayer);

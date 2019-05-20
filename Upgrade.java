@@ -27,12 +27,12 @@ public class Upgrade implements Action {
 		if (newRank <= currentRank) return false;
 		
 		//Check if the player has enough currency (credit or dollar)
-		if (currency == "dollar") {
+		if (currency == "dollars") {
 			int dollarCount = player.getDollarCount();
 			if (dollarCount >= dollarCosts[newRank]) return true;
 			else return false;
 		}
-		else if (currency == "credit") {
+		else if (currency == "credits") {
 			int creditCount = player.getCreditCount();
 			if (creditCount >= creditCosts[newRank]) return true;
 			else return false;

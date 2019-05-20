@@ -185,6 +185,9 @@ public class Controller {
 		case "endgame":
 			end(reader);
 			break;
+		case "setInactive":
+			cheatSetInactive();
+			break;
 		default:
 			System.out.println(defaultErrorString);
 			break;
@@ -197,6 +200,10 @@ public class Controller {
 		String areaName = reader.nextLine().trim();
 		
 		System.out.println(manager.cheatMove(playerName, areaName));
+	}
+	
+	private static void cheatSetInactive() {
+		System.out.println(manager.cheatSetInactive());
 	}
 	
 	private static void help() {
