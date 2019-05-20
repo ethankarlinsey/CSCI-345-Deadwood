@@ -102,8 +102,15 @@ public class Controller {
 		while (manager.scenesLeft()) { // while there are scenes left in the day, keep doing turns
 			turnUpdate(reader);
 		}
-		
-		manager.newDay(); // start a new day whenever we run out of scenes		
+
+		manager.newDay(); // start a new day whenever we only have one scene left
+		System.out.println("Start of a new day!\n" +
+						"Everyone is returned to their trailers, all unfinished scenes are cancelled, and 10 fabulous new scenes await you!");
+		if(manager.daysLeft()){
+			System.out.println("Please note that this is not the final day: you will have at least one more day after this to show your stuff on set!");
+		} else {
+			System.out.println("Please note that this IS the final day. Time to make it count!");
+		}
 	}
 	
 	/*
