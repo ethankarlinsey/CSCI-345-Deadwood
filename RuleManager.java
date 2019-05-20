@@ -155,8 +155,9 @@ public class RuleManager {
 	
 	public void newDay() {
 		currentDay++;
-		board.nextDayReset(); //anything else not handled by the BoardModel?
-		
+		if(daysLeft()) {
+			board.nextDayReset(); //anything else not handled by the BoardModel?
+		}
 		// daysleft and scenesleft called by controller
 	}
 	
