@@ -1,4 +1,7 @@
+COMPLETED:
 Add in commas between neighbor locations
+
+NOT COMPLETED:
 Differentiate roll and rehearsal points when printing acting info
 don't let people abandon their artistic dreams aka move when they're on a role
 Make sure that the actions .isValid()'s check the same requirements that rule manager does/ the game rules ought to enforce. :)
