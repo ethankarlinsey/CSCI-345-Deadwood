@@ -122,6 +122,7 @@ class Set extends Area {
     }
     
     public void setInactiveOverride() {
+    	shotsRemaining = 0;
 		freeSRoles.clear();
 		card.setInactive();
 		card = null;
