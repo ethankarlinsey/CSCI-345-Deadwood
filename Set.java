@@ -120,6 +120,13 @@ class Set extends Area {
     		this.setCardInvisible();
     	}
     }
+    
+    public void setInactiveOverride() {
+		freeSRoles.clear();
+		card.setInactive();
+		card = null;
+		this.setCardInvisible();
+    }
 
     public void resetRoles(){
         this.freeSRoles = new ArrayList<>(this.setRoles);

@@ -214,28 +214,6 @@ public class RuleManager {
 		}
 		return "Bruh. you can't move there";
 	}
-	
-	public String cheatMove(String playerName, String areaName) {
-		Area area = board.getAreaByName(areaName);
-		Optional<Player> optPlayer = players.stream().filter(p -> p.getName().equalsIgnoreCase(playerName)).findAny();
-		if(area != null && optPlayer.isPresent()) {
-			optPlayer.get().setArea(area);
-			return "Successfully entered the matrix!!! (cheat code worked)";
-		}
-		return "Invalid area or player name";
-	}
-	
-	public String cheatSetInactive() {
-		String message = "All areas except Main Street and Hotel set to inactive?";
-		
-		board.getAreas().stream()
-						.filter(a -> a instanceof Set)
-						.map(a -> (Set) a)
-						.filter(s -> !(s.getName().equals("Main Street") || s.getName().equals("Hotel")))
-						.forEach(s -> s.setInactive());
-		
-		return message;
-	}
 
 	public String tryRehearse() {
 		Rehearse rehearse = new Rehearse(activePlayer);
@@ -267,6 +245,28 @@ public class RuleManager {
 		return "That upgrade isn't going to work out buddy.";
 	}
 
+	public String cheatMove(String playerName, String areaName) {
+		Area area = board.getAreaByName(areaName);
+		Optional<Player> optPlayer = players.stream().filter(p -> p.getName().equalsIgnoreCase(playerName)).findAny();
+		if(area != null && optPlayer.isPresent()) {
+			optPlayer.get().setArea(area);
+			return "Successfully entered the matrix!!! (cheat code worked)";
+		}
+		return "Invalid area or player name";
+	}
+	
+	public String cheatSetInactive() {
+		String message = "All areas except Main Street and Hotel set to inactive?";
+		
+		board.getAreas().stream()
+						.filter(a -> a instanceof Set)
+						.map(a -> (Set) a)
+						.filter(s -> !(s.getName().equals("Main Street") || s.getName().equals("Hotel")))
+						.forEach(s -> s.setInactiveOverride());
+		
+		return message;
+	}
+	
 	//The controller calls newDay, so no need to worry about counting scenes
 	public String wrapScene(Set set) {//pays the players when a scene wraps. Also resets their roles and rehearsals
 		String payoutDetails = payout(set);

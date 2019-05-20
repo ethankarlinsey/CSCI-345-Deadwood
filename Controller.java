@@ -185,7 +185,7 @@ public class Controller {
 		case "endgame":
 			end(reader);
 			break;
-		case "setInactive":
+		case "setinactive":
 			cheatSetInactive();
 			break;
 		default:
