@@ -13,7 +13,7 @@ class CastingOffice extends Area {
     public String getStateString() {
     	String state = "";
 		state += "Neighbors:";
-		for (String s : this.adjacentAreas) state += " " + s;
+		for (String s : this.adjacentAreas) state += " - " + s;
 		state += "\n";
 		
 		state += "Pay dollars OR credits to upgrade\n"
