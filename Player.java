@@ -36,6 +36,10 @@ public class Player {
 	
 	public int getRehearsalCount() {return rehearsalCount;}
 	
+	public int getScore() {
+		return (rank * 5) + dollarCount + creditCount;
+	}
+	
 	public Area getArea() {return area;}
 	public void setArea(Area area) {this.area = area;}
 	

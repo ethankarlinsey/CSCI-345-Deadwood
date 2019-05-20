@@ -140,6 +140,7 @@ public class Controller {
 		
 		switch (firstWord) { // Parse the first argument of the command and try to execute the corresponding action
 		case "exit":
+			reader.close();
 			System.exit(0);
 			break;
 		case "end":
@@ -173,6 +174,9 @@ public class Controller {
 			break;
 		case "newday":
 			manager.newDay();
+			break;
+		case "endgame":
+			end(reader);
 			break;
 		default:
 			System.out.println(defaultErrorString);
@@ -239,7 +243,6 @@ public class Controller {
 		try {
 			if (reader.next().toLowerCase().equals("to")){
 				String areaName = reader.nextLine().trim();
-				System.out.println(areaName);
 				String message = manager.tryMove(areaName);
 				System.out.println(message);
 				return;
@@ -307,7 +310,7 @@ public class Controller {
 	
 	// displays the number of days left, maybe number of scenes left in the day and who is in the lead?
 	private static void displayGameState() {
-		
+		System.out.println(manager.getGameStateString());
 	}
 
 	// displays the area info including occupants and neighbors
@@ -331,7 +334,10 @@ public class Controller {
 	
 	public static void end(Scanner reader) {
 		//TODO: display the game ending
+		System.out.println(manager.getEndStateString());
+		reader.nextLine();
 		reader.close();
+		System.exit(0);
 	}
 	
 	public static void main(String[] args) {

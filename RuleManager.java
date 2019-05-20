@@ -119,6 +119,27 @@ public class RuleManager {
 		return state;
 	}
 	
+	// displays the number of days and scenes left.
+	public String getGameStateString() {
+		String state = "Game state:\n";
+		
+		state += "The current day is " 
+				+ String.valueOf(currentDay) 
+				+ " out of " 
+				+ String.valueOf(lastDay) 
+				+ "\n";
+		
+		state += "There are " 
+				+ board.getSceneCount() 
+				+ " scenes left\n";
+		
+		for (Player p : players) {
+			state += p.getName() + " has " + String.valueOf(p.getScore()) + " points\n";
+		}
+		
+		return state;
+	}
+	
 	public String getPlayerStateString(String playerName) {
 		String state = "";
 
@@ -313,12 +334,30 @@ public class RuleManager {
 		activePlayer = players.get(playerTurnIndex);
 	}
 	
-	public void endGame() {
+	public String getEndStateString() {
+		String state = "The game is over! Let's see how you did:\n";
 		
+		for (Player p : players) {
+			state += p.getName() 
+					+ " scored " 
+					+ String.valueOf(p.getScore()) 
+					+ " points.\n";
+		}
+		
+		state += getWinner().getName() + " is the winner!";
+		
+		return state;
 	}
 	
-	public void declareWinner() {
-		
+	private Player getWinner() {
+		Player leadPlayer = null;
+		for (Player p: players) {
+			if (leadPlayer == null) leadPlayer = p;
+			else {
+				if (p.getScore() > leadPlayer.getScore()) leadPlayer = p; // does not check for ties
+			}
+		}
+		return leadPlayer;
 	}
 
 	private void setGameParameters(){
