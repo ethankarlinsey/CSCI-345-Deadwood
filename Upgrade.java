@@ -13,7 +13,7 @@ public class Upgrade implements Action {
 		this.player = player;
 		this.newRank = newRank;
 		
-		// currency is a string of value "dollar" or "credit" that denotes which payment to use
+		// currency is a string of value "dollars" or "credits" that denotes which payment to use
 		this.currency = currency;
 	}
 
@@ -21,18 +21,21 @@ public class Upgrade implements Action {
 	public boolean isValid() {
 		
 		// NOTE: This assumes the player is already in the Casting Office. TODO: check if player is in casting office
+		if(!this.player.getArea().getName().equals("Casting Office")){
+			return false;
+		}
 		
 		//player cannot 'downgrade' her rank
 		int currentRank = player.getRank();
 		if (newRank <= currentRank) return false;
 		
 		//Check if the player has enough currency (credit or dollar)
-		if (currency == "dollar") {
+		if (currency.equals("dollars")) {
 			int dollarCount = player.getDollarCount();
 			if (dollarCount >= dollarCosts[newRank]) return true;
 			else return false;
 		}
-		else if (currency == "credit") {
+		else if (currency.equals("credits")) {
 			int creditCount = player.getCreditCount();
 			if (creditCount >= creditCosts[newRank]) return true;
 			else return false;
@@ -43,11 +46,11 @@ public class Upgrade implements Action {
 	@Override
 	public void excecute() {
 		player.addAction(this);
-		if (currency == "dollar") {
+		if (currency.equals("dollars")) {
 			player.removeDollars(dollarCosts[newRank]); // deduct dollars
 			player.upgradeRank(newRank);				// upgrade player rank
 		}
-		else if (currency == "credit") {
+		else if (currency.equals("credits")) {
 			player.removeCredits(creditCosts[newRank]);	// deduct credits
 			player.upgradeRank(newRank);				// upgrade player rank
 		}

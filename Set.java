@@ -61,8 +61,9 @@ class Set extends Area {
                     + this.card.getBudget() + "\n";
         }
         if(this.card != null) {
+            state += "Off-card roles:\n";
             for (Role r : this.setRoles) {
-                state += "Off-card roles:\n";
+                state += r.getStateString();
                 state += "\n\tStatus: ";
                 if (this.freeSRoles.contains(r)) {
                     state += "free\n";
