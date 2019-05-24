@@ -31,5 +31,10 @@ public class View {
 	public void setUpBoard() {
 		
 	}
+	
+	public static void main(String[] args) {
+		
+
+	}
 
 }

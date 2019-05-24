@@ -22,7 +22,6 @@ class Set extends Area {
         this.shotsRemaining = cardShots;
     }
 
-
     public Set(String title, ArrayList<Role> roles, int cardShots, String[] adjacents){
         this.name = title;
         this.setRoles = roles;
