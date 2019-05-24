@@ -169,10 +169,6 @@ public class RuleManager {
 		return board.getSceneCount() > 1;
 	}
 	
-	public boolean excecuteAction(Action action) {
-		return true;
-	}
-	
 	public Player getActivePlayer() {
 		return activePlayer;
 	}
