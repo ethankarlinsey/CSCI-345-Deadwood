@@ -9,9 +9,12 @@ public class Rehearse implements Action {
 
 	@Override
 	public boolean isValid() {
-		// NOTE: Assuming rehearse is one of the action choices, it is always valid.
 		if (player.getRole() != null) {
-			return (((Set) player.getArea()).getCard().getBudget() > player.getRehearsalCount() + 1); //Player can't rehearse if success is guaranteed
+			boolean guaranteedSuccess = (((Set) player.getArea()).getCard().getBudget() > player.getRehearsalCount() + 1); //Player can't rehearse if success is guaranteed
+			boolean gotRoleThisTurn = player.hasPerformedAction(TakeRole.class); // Player can't rehearse if they just got the role
+			boolean alreadyActed = player.hasPerformedAction(Act.class); // Player can't rehearse if they've already acted this turn
+			boolean alreadyRehearsed = player.hasPerformedAction(Rehearse.class); // Player can't rehearse if they've already rehearsed this turn
+			return guaranteedSuccess && !gotRoleThisTurn && !alreadyActed && !alreadyRehearsed;
 		}
 		return false;
 	}

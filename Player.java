@@ -95,7 +95,7 @@ public class Player {
 				"\n\t" + "Credits: " + this.creditCount +
 				"\n\t" + "Dollars: " + this.dollarCount;
 		if(this.role != null){
-			state += "\n\t" + this.role.getStateString();
+			state += "\n" + this.role.getStateString();
 			state += "\n\tRehearsal Count: " + this.rehearsalCount;
 		}
 		state += "\n\tArea: " + this.area.getName();

@@ -45,7 +45,7 @@ public class Controller {
 	/*
 	 * Prompts for layout and tells manager to initialize the board
 	 * Prompts for playercount and player names then tells manager to initialize players
-	 * Tells manager to start the game TODO: implement RuleManager.StartGame()
+	 * Tells manager to start the game
 	 */
 	public static void start(Scanner reader) {
 		
@@ -347,7 +347,6 @@ public class Controller {
 	}
 	
 	public static void end(Scanner reader) {
-		//TODO: display the game ending
 		System.out.println(manager.getEndStateString());
 		reader.nextLine();
 		reader.close();

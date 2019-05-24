@@ -172,7 +172,11 @@ public class ParseGamePiecesXML{
         for (int i=0; i < neighbors.getLength(); i++){
             Node temp = neighbors.item(i);
             if(temp.getNodeName().equals("neighbor")) {
-                adjacents.add(temp.getAttributes().getNamedItem("name").getNodeValue());
+                if(temp.getAttributes().getNamedItem("name").getNodeValue().equals("office")){
+                    adjacents.add("Casting Office");
+                } else {
+                    adjacents.add(temp.getAttributes().getNamedItem("name").getNodeValue());
+                }
             }
         }
 

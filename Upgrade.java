@@ -20,7 +20,7 @@ public class Upgrade implements Action {
 	@Override
 	public boolean isValid() {
 		
-		// NOTE: This assumes the player is already in the Casting Office. TODO: check if player is in casting office
+
 		if(!this.player.getArea().getName().equals("Casting Office")){
 			return false;
 		}
