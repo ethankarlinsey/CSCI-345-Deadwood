@@ -17,10 +17,13 @@ import javax.swing.SwingConstants;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.HashMap;
 
 public class MainWindow {
 
 	private JFrame frmDeadwood;
+	
+	private HashMap<String, int[]> areaBounds = new HashMap<String, int[]>();
 
 	/**
 	 * Launch the application.
@@ -76,182 +79,89 @@ public class MainWindow {
 	public void buildAreas(JLayeredPane panelBoard) {
 		
 		//Initialize train station
-		JLayeredPane panelTrainStation = new JLayeredPane();
-		panelTrainStation.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				JOptionPane.showMessageDialog(null, "Clicked on Train Station"); // TODO: add listener functionality
-			}
-		});
-		panelTrainStation.setBorder(new LineBorder(new Color(244, 164, 96), 3));
-		panelTrainStation.setBounds(0, 0, 225, 450);
-		panelBoard.add(panelTrainStation);
-		panelTrainStation.setLayout(null);
-
-		buildVerticalPane(panelTrainStation);
+		areaBounds.put("Train Station", new int[] {0, 0, 225, 450});
+		buildAreaPanel(panelBoard, "Train Station");
 
 		//Initialize Jail
-		JLayeredPane panelJail = new JLayeredPane();
-		panelJail.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				JOptionPane.showMessageDialog(null, "Clicked on Jail"); // TODO: add listener functionality
-			}
-		});
-		panelJail.setBorder(new LineBorder(new Color(244, 164, 96), 3));
-		panelJail.setBounds(225, 0, 450, 225);
-		panelBoard.add(panelJail);
-		
-		buildHorizontalPane(panelJail);
+		areaBounds.put("Jail", new int[] {225, 0, 450, 225});
+		buildAreaPanel(panelBoard, "Jail");
 		
 		//Initialize General Store
-		JLayeredPane panelGeneralStore = new JLayeredPane();
-		panelGeneralStore.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				JOptionPane.showMessageDialog(null, "Clicked on General Store"); // TODO: add listener functionality
-			}
-		});
-		panelGeneralStore.setBorder(new LineBorder(new Color(244, 164, 96), 3));
-		panelGeneralStore.setBounds(225, 225, 450, 225);
-		panelBoard.add(panelGeneralStore);
-		
-		buildHorizontalPane(panelGeneralStore);
+		areaBounds.put("General Store", new int[] {225, 225, 450, 225});
+		buildAreaPanel(panelBoard, "General Store");
 		
 		//Initialize Main Street
-		JLayeredPane panelMainStreet = new JLayeredPane();
-		panelMainStreet.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				JOptionPane.showMessageDialog(null, "Clicked on Main Street"); // TODO: add listener functionality
-			}
-		});
-		panelMainStreet.setBorder(new LineBorder(new Color(244, 164, 96), 3));
-		panelMainStreet.setBounds(675, 0, 675, 225);
-		panelBoard.add(panelMainStreet);
-		
-		buildLongPane(panelMainStreet);
+		areaBounds.put("Main Street", new int[] {675, 0, 675, 225});
+		buildAreaPanel(panelBoard, "Main Street");
 		
 		//Initialize Saloon
-		JLayeredPane panelSaloon = new JLayeredPane();
-		panelSaloon.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				JOptionPane.showMessageDialog(null, "Clicked on Saloon"); // TODO: add listener functionality
-			}
-		});
-		panelSaloon.setBorder(new LineBorder(new Color(244, 164, 96), 3));
-		panelSaloon.setBounds(675, 225, 450, 225);
-		panelBoard.add(panelSaloon);
-		
-		buildHorizontalPane(panelSaloon);
+		areaBounds.put("Saloon", new int[] {675, 225, 450, 225});
+		buildAreaPanel(panelBoard, "Saloon");
 		
 		//Initialize Hotel
-		JLayeredPane panelHotel = new JLayeredPane();
-		panelHotel.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				JOptionPane.showMessageDialog(null, "Clicked on Hotel"); // TODO: add listener functionality
-			}
-		});
-		panelHotel.setBorder(new LineBorder(new Color(244, 164, 96), 3));
-		panelHotel.setBounds(1125, 450, 225, 450);
-		panelBoard.add(panelHotel);
-		
-		buildVerticalPane(panelHotel);
+		areaBounds.put("Hotel", new int[] {1125, 450, 225, 450});
+		buildAreaPanel(panelBoard, "Hotel");
 		
 		//Initialize Bank
-		JLayeredPane panelBank = new JLayeredPane();
-		panelBank.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				JOptionPane.showMessageDialog(null, "Clicked on Bank"); // TODO: add listener functionality
-			}
-		});
-		panelBank.setBorder(new LineBorder(new Color(244, 164, 96), 3));
-		panelBank.setBounds(675, 450, 450, 225);
-		panelBoard.add(panelBank);
-		
-		buildHorizontalPane(panelBank);
+		areaBounds.put("Bank", new int[] {675, 450, 450, 225});
+		buildAreaPanel(panelBoard, "Bank");
 		
 		//Initialize Church
-		JLayeredPane panelChurch = new JLayeredPane();
-		panelChurch.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				JOptionPane.showMessageDialog(null, "Clicked on Church"); // TODO: add listener functionality
-			}
-		});
-		panelChurch.setBorder(new LineBorder(new Color(244, 164, 96), 3));
-		panelChurch.setBounds(675, 675, 450, 225);
-		panelBoard.add(panelChurch);
-		
-		buildHorizontalPane(panelChurch);
+		areaBounds.put("Church", new int[] {675, 675, 450, 225});
+		buildAreaPanel(panelBoard, "Church");
 		
 		//Initialize Ranch
-		JLayeredPane panelRanch = new JLayeredPane();
-		panelRanch.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				JOptionPane.showMessageDialog(null, "Clicked on Ranch"); // TODO: add listener functionality
-			}
-		});
-		panelRanch.setBorder(new LineBorder(new Color(244, 164, 96), 3));
-		panelRanch.setBounds(225, 450, 450, 225);
-		panelBoard.add(panelRanch);
-		
-		buildHorizontalPane(panelRanch);
+		areaBounds.put("Ranch", new int[] {225, 450, 450, 225});
+		buildAreaPanel(panelBoard, "Ranch");
 		
 		//Initialize Secret Hideout
-		JLayeredPane panelSecretHideout = new JLayeredPane();
-		panelSecretHideout.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				JOptionPane.showMessageDialog(null, "Clicked on Secret Hideout"); // TODO: add listener functionality
-			}
-		});
-		panelSecretHideout.setBorder(new LineBorder(new Color(244, 164, 96), 3));
-		panelSecretHideout.setBounds(0, 675, 675, 225);
-		panelBoard.add(panelSecretHideout);
-		
-		buildLongPane(panelSecretHideout);
+		areaBounds.put("Secret Hideout", new int[] {0, 675, 675, 225});
+		buildAreaPanel(panelBoard, "Secret Hideout");
 		
 		
 		//Initialize non-set areas
 		
 		//Initialize Casting Office
-		JLayeredPane panelCastingOffice = new JLayeredPane();
-		panelCastingOffice.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				JOptionPane.showMessageDialog(null, "Clicked on Casting Office"); // TODO: add listener functionality
-			}
-		});
-		panelCastingOffice.setBorder(new LineBorder(new Color(244, 164, 96), 3));
-		panelCastingOffice.setBounds(0, 450, 225, 225);
-		panelBoard.add(panelCastingOffice);
+		areaBounds.put("Casting Office", new int[] {0, 450, 225, 225});
+		buildAreaPanel(panelBoard, "Casting Office");
 		
 		//Initialize Trailers
-		JLayeredPane panelTrailers = new JLayeredPane();
-		panelTrailers.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				JOptionPane.showMessageDialog(null, "Clicked on Trailers"); // TODO: add listener functionality
-			}
-		});
-		panelTrailers.setBorder(new LineBorder(new Color(244, 164, 96), 3));
-		panelTrailers.setBounds(1125, 225, 225, 225);
-		panelBoard.add(panelTrailers);
+		areaBounds.put("Trailers", new int[] {1125, 225, 225, 225});
+		buildAreaPanel(panelBoard, "Trailers");
 		
 		//TODO: add trailer builder?
 		
 	}
 	
+	public void buildAreaPanel(JLayeredPane basePanel, String areaName) {
+		int[] bounds = areaBounds.get(areaName);
+		JLayeredPane areaPanel = new JLayeredPane();
+		areaPanel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JOptionPane.showMessageDialog(null, "Clicked on " + areaName); // TODO: add listener functionality
+			}
+		});
+		areaPanel.setBorder(new LineBorder(new Color(244, 164, 96), 3));
+		areaPanel.setBounds(bounds[0], bounds[1], bounds[2], bounds[3]);
+		basePanel.add(areaPanel);
+		
+		//Determine construction from the length and width
+		if (bounds[2] == 225 && bounds[3] == 450) buildVerticalPane(areaPanel, areaName);
+		else if (bounds[2] == 450 && bounds[3] == 225) buildHorizontalPane(areaPanel, areaName);
+		else if (bounds[2] == 675 && bounds[3] == 225) buildLongPane(areaPanel, areaName);
+		else buildNonSetAreas(areaPanel);
+	}
+	
+	public void buildNonSetAreas(JLayeredPane pane) {
+		
+	}
+	
 	//TODO: integrate pane builders with the controller and boardModel
-	public void buildVerticalPane(JLayeredPane pane) {
+	public void buildVerticalPane(JLayeredPane pane, String areaName) {
 		
 		//Panel Labels
-		JLabel labelTitle = new JLabel("Title:");
+		JLabel labelTitle = new JLabel(areaName);
 		labelTitle.setLabelFor(pane);
 		labelTitle.setFont(new Font("Tahoma", Font.BOLD, 13));
 		labelTitle.setBounds(12, 233, 200, 16);
@@ -305,10 +215,10 @@ public class MainWindow {
 		
 	}
 	
-	public void buildHorizontalPane(JLayeredPane pane) {
+	public void buildHorizontalPane(JLayeredPane pane, String areaName) {
 		
 		//begin building subcomponents
-		JLabel labelTitle = new JLabel("Title:");
+		JLabel labelTitle = new JLabel(areaName);
 		labelTitle.setBounds(238, 13, 200, 16);
 		pane.add(labelTitle);
 		labelTitle.setFont(new Font("Tahoma", Font.BOLD, 13));
@@ -352,10 +262,11 @@ public class MainWindow {
 		
 	}
 	
-	public void buildLongPane(JLayeredPane pane) {
-		buildHorizontalPane(pane);
+	public void buildLongPane(JLayeredPane pane, String areaName) {
+		buildHorizontalPane(pane, areaName);
 	}
 	
+	//TODO: add roleName as arg
 	public void buildRolePanel(JPanel panel) {
 		
 		panel.setLayout(null);
