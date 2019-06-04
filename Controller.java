@@ -8,6 +8,7 @@ public class Controller {
 
 	//private static View view;
 	private static RuleManager manager;
+	private static MainWindow view;
 
 	private static HashMap<Class, String> actionTypeToString = new HashMap<Class, String>();
 
@@ -91,6 +92,11 @@ public class Controller {
 		// Initialize the board
 		System.out.println("What board layout will you use? (default)");
 		manager.initializeBoard(reader.next()); //TODO implement layout validity check
+		
+		//INITIALIZE WINDOW
+		view = new MainWindow(); //TODO: make Controller non-static or remove references in the mainWindow
+		view.buildAreas(buildAreaViews());
+		
 		
 		//Prompt game start
 		System.out.println("Let the acting begin!");
@@ -351,6 +357,54 @@ public class Controller {
 		reader.nextLine();
 		reader.close();
 		System.exit(0);
+	}
+	
+	
+	// View builder methods
+	public static ArrayList<AreaView> buildAreaViews() {
+		ArrayList<Area> modelAreas = manager.getAreas();
+		ArrayList<AreaView> viewAreas = new ArrayList<AreaView>();
+		
+		for (Area a: modelAreas) {
+			viewAreas.add(buildAreaView(a));
+		}
+		
+		return viewAreas;
+	}
+	
+	public static ArrayList<RoleView> buildRoleViews(Set modelSet) {
+		ArrayList<Role> modelRoles = modelSet.getRoles();
+		ArrayList<RoleView> viewRoles = new ArrayList<RoleView>();
+		
+		for (Role r: modelRoles) {
+			viewRoles.add(buildRoleView(r));
+		}
+		
+		return viewRoles;
+	}
+	
+	public static AreaView buildAreaView(Area modelArea) {
+		AreaView viewArea = new AreaView(modelArea.getName());
+		viewArea.setCard(new CardView()); // TODO: add a way to set cards to area view.
+		viewArea.setPlayers(null);
+		
+		if (modelArea instanceof Set) {
+			viewArea.setShotsLeft(((Set) modelArea).getShotsRemaining());
+			viewArea.setRoles(buildRoleViews((Set) modelArea));
+		}
+		
+		return viewArea;
+	}
+	
+	public static RoleView buildRoleView(Role modelRole) {
+		RoleView viewRole = new RoleView(modelRole.getName()); 
+		viewRole.setLine(modelRole.getLine());
+		viewRole.setPlayer(null);
+		viewRole.setRank(modelRole.getRank());
+		
+		System.out.println(modelRole.getName() + "\n" + viewRole.getName());
+		
+		return viewRole;
 	}
 	
 	public static void main(String[] args) {

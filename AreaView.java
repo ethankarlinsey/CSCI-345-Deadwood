@@ -2,6 +2,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -12,26 +13,44 @@ import javax.swing.border.LineBorder;
 
 public class AreaView {
 
-	String areaName;
-	private JLayeredPane areaPane;
-	private JLabel labelTitle;
-	private JLabel labelOccupiedBy;
-	private JPanel panelCard;
-	private JPanel[] panelRoles;
+	private int shotsLeft;
+	private JLayeredPane areaPane = new JLayeredPane();
+	private JLabel labelTitle = new JLabel();
+	private JLabel labelShots = new JLabel();
+	private JLabel labelOccupiedBy = new JLabel();
+	private CardView card;
+	private ArrayList<RoleView> roles = new ArrayList<RoleView>();
+	ArrayList<String> players = new ArrayList<String>();
+	
+	
+	private int[][] verticalRoleBounds = {
+			{12, 309, 95, 58},
+			{117, 308, 95, 58},
+			{12, 379, 95, 58},
+			{117, 379, 95, 58}
+			};
+	private int[][] horizontalRoleBounds = {
+			{236, 84, 95, 58},
+			{343, 84, 95, 58},
+			{236, 155, 95, 58},
+			{343, 155, 95, 58}
+			};
+	private int[][] roleBounds;
 	
 	public JLayeredPane getPane() {
 		return areaPane;
 	}
 	
-	public AreaView(String areaName, int[] bounds) {
+	public AreaView(String areaName) {
+		this.setAreaName(areaName);
+	}
+	
+	public void buildAreaView(int[] bounds) {
 		
-		this.areaName = areaName;
-		
-		areaPane = new JLayeredPane();
 		areaPane.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				JOptionPane.showMessageDialog(null, "Clicked on " + areaName); // TODO: add listener functionality
+				JOptionPane.showMessageDialog(null, "Clicked on " + labelTitle.getText()); // TODO: add listener functionality
 			}
 		});
 		areaPane.setBorder(new LineBorder(new Color(244, 164, 96), 3));
@@ -52,74 +71,43 @@ public class AreaView {
 	//TODO: integrate pane builders with the controller and boardModel
 	public void buildVerticalPane(JLayeredPane pane) {
 		
+		roleBounds = verticalRoleBounds;
+		
 		//Panel Labels
-		JLabel labelTitle = new JLabel(areaName);
 		labelTitle.setLabelFor(pane);
 		labelTitle.setFont(new Font("Tahoma", Font.BOLD, 13));
 		labelTitle.setBounds(12, 233, 200, 16);
 		pane.add(labelTitle);
 		
-		JLabel labelShots = new JLabel("Shots left: ");
 		labelShots.setLabelFor(pane);
 		labelShots.setBounds(12, 262, 200, 16);
 		pane.add(labelShots);
 		
-		JLabel labelOccupiedBy = new JLabel("Occupied by:");
 		labelOccupiedBy.setLabelFor(pane);
 		labelOccupiedBy.setBounds(12, 280, 200, 16);
 		pane.add(labelOccupiedBy);
 		
-		//Panel Card TODO: add buildCard() method
+		//Panel Card TODO: add buildCard() method, using CardView
 		JPanel panelCard = new JPanel();
 		panelCard.setBounds(12, 13, 200, 200);
 		pane.add(panelCard);
 		panelCard.setBackground(new Color(139, 69, 19));
 		
-		
-		//Build the 1st role
-		JPanel panelRole1 = new JPanel();
-		panelRole1.setBounds(12, 309, 95, 58);	// NOTE: location setting is kept outside the buildRolePanel() method.
-		pane.add(panelRole1);
-		
-		buildRolePanel(panelRole1);
-		
-		//Build the 2nd role
-		JPanel panelRole2 = new JPanel();
-		panelRole2.setBounds(117, 308, 95, 58);
-		pane.add(panelRole2);
-		
-		buildRolePanel(panelRole2);
-		
-		
-		//Build the 3rd role (if necessary)
-		JPanel panelRole3 = new JPanel();
-		panelRole3.setBounds(12, 379, 95, 58);
-		pane.add(panelRole3);
-		
-		buildRolePanel(panelRole3);
-		
-		//Build the 4th role (if necessary)
-		JPanel panelRole4 = new JPanel();
-		panelRole4.setBounds(117, 379, 95, 58);
-		pane.add(panelRole4);
-		
-		buildRolePanel(panelRole4);
-		
+		buildRoles();
 	}
 	
 	public void buildHorizontalPane(JLayeredPane pane) {
 		
+		roleBounds = horizontalRoleBounds;
+		
 		//begin building subcomponents
-		JLabel labelTitle = new JLabel(areaName);
 		labelTitle.setBounds(238, 13, 200, 16);
 		pane.add(labelTitle);
 		labelTitle.setFont(new Font("Tahoma", Font.BOLD, 13));
 		
-		JLabel labelShots = new JLabel("Shots left: ");
 		labelShots.setBounds(238, 42, 200, 16);
 		pane.add(labelShots);
 		
-		JLabel labelOccupiedBy = new JLabel("Occupied by:");
 		labelOccupiedBy.setBounds(238, 56, 200, 16);
 		pane.add(labelOccupiedBy);
 		
@@ -128,74 +116,84 @@ public class AreaView {
 		card.setBounds(12, 13, 200, 200);
 		pane.add(card);
 		
-		JPanel panelRole1 = new JPanel();
-		panelRole1.setBounds(236, 84, 95, 58);
-		pane.add(panelRole1);
-		
-		buildRolePanel(panelRole1);
-		
-		JPanel panelRole2 = new JPanel();
-		panelRole2.setBounds(343, 84, 95, 58);
-		pane.add(panelRole2);
-		
-		buildRolePanel(panelRole2);
-		
-		JPanel panelRole3 = new JPanel();
-		panelRole3.setBounds(236, 155, 95, 58);
-		pane.add(panelRole3);
-		
-		buildRolePanel(panelRole3);
-		
-		JPanel panelRole4 = new JPanel();
-		panelRole4.setBounds(343, 155, 95, 58);
-		pane.add(panelRole4);
-		
-		buildRolePanel(panelRole4);
-		
+		buildRoles();
 	}
 	
 	public void buildLongPane(JLayeredPane pane) {
 		buildHorizontalPane(pane);
 	}
 	
-	//TODO: add roleName as arg
-	public void buildRolePanel(JPanel panel) {
-		
-		panel.setLayout(null);
-		
-		panel.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				//TODO: add funcionality to add roles
-				
-				JOptionPane.showMessageDialog(null, "Clicked on the role");
-			}
-		});
-		
-		JLabel labelName = new JLabel("RoleName");
-		labelName.setLabelFor(panel);
-		labelName.setHorizontalAlignment(SwingConstants.CENTER);
-		labelName.setBounds(0, 0, 95, 16);
-		panel.add(labelName);
-		
-		JLabel labelRank = new JLabel("Rank:");
-		labelRank.setLabelFor(panel);
-		labelRank.setHorizontalAlignment(SwingConstants.CENTER);
-		labelRank.setBounds(0, 29, 95, 16);
-		panel.add(labelRank);
-		
-		JLabel labelLine = new JLabel("Line");
-		labelLine.setLabelFor(panel);
-		labelLine.setHorizontalAlignment(SwingConstants.CENTER);
-		labelLine.setBounds(0, 13, 95, 16);
-		panel.add(labelLine);
-		
-		JLabel labelActor = new JLabel("Actor:");
-		labelActor.setLabelFor(panel);
-		labelActor.setHorizontalAlignment(SwingConstants.CENTER);
-		labelActor.setBounds(5, 42, 85, 16);
-		panel.add(labelActor);
-		
+	public void buildRoles() {
+		for (int i = 0; i < roles.size(); i++) {
+			roles.get(i).buildRoleView(roleBounds[i]);
+		}
+	}
+	
+
+	public String getAreaName() {
+		return labelTitle.getText();
 	}
 
+	public void setAreaName(String areaName) {
+		this.labelTitle.setText(areaName);
+	}
+
+	public CardView getCard() {
+		return card;
+	}
+
+	public void setCard(CardView card) {
+		this.card = card;
+	}
+
+	public ArrayList<RoleView> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(ArrayList<RoleView> roles) {
+		this.roles = roles;
+		for (RoleView r: roles) {
+			areaPane.add(r.getPanel());
+		}
+	}
+	public void addRole(RoleView role) {
+		this.roles.add(role);
+		areaPane.add(role.getPanel());
+	}
+	public RoleView getRole(String roleName) {
+		return null; //TODO: implement this
+	}
+
+	public ArrayList<String> getPlayers() {
+		return players;
+	}
+
+	public void setPlayers(ArrayList<String> players) {
+		this.players = players;
+		
+		if (players == null) {
+			this.labelOccupiedBy.setText("Occupied by: empty");
+			return;
+		}
+		
+		String occupancy = "Occupied by:";
+		for (String p : this.players) {
+			occupancy += " " + p;
+		}
+		
+		this.labelOccupiedBy.setText(occupancy);
+	}
+
+	public JLayeredPane getAreaPane() {
+		return areaPane;
+	}
+	public int getShotsLeft() {
+		return shotsLeft;
+	}
+
+	public void setShotsLeft(int shotsLeft) {
+		this.shotsLeft = shotsLeft;
+		this.labelShots.setText("Shots left: " + String.valueOf(this.shotsLeft));
+	}
+	
 }

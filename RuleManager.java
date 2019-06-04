@@ -387,4 +387,8 @@ public class RuleManager {
 		}
 
 	}
+
+	public ArrayList<Area> getAreas() {
+		return board.getAreas();
+	}
 }
