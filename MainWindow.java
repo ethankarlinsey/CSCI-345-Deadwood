@@ -19,12 +19,19 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
+import javax.swing.JSpinner;
+import javax.swing.JTree;
+import java.awt.Choice;
+import javax.swing.JComboBox;
+import javax.swing.JTextPane;
 
 public class MainWindow {
 
 	private JFrame frmDeadwood;
 	//private Controller controller;
 	private JLayeredPane boardView;
+	private JLayeredPane menuBar;
+	private JLayeredPane playerInfoPane, generalInfoPane, controlPane;
 	
 	private HashMap<String, int[]> areaBounds = new HashMap<String, int[]>();
 
@@ -93,9 +100,63 @@ public class MainWindow {
 		frmDeadwood.getContentPane().add(boardView);
 		
 		//-------------------------------Initialize the menu area-------------------------------------------
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setBounds(1350, 0, 270, 900);
-		frmDeadwood.getContentPane().add(tabbedPane);
+		menuBar = new JLayeredPane();
+		menuBar.setBorder(new LineBorder( new Color(0, 0, 0), 2));
+		menuBar.setBounds(1350, 0, 264, 900);
+		frmDeadwood.getContentPane().add(menuBar);
+		
+		
+		
+		playerInfoPane = new JLayeredPane();
+		playerInfoPane.setBorder(new LineBorder(new Color(244, 164, 96), 3));
+		playerInfoPane.setBounds(0, 0, 264, 225);
+		menuBar.add(playerInfoPane);
+		
+		JComboBox comboBox = new JComboBox();
+		comboBox.setBounds(12, 13, 240, 22);
+		playerInfoPane.add(comboBox);
+		
+		JTextPane txtpnPlayerInfo = new JTextPane();
+		txtpnPlayerInfo.setEditable(false);
+		txtpnPlayerInfo.setText("Player info");
+		txtpnPlayerInfo.setBounds(12, 48, 240, 164);
+		playerInfoPane.add(txtpnPlayerInfo);
+		
+		generalInfoPane = new JLayeredPane();
+		generalInfoPane.setBorder(new LineBorder(new Color(244, 164, 96), 3));
+		generalInfoPane.setBounds(0, 225, 264, 474);
+		menuBar.add(generalInfoPane);
+		
+		JTextPane txtpnGeneralInfo = new JTextPane();
+		txtpnGeneralInfo.setEditable(false);
+		txtpnGeneralInfo.setText("General Info");
+		txtpnGeneralInfo.setBounds(12, 13, 240, 448);
+		generalInfoPane.add(txtpnGeneralInfo);
+		
+		controlPane = new JLayeredPane();
+		controlPane.setBorder(new LineBorder(new Color(244, 164, 96), 3));
+		controlPane.setBounds(0, 698, 264, 202);
+		menuBar.add(controlPane);
+		
+		JButton btnMove = new JButton("Move");
+		btnMove.setBounds(12, 13, 240, 25);
+		controlPane.add(btnMove);
+		
+		JButton btnTakeRole = new JButton("Take Role");
+		btnTakeRole.setBounds(12, 51, 240, 25);
+		controlPane.add(btnTakeRole);
+		
+		JButton btnAct = new JButton("Act");
+		btnAct.setBounds(12, 89, 240, 25);
+		controlPane.add(btnAct);
+		
+		JButton btnRehearse = new JButton("Rehearse");
+		btnRehearse.setBounds(12, 127, 240, 25);
+		controlPane.add(btnRehearse);
+		
+		JButton btnUpgrade = new JButton("Upgrade");
+		btnUpgrade.setBounds(12, 165, 240, 25);
+		controlPane.add(btnUpgrade);
 	}
 	
 	public void buildAreas(ArrayList<AreaView> areas) { // called by Controller
@@ -106,5 +167,4 @@ public class MainWindow {
 			boardView.add(area.getAreaPane());
 		}
 	}
-
 }
