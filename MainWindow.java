@@ -24,6 +24,8 @@ import javax.swing.JTree;
 import java.awt.Choice;
 import javax.swing.JComboBox;
 import javax.swing.JTextPane;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 public class MainWindow {
 
@@ -32,6 +34,8 @@ public class MainWindow {
 	private JLayeredPane boardView;
 	private JLayeredPane menuBar;
 	private JLayeredPane playerInfoPane, generalInfoPane, controlPane;
+	private JComboBox comboBox;
+	private ArrayList<AreaView> areas;
 	
 	private HashMap<String, int[]> areaBounds = new HashMap<String, int[]>();
 
@@ -112,7 +116,12 @@ public class MainWindow {
 		playerInfoPane.setBounds(0, 0, 264, 225);
 		menuBar.add(playerInfoPane);
 		
-		JComboBox comboBox = new JComboBox();
+		comboBox = new JComboBox();
+		comboBox.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent arg0) {
+				updatePlayerInfo(String.valueOf(comboBox.getSelectedItem()));
+			}
+		});
 		comboBox.setBounds(12, 13, 240, 22);
 		playerInfoPane.add(comboBox);
 		
@@ -139,32 +148,117 @@ public class MainWindow {
 		menuBar.add(controlPane);
 		
 		JButton btnMove = new JButton("Move");
+		btnMove.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				moveClicked();
+			}
+		});
 		btnMove.setBounds(12, 13, 240, 25);
 		controlPane.add(btnMove);
 		
 		JButton btnTakeRole = new JButton("Take Role");
+		btnTakeRole.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				takeRoleClicked();
+			}
+		});
 		btnTakeRole.setBounds(12, 51, 240, 25);
 		controlPane.add(btnTakeRole);
 		
 		JButton btnAct = new JButton("Act");
+		btnAct.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				actClicked();
+			}
+		});
 		btnAct.setBounds(12, 89, 240, 25);
 		controlPane.add(btnAct);
 		
 		JButton btnRehearse = new JButton("Rehearse");
+		btnRehearse.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				rehearseClicked();
+			}
+		});
 		btnRehearse.setBounds(12, 127, 240, 25);
 		controlPane.add(btnRehearse);
 		
 		JButton btnUpgrade = new JButton("Upgrade");
+		btnUpgrade.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				upgradeClicked();
+			}
+		});
 		btnUpgrade.setBounds(12, 165, 240, 25);
 		controlPane.add(btnUpgrade);
 	}
 	
 	public void buildAreas(ArrayList<AreaView> areas) { // called by Controller
+		
+		this.areas = areas;
 
-		for (AreaView area: areas) {
+		for (AreaView area: this.areas) {
 			System.out.println(area.getAreaName());
 			area.buildAreaView(areaBounds.get(area.getAreaName()));
 			boardView.add(area.getAreaPane());
 		}
 	}
+	
+	private void moveClicked() {
+		
+	}
+	
+	private void takeRoleClicked() {
+		
+	}
+	
+	private void actClicked() {
+		
+	}
+	
+	private void rehearseClicked() {
+		
+	}
+	
+	private void upgradeClicked() {
+		
+	}
+	
+	public void updateButtons() {
+		
+	}
+	
+	public void updatePlayerInfo(String name) {
+		comboBox.setSelectedItem(name);
+		
+	}
+	
+	public void updateGeneralInfo(String message) {
+		
+	}
+	
+	public void movePlayer(String playerName, String oldArea, String newArea) {
+		removePlayerFromArea(playerName, oldArea);
+		addPlayerToArea(playerName, newArea);
+	}
+	private void addPlayerToArea(String playerName, String areaName) {
+		
+	}
+	private void removePlayerFromArea(String playerName, String areaName) {
+		
+	}
+	
+	public void addToRole(String playerName, String areaName, String roleName) {
+		
+	}
+	
+	public void removeFromRole(String playerName, String areaName, String roleName) {
+		
+	}
+	
 }
