@@ -279,6 +279,11 @@ public class Controller {
 		}
 	}
 	
+	public static void tryMove(String areaName) {
+		String message = manager.tryMove(areaName);
+		System.out.println(message);
+	}
+	
 	private static void tryRehearse(Scanner reader) { // verifies command syntax and prompts manager to try the action
 		if (reader.nextLine().trim().length() > 0) {
 			System.out.println("Error rehearsing - too many arguments");
@@ -326,26 +331,30 @@ public class Controller {
 		System.out.println("Error upgrading, but not enough to throw an error... try getting your words right");
 	}
 	
-	private static void displayBoardState() {
+	public static void displayBoardState() {
 		System.out.println("\nBoard state:\n");
 		System.out.println(manager.getBoardStateAsString());
 	}
 	
 	// displays the number of days left, maybe number of scenes left in the day and who is in the lead?
-	private static void displayGameState() {
+	public static void displayGameState() {
 		System.out.println(manager.getGameStateString());
 	}
 
 	// displays the area info including occupants and neighbors
 	// if set, display roles (open or taken by ___) budget info shot info, and card role info.
-	private static void displayAreaState(String areaName) {
+	public static void displayAreaState(String areaName) {
 		System.out.println("\n" + areaName + " state: \n");
 		System.out.println(manager.getAreaStateString(areaName));
 	}
 	
-	private static void displayPlayerState(String playerName) {
+	public static void displayPlayerState(String playerName) {
 		System.out.println("\n" + playerName + " state: \n");
 		System.out.println(manager.getPlayerStateString(playerName));
+	}
+	
+	public static void displayRoleState(String roleName) {
+		System.out.println("Role statae " + roleName);
 	}
 	
 	private static void displayValidActions(ArrayList<Class> actions) {
