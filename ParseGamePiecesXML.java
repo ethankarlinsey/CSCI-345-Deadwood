@@ -59,7 +59,7 @@ public class ParseGamePiecesXML{
             //reads data
 
             NodeList children = card.getChildNodes();
-            String sceneDescription = children.item(0).getTextContent();
+            String sceneDescription = children.item(1).getTextContent().trim();
             ArrayList<Role> roles = new ArrayList<>();
 
             for (int j=1; j< children.getLength(); j++){

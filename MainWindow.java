@@ -1,19 +1,11 @@
 import java.awt.EventQueue;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 import java.awt.GridLayout;
-import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JLayeredPane;
-import javax.swing.JOptionPane;
-import javax.swing.ImageIcon;
 import javax.swing.border.LineBorder;
-import javax.swing.JTabbedPane;
-import javax.swing.SwingConstants;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -21,11 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Optional;
 
-import javax.swing.JSpinner;
-import javax.swing.JTree;
 import java.awt.Choice;
-import javax.swing.JComboBox;
-import javax.swing.JTextPane;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
 
@@ -234,6 +222,15 @@ public class MainWindow {
 		btnCancel.setBounds(12, 241, 240, 25);
 		controlPane.add(btnCancel);
 		buttons.put("Cancel", btnCancel);
+	}
+
+	public int getNumPlayers(){
+		Integer[] possiblePlayerNum = {2, 3, 4, 5, 6, 7, 8};
+		return (Integer) JOptionPane.showInputDialog(null, "Please choose number of players:", "Input", JOptionPane.INFORMATION_MESSAGE, null, possiblePlayerNum, possiblePlayerNum[0]);
+	}
+
+	public String getPlayerName(int playerNum){ // called by Controller
+		return JOptionPane.showInputDialog("Please enter a name for player number " + playerNum + ":");
 	}
 	
 	public void buildAreas(ArrayList<AreaView> areas) { // called by Controller

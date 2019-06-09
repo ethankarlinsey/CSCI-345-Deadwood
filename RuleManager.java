@@ -37,7 +37,7 @@ public class RuleManager {
 		names.stream().forEach(name -> players.add(new Player(name)));
 	}
 	
-	public boolean initializeBoard(String layout) {
+	public boolean initializeBoard() {
 		board = new BoardModel();
 		board.setPlayers(players);
 		return true;
