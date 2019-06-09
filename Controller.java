@@ -1,5 +1,6 @@
 import java.util.HashMap;
 import java.util.InputMismatchException;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -30,7 +31,7 @@ public class Controller {
 	};
 	
 	
-	public static Scanner initialize() {//initializes maps and Scanner
+	public static void initialize() {//initializes maps and Scanner
 
 		actionTypeToString = new HashMap<>();
 		//initialize the actionTypeToString map
@@ -39,8 +40,6 @@ public class Controller {
 		actionTypeToString.put(Rehearse.class, "Rehearse");
 		actionTypeToString.put(TakeRole.class, "Take Role");
 		actionTypeToString.put(Upgrade.class, "Upgrade");
-
-		return new Scanner(System.in);
 	}
 	
 	/*
@@ -48,7 +47,8 @@ public class Controller {
 	 * Prompts for playercount and player names then tells manager to initialize players
 	 * Tells manager to start the game
 	 */
-	public static void start(Scanner reader) {
+
+	public static void start() {
 		
 		// Begin initializing the game
 		manager = new RuleManager();
@@ -103,101 +103,19 @@ public class Controller {
 		view.setPlayers(names);
 	}
 
-	public static void dayUpdate(Scanner reader) {
+	private static void dayUpdate() {
+		if (!manager.daysLeft()) end();
+		manager.newDay();
+		//view.newDay();
+		//TODO: start a new day in the view
 		
-		while (manager.scenesLeft()) { // while there are scenes left in the day, keep doing turns
-			turnUpdate(reader);
-		}
-
-		manager.newDay(); // start a new day whenever we only have one scene left
-		System.out.println("Start of a new day!\n" +
-						"Everyone is returned to their trailers, all unfinished scenes are cancelled, and 10 fabulous new scenes await you!");
-		if(manager.daysLeft()){
-			System.out.println("Please note that this is not the final day: you will have at least one more day after this to show your stuff on set!");
-		} else {
-			System.out.println("Please note that this IS the final day. Time to make it count!");
-		}
 	}
 	
-	/*
-	 * Handles turn-by-turn operations
-	 */
-	private static void turnUpdate(Scanner reader) {
-		
-
-		// Display the updated board before each turn
-		displayBoardState();
-		
-		boolean continueTurn = true;
-		while (continueTurn) {
-			continueTurn = actionUpdate(reader);
-		} // continue prompting player for actions until she decides to end her turn
-		
-		manager.setNextPlayerActive(); // move to the next player at the end of each turn
-	}
-	
-	private static boolean actionUpdate(Scanner reader) {
-
-		// clear the reader
-		System.out.println("Press enter to continue.");
-		reader.nextLine();
-		
-		// Display valid actions, which always includes ending the turn
-		ArrayList<Class> actions = manager.getValidActions();	
-		displayValidActions(actions);
-		
-		// Prompt user for command and split the input into words
-		System.out.println("What would you like to do?");
-		String firstWord = reader.next().toLowerCase(); // set commands to lowercase
-		
-		switch (firstWord) { // Parse the first argument of the command and try to execute the corresponding action
-		case "exit":
-			reader.close();
-			System.exit(0);
-			break;
-		case "end":
-			return tryEndTurn(reader);
-		case "view":
-			tryView(reader);
-			break;
-		case "help":
-			help();
-			break;
-		case "act":
-			tryAct(reader);
-			break;
-		case "move":
-			tryMove(reader);
-			break;
-		case "rehearse":
-			tryRehearse(reader);
-			break;
-		case "take":
-			tryTakeRole(reader);
-			break;
-		case "upgrade":
-			tryUpgrade(reader);
-			break;
-			
-			// ------------------ Cheat codes for debugging are below this line --------------------------
-			
-		case "sendto":	// cheat code sends active player to specified area
-			cheatMove(reader);
-			break;
-		case "newday":
-			manager.newDay();
-			break;
-		case "endgame":
-			end(reader);
-			break;
-		case "setinactive":
-			cheatSetInactive();
-			break;
-		default:
-			System.out.println(defaultErrorString);
-			break;
-		}
-		return true;
+	// Called when the player ends their turn.
+	private static void turnUpdate() {
+		manager.setNextPlayerActive();
+		//TODO: reflect this in the view
+		if (!manager.scenesLeft()) dayUpdate();
 	}
 	
 	private static void cheatMove(Scanner reader) { // cheat format: sendto [playername] [areaname]
@@ -362,11 +280,8 @@ public class Controller {
 		System.out.println("End turn");
 	}
 	
-	public static void end(Scanner reader) {
+	public static void end() {
 		System.out.println(manager.getEndStateString());
-		reader.nextLine();
-		reader.close();
-		System.exit(0);
 	}
 	
 	
@@ -491,16 +406,9 @@ public class Controller {
 	
 	public static void main(String[] args) {
 		
-		Scanner reader = initialize();
+		initialize();
 		
-		start(reader);
-		
-		// cycle through days as long as there are days left
-		while (manager.daysLeft()) {
-			dayUpdate(reader);
-		}
-		
-		end(reader);
+		start();
 	}
 
 }
