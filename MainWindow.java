@@ -289,8 +289,10 @@ public class MainWindow {
 	public void areaClicked(String areaName) {
 		switch (selectionState) {
 		case normalState:
+			Controller.displayAreaState(areaName);
 			break;
 		case moveState:
+			Controller.tryMove(areaName);
 			break;
 		case roleState:
 			break;
