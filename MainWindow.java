@@ -25,6 +25,7 @@ public class MainWindow {
 	private JLayeredPane menuBar;
 	private JLayeredPane playerInfoPane, generalInfoPane, controlPane;
 	private JComboBox comboBox;
+	private JTextPane txtpnPlayerInfo, txtpnGeneralInfo;
 	private ArrayList<AreaView> areas;
 	private ArrayList<CardView> cards;
 	private HashMap<String, JButton> buttons = new HashMap<String, JButton>();
@@ -35,7 +36,6 @@ public class MainWindow {
 	private final int normalState = 0;
 	private final int moveState = 1;
 	private final int roleState = 2;
-	private JPanel testCard_1;
 
 	/**
 	 * Launch the application.
@@ -124,7 +124,7 @@ public class MainWindow {
 		comboBox.setBounds(12, 13, 240, 22);
 		playerInfoPane.add(comboBox);
 		
-		JTextPane txtpnPlayerInfo = new JTextPane();
+		txtpnPlayerInfo = new JTextPane();
 		txtpnPlayerInfo.setEditable(false);
 		txtpnPlayerInfo.setText("Player info");
 		txtpnPlayerInfo.setBounds(12, 48, 240, 164);
@@ -135,7 +135,7 @@ public class MainWindow {
 		generalInfoPane.setBounds(0, 225, 264, 396);
 		menuBar.add(generalInfoPane);
 		
-		JTextPane txtpnGeneralInfo = new JTextPane();
+		txtpnGeneralInfo = new JTextPane();
 		txtpnGeneralInfo.setEditable(false);
 		txtpnGeneralInfo.setText("General Info");
 		txtpnGeneralInfo.setBounds(12, 13, 240, 370);
@@ -313,6 +313,10 @@ public class MainWindow {
 		}
 	}
 	
+	public void cardClicked(String cardTitle) {
+		// TODO: display card info when clicked
+	}
+	
 	// Called by Controller
 	public void updateEnabledButtons(ArrayList<String> validActions) {
 		// TODO: update which buttons are enabled based on the general validity check in ruleManager
@@ -336,7 +340,8 @@ public class MainWindow {
 	
 	public void updatePlayerInfo(String name) {
 		comboBox.setSelectedItem(name);
-		//TODO: get playerInfoMessage and display it in the text box.
+		String message = Controller.displayPlayerState(name);
+		txtpnPlayerInfo.setText(message);
 	}
 	
 	public void updateGeneralInfo(String message) {
