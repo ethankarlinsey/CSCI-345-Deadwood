@@ -259,10 +259,15 @@ public class MainWindow {
 	
 	private void moveClicked() {
 		// TODO: set selectionState to moveState and disable all buttons except cancel.
+		this.selectionState = this.moveState;
+		this.disableButtons();
+
 	}
 	
 	private void takeRoleClicked() {
 		// TODO: set selectionState to roleState and disable all buttons except cancel.
+		this.selectionState = this.roleState;
+		this.disableButtons();
 	}
 	
 	private void actClicked() {
@@ -314,10 +319,15 @@ public class MainWindow {
 	// Called by Controller
 	public void updateEnabledButtons(ArrayList<String> validActions) {
 		// TODO: update which buttons are enabled based on the general validity check in ruleManager
+		for(String action : buttons.keySet()){
+			if(validActions.contains(action)){
+				buttons.get(action).setEnabled(true);
+			}
+		}
 	}
 	
 	private void askForEnabledButtons() {
-		// TODO: call a getValidActions method in Controller.
+		Controller.updateViewValidActions();
 	}
 	
 	public void disableButtons() {
@@ -340,6 +350,7 @@ public class MainWindow {
 		removePlayerFromArea(playerName, oldArea);
 		addPlayerToArea(playerName, newArea);
 	}
+
 	private void addPlayerToArea(String playerName, String areaName) {
 		Optional<AreaView> area = areas.stream().filter(a -> a.getAreaName().equals(areaName)).findFirst();
 		if (area.isPresent()) {
