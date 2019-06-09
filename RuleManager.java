@@ -198,17 +198,17 @@ public class RuleManager {
 		return "";
 	}
 	
-	public String tryMove(String areaName) {
+	public boolean tryMove(String areaName) {
 		Area area = board.getAreaByName(areaName);
 		if(area != null) {
 			Move move = new Move(activePlayer, board, area);
 
 			if (move.isValid()) {
 				move.excecute();
-				return activePlayer.getName() + " moved to " + areaName;
+				return true;
 			}
 		}
-		return "Bruh. you can't move there";
+		return false;
 	}
 
 	public String tryRehearse() {

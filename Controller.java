@@ -94,12 +94,12 @@ public class Controller {
 		view = new MainWindow();
 		view.buildAreas(buildAreaViews());
 		view.buildCards(buildCardViews());
-		view.setPlayers(names);
-		
+
 		//Prompt game start
 		System.out.println("Let the acting begin!");
 		manager.startGame();
-		
+		view.setPlayers(names);
+
 		updateAreaCards();
 	}
 
@@ -167,7 +167,7 @@ public class Controller {
 			tryAct(reader);
 			break;
 		case "move":
-			tryMove(reader);
+//			tryMove(reader);
 			break;
 		case "rehearse":
 			tryRehearse(reader);
@@ -258,26 +258,29 @@ public class Controller {
 		}
 	}
 	
-	private static void tryMove(Scanner reader) { // verifies command syntax and prompts manager to try the action
-		try {
-			if (reader.next().toLowerCase().equals("to")){
-				String areaName = reader.nextLine().trim();
-				String message = manager.tryMove(areaName);
-				System.out.println(message);
-				return;
-			}
-		}
-		catch (Exception e) {
-			System.out.println("Error moving");
-			System.out.println(e.getMessage());
-			e.printStackTrace(System.out);
-			System.out.println(defaultErrorString);
-		}
-	}
+//	private static void tryMove(Scanner reader) { // verifies command syntax and prompts manager to try the action
+//		try {
+//			if (reader.next().toLowerCase().equals("to")){
+//				String areaName = reader.nextLine().trim();
+//				String message = manager.tryMove(areaName);
+//				System.out.println(message);
+//				return;
+//			}
+//		}
+//		catch (Exception e) {
+//			System.out.println("Error moving");
+//			System.out.println(e.getMessage());
+//			e.printStackTrace(System.out);
+//			System.out.println(defaultErrorString);
+//		}
+//	}
 	
 	public static void tryMove(String areaName) {
-		String message = manager.tryMove(areaName);
-		System.out.println(message);
+		String oldAreaName = manager.getActivePlayer().getArea().getName();
+		boolean moveSuccessful = manager.tryMove(areaName);
+		if(moveSuccessful){
+			view.movePlayer(manager.getActivePlayer().getName(), oldAreaName, manager.getActivePlayer().getArea().getName());
+		}
 	}
 	
 	private static void tryRehearse(Scanner reader) { // verifies command syntax and prompts manager to try the action
@@ -417,8 +420,7 @@ public class Controller {
 	
 	public static AreaView buildAreaView(Area modelArea) {
 		AreaView viewArea = new AreaView(modelArea.getName(), view);
-		viewArea.setPlayers(null);
-		
+
 		if (modelArea instanceof Set) {
 			viewArea.setShotsLeft(((Set) modelArea).getShotsRemaining());
 			viewArea.setRoles(buildRoleViews((Set) modelArea));
@@ -441,7 +443,7 @@ public class Controller {
 	public static CardView buildCardView(Card modelCard) {
 		CardView viewCard = new CardView(modelCard.getTitle(), view);
 		viewCard.setBudget(modelCard.getBudget());
-		viewCard.setDesctription(modelCard.getDescription());
+		viewCard.setDescription(modelCard.getDescription());
 		System.out.println("CARD DESCRIPTION------ " + modelCard.getDescription());
 		viewCard.setRoles(buildRoleViews(modelCard));
 		

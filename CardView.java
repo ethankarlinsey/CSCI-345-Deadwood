@@ -82,11 +82,11 @@ public class CardView {
 		this.lblTitle.setText(title);
 	}
 
-	public String getDesctription() {
+	public String getDescription() {
 		return lblDescription.getText();
 	}
 
-	public void setDesctription(String description) {
+	public void setDescription(String description) {
 		this.lblDescription.setText(description);
 	}
 

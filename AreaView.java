@@ -168,6 +168,9 @@ public class AreaView {
 		if (players == null) {
 			this.labelOccupiedBy.setText("Occupied by: empty");
 			return;
+		} else if(players.size() == 0){
+			this.labelOccupiedBy.setText("Occupied by: empty");
+			return;
 		}
 		
 		String occupancy = "Occupied by:";
@@ -185,8 +188,8 @@ public class AreaView {
 	}
 	
 	public void removePlayer(String name) {
-		if (players.remove(name)) System.out.println("sucessfully removed " + name);
-		else System.out.println("could not remove " + name + " probably because is doesn't exist");
+		if (players.remove(name)) System.out.println("successfully removed " + name);
+		else System.out.println("could not remove " + name + " probably because they don't exist");
 		setPlayers(players);
 	}
 
