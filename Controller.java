@@ -140,7 +140,6 @@ public class Controller {
 	}
 	
 	private static boolean actionUpdate(Scanner reader) {
-		
 
 		// clear the reader
 		System.out.println("Press enter to continue.");
@@ -438,6 +437,31 @@ public class Controller {
 		viewCard.setRoles(buildRoleViews(modelCard));
 		
 		return viewCard;
+	}
+
+	public static void updateViewValidActions() {
+		String temp;
+		ArrayList<Class> actions = manager.getValidActions();
+		ArrayList<String> validActionNames = new ArrayList<>();
+
+		for(Class c : actions){
+			temp = c.getName();
+			if(temp.equals("Act")){
+				validActionNames.add("Act");
+			} else if(temp.equals("Move")){
+				validActionNames.add("Move");
+			} else if(temp.equals("Rehearse")){
+				validActionNames.add("Rehearse");
+			} else if(temp.equals("TakeRole")){
+				validActionNames.add("Take Role");
+			} else if(temp.equals("Upgrade")){
+				validActionNames.add("Upgrade");
+			}
+		}
+
+		validActionNames.add("End Turn");
+
+		view.updateEnabledButtons(validActionNames);
 	}
 	
 	public static void updateAreaCards() {
