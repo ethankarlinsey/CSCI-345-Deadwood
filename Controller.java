@@ -1,5 +1,6 @@
 import java.util.HashMap;
 import java.util.InputMismatchException;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -30,7 +31,7 @@ public class Controller {
 	};
 	
 	
-	public static Scanner initialize() {//initializes maps and Scanner
+	public static void initialize() {//initializes maps and Scanner
 
 		actionTypeToString = new HashMap<>();
 		//initialize the actionTypeToString map
@@ -39,8 +40,6 @@ public class Controller {
 		actionTypeToString.put(Rehearse.class, "Rehearse");
 		actionTypeToString.put(TakeRole.class, "Take Role");
 		actionTypeToString.put(Upgrade.class, "Upgrade");
-
-		return new Scanner(System.in);
 	}
 	
 	/*
@@ -48,7 +47,8 @@ public class Controller {
 	 * Prompts for playercount and player names then tells manager to initialize players
 	 * Tells manager to start the game
 	 */
-	public static void start(Scanner reader) {
+
+	public static void start() {
 		
 		// Begin initializing the game
 		manager = new RuleManager();
@@ -103,20 +103,12 @@ public class Controller {
 		view.setPlayers(names);
 	}
 
-	public static void dayUpdate(Scanner reader) {
+	private static void dayUpdate() {
+		if (!manager.daysLeft()) end();
+		manager.newDay();
+		//view.newDay();
+		//TODO: start a new day in the view
 		
-		while (manager.scenesLeft()) { // while there are scenes left in the day, keep doing turns
-			turnUpdate(reader);
-		}
-
-		manager.newDay(); // start a new day whenever we only have one scene left
-		System.out.println("Start of a new day!\n" +
-						"Everyone is returned to their trailers, all unfinished scenes are cancelled, and 10 fabulous new scenes await you!");
-		if(manager.daysLeft()){
-			System.out.println("Please note that this is not the final day: you will have at least one more day after this to show your stuff on set!");
-		} else {
-			System.out.println("Please note that this IS the final day. Time to make it count!");
-		}
 	}
 	
 	/*
@@ -365,11 +357,8 @@ public class Controller {
 		System.out.println("End turn");
 	}
 	
-	public static void end(Scanner reader) {
+	public static void end() {
 		System.out.println(manager.getEndStateString());
-		reader.nextLine();
-		reader.close();
-		System.exit(0);
 	}
 	
 	
@@ -493,16 +482,9 @@ public class Controller {
 	
 	public static void main(String[] args) {
 		
-		Scanner reader = initialize();
+		initialize();
 		
-		start(reader);
-		
-		// cycle through days as long as there are days left
-		while (manager.daysLeft()) {
-			dayUpdate(reader);
-		}
-		
-		end(reader);
+		start();
 	}
 
 }

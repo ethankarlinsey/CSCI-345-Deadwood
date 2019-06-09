@@ -146,6 +146,11 @@ public class RuleManager {
 		if(board.hasPlayer(playerName)){
 			Player player = board.getPlayer(playerName);
 			state = player.getStateString();
+			if (player == activePlayer) 
+				state += "\n\n It is " + playerName + "'s turn.";
+			else 
+				state += "\n\n It is not " + playerName + "'s turn.";
+			
 		} else {
 			state = "Player " + playerName + " does not exist. Please pick another action.";
 		}
