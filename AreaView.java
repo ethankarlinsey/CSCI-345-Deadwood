@@ -22,6 +22,7 @@ public class AreaView {
 	private ArrayList<RoleView> roles = new ArrayList<RoleView>();
 	ArrayList<String> players = new ArrayList<String>();
 	
+	private MainWindow view;
 	
 	private int[][] verticalRoleBounds = {
 			{12, 309, 95, 58},
@@ -41,7 +42,8 @@ public class AreaView {
 		return areaPane;
 	}
 	
-	public AreaView(String areaName) {
+	public AreaView(String areaName, MainWindow view) {
+		this.view = view;
 		this.setAreaName(areaName);
 	}
 	
@@ -50,7 +52,7 @@ public class AreaView {
 		areaPane.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				JOptionPane.showMessageDialog(null, "Clicked on " + labelTitle.getText()); // TODO: add listener functionality
+				view.areaClicked(getAreaName());
 			}
 		});
 		areaPane.setBorder(new LineBorder(new Color(244, 164, 96), 3));

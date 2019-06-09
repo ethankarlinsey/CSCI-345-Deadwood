@@ -38,8 +38,14 @@ public class MainWindow {
 	private JLayeredPane playerInfoPane, generalInfoPane, controlPane;
 	private JComboBox comboBox;
 	private ArrayList<AreaView> areas;
+	private HashMap<String, JButton> buttons = new HashMap<String, JButton>();
 	
 	private HashMap<String, int[]> areaBounds = new HashMap<String, int[]>();
+	
+	private int selectionState;
+	private final int normalState = 0;
+	private final int moveState = 1;
+	private final int roleState = 2;
 
 	/**
 	 * Launch the application.
@@ -61,7 +67,6 @@ public class MainWindow {
 	 * Create the application.
 	 */
 	public MainWindow() {
-		//this.controller = controller;
 		initialize();
 		try {
 			frmDeadwood.setVisible(true);
@@ -74,6 +79,9 @@ public class MainWindow {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		
+		// Set the selection state
+		selectionState = normalState;
 		
 		// Initialize bounds of the areas
 		areaBounds.put("Train Station", new int[] {0, 0, 225, 450});
@@ -135,18 +143,18 @@ public class MainWindow {
 		
 		generalInfoPane = new JLayeredPane();
 		generalInfoPane.setBorder(new LineBorder(new Color(244, 164, 96), 3));
-		generalInfoPane.setBounds(0, 225, 264, 474);
+		generalInfoPane.setBounds(0, 225, 264, 396);
 		menuBar.add(generalInfoPane);
 		
 		JTextPane txtpnGeneralInfo = new JTextPane();
 		txtpnGeneralInfo.setEditable(false);
 		txtpnGeneralInfo.setText("General Info");
-		txtpnGeneralInfo.setBounds(12, 13, 240, 448);
+		txtpnGeneralInfo.setBounds(12, 13, 240, 370);
 		generalInfoPane.add(txtpnGeneralInfo);
 		
 		controlPane = new JLayeredPane();
 		controlPane.setBorder(new LineBorder(new Color(244, 164, 96), 3));
-		controlPane.setBounds(0, 698, 264, 202);
+		controlPane.setBounds(0, 621, 264, 279);
 		menuBar.add(controlPane);
 		
 		JButton btnMove = new JButton("Move");
@@ -158,6 +166,7 @@ public class MainWindow {
 		});
 		btnMove.setBounds(12, 13, 240, 25);
 		controlPane.add(btnMove);
+		buttons.put("Move", btnMove);
 		
 		JButton btnTakeRole = new JButton("Take Role");
 		btnTakeRole.addMouseListener(new MouseAdapter() {
@@ -168,6 +177,7 @@ public class MainWindow {
 		});
 		btnTakeRole.setBounds(12, 51, 240, 25);
 		controlPane.add(btnTakeRole);
+		buttons.put("Take Role", btnTakeRole);
 		
 		JButton btnAct = new JButton("Act");
 		btnAct.addMouseListener(new MouseAdapter() {
@@ -178,6 +188,7 @@ public class MainWindow {
 		});
 		btnAct.setBounds(12, 89, 240, 25);
 		controlPane.add(btnAct);
+		buttons.put("Act", btnAct);
 		
 		JButton btnRehearse = new JButton("Rehearse");
 		btnRehearse.addMouseListener(new MouseAdapter() {
@@ -188,6 +199,7 @@ public class MainWindow {
 		});
 		btnRehearse.setBounds(12, 127, 240, 25);
 		controlPane.add(btnRehearse);
+		buttons.put("Rehearse", btnRehearse);
 		
 		JButton btnUpgrade = new JButton("Upgrade");
 		btnUpgrade.addMouseListener(new MouseAdapter() {
@@ -198,6 +210,29 @@ public class MainWindow {
 		});
 		btnUpgrade.setBounds(12, 165, 240, 25);
 		controlPane.add(btnUpgrade);
+		buttons.put("Upgrade", btnUpgrade);
+		
+		JButton btnEndTurn = new JButton("End Turn");
+		btnEndTurn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				endTurnClicked();
+			}
+		});
+		btnEndTurn.setBounds(12, 203, 240, 25);
+		controlPane.add(btnEndTurn);
+		buttons.put("End Turn", btnEndTurn);
+		
+		JButton btnCancel = new JButton("Cancel");
+		btnCancel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				cancelClicked();
+			}
+		});
+		btnCancel.setBounds(12, 241, 240, 25);
+		controlPane.add(btnCancel);
+		buttons.put("Cancel", btnCancel);
 	}
 	
 	public void buildAreas(ArrayList<AreaView> areas) { // called by Controller
@@ -212,11 +247,11 @@ public class MainWindow {
 	}
 	
 	private void moveClicked() {
-		
+		// TODO: set selectionState to moveState and disable all buttons except cancel.
 	}
 	
 	private void takeRoleClicked() {
-		
+		// TODO: set selectionState to roleState and disable all buttons except cancel.
 	}
 	
 	private void actClicked() {
@@ -231,13 +266,57 @@ public class MainWindow {
 		
 	}
 	
-	public void updateButtons() {
+	private void endTurnClicked() {
 		
+	}
+	
+	private void cancelClicked() {
+		// TODO: enable appropriate buttons and set selectionState to normal.
+		selectionState = normalState;
+		askForEnabledButtons();
+	}
+	
+	public void areaClicked(String areaName) {
+		switch (selectionState) {
+		case normalState:
+			break;
+		case moveState:
+			break;
+		case roleState:
+			break;
+		}
+	}
+	
+	public void roleClicked(String roleName) {
+		switch (selectionState) {
+		case normalState:
+			break;
+		case moveState:
+			break;
+		case roleState:
+			break;
+		}
+	}
+	
+	// Called by Controller
+	public void updateEnabledButtons(ArrayList<String> validActions) {
+		// TODO: update which buttons are enabled based on the general validity check in ruleManager
+	}
+	
+	private void askForEnabledButtons() {
+		// TODO: call a getValidActions method in Controller.
+	}
+	
+	public void disableButtons() {
+		// TODO: disable all buttons except cancel.
+		for (String key : buttons.keySet()) {
+			if (!key.equalsIgnoreCase("Cancel")) buttons.get(key).setEnabled(false);
+		}
 	}
 	
 	public void updatePlayerInfo(String name) {
 		comboBox.setSelectedItem(name);
-		
+		//TODO: get playerInfoMessage and display it in the text box.
 	}
 	
 	public void updateGeneralInfo(String message) {
@@ -270,5 +349,4 @@ public class MainWindow {
 	public void removeFromRole(String playerName, String areaName, String roleName) {
 		
 	}
-	
 }

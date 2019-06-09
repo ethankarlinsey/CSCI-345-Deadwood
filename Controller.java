@@ -91,10 +91,10 @@ public class Controller {
 
 		// Initialize the board
 		System.out.println("What board layout will you use? (default)");
-		manager.initializeBoard(reader.next()); //TODO implement layout validity check
+		manager.initializeBoard(reader.next());
 		
 		//INITIALIZE WINDOW
-		view = new MainWindow(); //TODO: make Controller non-static or remove references in the mainWindow
+		view = new MainWindow();
 		view.buildAreas(buildAreaViews());
 		
 		
@@ -384,7 +384,7 @@ public class Controller {
 	}
 	
 	public static AreaView buildAreaView(Area modelArea) {
-		AreaView viewArea = new AreaView(modelArea.getName());
+		AreaView viewArea = new AreaView(modelArea.getName(), view);
 		viewArea.setCard(new CardView()); // TODO: add a way to set cards to area view.
 		viewArea.setPlayers(null);
 		
@@ -397,7 +397,7 @@ public class Controller {
 	}
 	
 	public static RoleView buildRoleView(Role modelRole) {
-		RoleView viewRole = new RoleView(modelRole.getName()); 
+		RoleView viewRole = new RoleView(modelRole.getName(), view); 
 		viewRole.setLine(modelRole.getLine());
 		viewRole.setPlayer(null);
 		viewRole.setRank(modelRole.getRank());

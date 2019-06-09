@@ -16,8 +16,10 @@ public class RoleView {
 	JLabel lineLabel = new JLabel();
 	String player;
 	JLabel actorLabel = new JLabel();
+	MainWindow view;
 	
-	public RoleView(String roleName) {
+	public RoleView(String roleName, MainWindow view) {
+		this.view = view;
 		this.setName(roleName);
 	}
 	
@@ -30,9 +32,7 @@ public class RoleView {
 		panel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				//TODO: add funcionality to add roles
-				
-				JOptionPane.showMessageDialog(null, "Clicked on the role");
+				view.roleClicked(getName());
 			}
 		});
 		
