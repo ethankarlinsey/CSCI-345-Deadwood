@@ -47,7 +47,6 @@ public class MainWindow {
 	private final int normalState = 0;
 	private final int moveState = 1;
 	private final int roleState = 2;
-	private JPanel testCard_1;
 
 	/**
 	 * Launch the application.
@@ -314,6 +313,10 @@ public class MainWindow {
 		case roleState:
 			break;
 		}
+	}
+	
+	public void cardClicked(String cardTitle) {
+		// TODO: display card info when clicked
 	}
 	
 	// Called by Controller
