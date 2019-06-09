@@ -96,11 +96,14 @@ public class Controller {
 		//INITIALIZE WINDOW
 		view = new MainWindow();
 		view.buildAreas(buildAreaViews());
+		view.buildCards(buildCardViews());
 		
 		
 		//Prompt game start
 		System.out.println("Let the acting begin!");
-		manager.startGame(); //not sure if this method will be useful
+		manager.startGame();
+		
+		updateAreaCards();
 	}
 
 	public static void dayUpdate(Scanner reader) {
@@ -383,9 +386,30 @@ public class Controller {
 		return viewRoles;
 	}
 	
+	public static ArrayList<RoleView> buildRoleViews(Card modelCard){
+		ArrayList<Role> modelRoles = modelCard.getCardRoles();
+		ArrayList<RoleView> viewRoles = new ArrayList<RoleView>();
+		
+		for (Role r: modelRoles) {
+			viewRoles.add(buildRoleView(r));
+		}
+		
+		return viewRoles;
+	}
+	
+	public static ArrayList<CardView> buildCardViews(){
+		ArrayList<Card> modelCards = manager.getCards();
+		ArrayList<CardView> viewCards = new ArrayList<CardView>();
+		
+		for (Card c: modelCards) {
+			viewCards.add(buildCardView(c));
+		}
+		
+		return viewCards;
+	}
+	
 	public static AreaView buildAreaView(Area modelArea) {
 		AreaView viewArea = new AreaView(modelArea.getName(), view);
-		viewArea.setCard(new CardView()); // TODO: add a way to set cards to area view.
 		viewArea.setPlayers(null);
 		
 		if (modelArea instanceof Set) {
@@ -405,6 +429,19 @@ public class Controller {
 		System.out.println(modelRole.getName() + "\n" + viewRole.getName());
 		
 		return viewRole;
+	}
+
+	public static CardView buildCardView(Card modelCard) {
+		CardView viewCard = new CardView(modelCard.getTitle(), view);
+		viewCard.setBudget(modelCard.getBudget());
+		viewCard.setDesctription(modelCard.getDescription());
+		viewCard.setRoles(buildRoleViews(modelCard));
+		
+		return viewCard;
+	}
+	
+	public static void updateAreaCards() {
+		// TODO: update the AreaView with new CardViews.
 	}
 	
 	public static void main(String[] args) {

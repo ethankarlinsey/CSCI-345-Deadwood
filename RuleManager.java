@@ -391,4 +391,8 @@ public class RuleManager {
 	public ArrayList<Area> getAreas() {
 		return board.getAreas();
 	}
+
+	public ArrayList<Card> getCards() {
+		return board.getCards();
+	}
 }

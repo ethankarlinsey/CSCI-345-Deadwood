@@ -38,6 +38,7 @@ public class MainWindow {
 	private JLayeredPane playerInfoPane, generalInfoPane, controlPane;
 	private JComboBox comboBox;
 	private ArrayList<AreaView> areas;
+	private ArrayList<CardView> cards;
 	private HashMap<String, JButton> buttons = new HashMap<String, JButton>();
 	
 	private HashMap<String, int[]> areaBounds = new HashMap<String, int[]>();
@@ -46,6 +47,7 @@ public class MainWindow {
 	private final int normalState = 0;
 	private final int moveState = 1;
 	private final int roleState = 2;
+	private JPanel testCard_1;
 
 	/**
 	 * Launch the application.
@@ -113,13 +115,12 @@ public class MainWindow {
 		boardView.setBounds(0, 0, 1350, 900);
 		frmDeadwood.getContentPane().add(boardView);
 		
+		
 		//-------------------------------Initialize the menu area-------------------------------------------
 		menuBar = new JLayeredPane();
 		menuBar.setBorder(new LineBorder( new Color(0, 0, 0), 2));
 		menuBar.setBounds(1350, 0, 264, 900);
 		frmDeadwood.getContentPane().add(menuBar);
-		
-		
 		
 		playerInfoPane = new JLayeredPane();
 		playerInfoPane.setBorder(new LineBorder(new Color(244, 164, 96), 3));
@@ -244,6 +245,10 @@ public class MainWindow {
 			area.buildAreaView(areaBounds.get(area.getAreaName()));
 			boardView.add(area.getAreaPane());
 		}
+	}
+	
+	public void buildCards(ArrayList<CardView> cards) {
+		
 	}
 	
 	private void moveClicked() {

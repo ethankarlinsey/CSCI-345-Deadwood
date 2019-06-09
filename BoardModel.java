@@ -129,4 +129,8 @@ public class BoardModel {
     public ArrayList<Player> getPlayersByArea(Area area) { //returns a list of players in an area
     	return (ArrayList<Player>) players.stream().filter(p -> p.getArea() == area).collect(Collectors.toList());
     }
+
+	public ArrayList<Card> getCards() {
+		return cards;
+	}
 }

@@ -21,6 +21,7 @@ public class AreaView {
 	private CardView card;
 	private ArrayList<RoleView> roles = new ArrayList<RoleView>();
 	ArrayList<String> players = new ArrayList<String>();
+	private JPanel cardPanel = new JPanel();
 	
 	private MainWindow view;
 	
@@ -63,6 +64,8 @@ public class AreaView {
 		else if (bounds[2] == 450 && bounds[3] == 225) buildHorizontalPane(areaPane);
 		else if (bounds[2] == 675 && bounds[3] == 225) buildLongPane(areaPane);
 		else buildNonSetAreas(areaPane);
+		
+		areaPane.add(cardPanel);
 	}
 	
 	//TODO: implement construction of non-set areas
@@ -89,12 +92,6 @@ public class AreaView {
 		labelOccupiedBy.setBounds(12, 280, 200, 16);
 		pane.add(labelOccupiedBy);
 		
-		//Panel Card TODO: add buildCard() method, using CardView
-		JPanel panelCard = new JPanel();
-		panelCard.setBounds(12, 13, 200, 200);
-		pane.add(panelCard);
-		panelCard.setBackground(new Color(139, 69, 19));
-		
 		buildRoles();
 	}
 	
@@ -113,11 +110,6 @@ public class AreaView {
 		labelOccupiedBy.setBounds(238, 56, 200, 16);
 		pane.add(labelOccupiedBy);
 		
-		JPanel card = new JPanel();
-		card.setBackground(new Color(139, 69, 19));
-		card.setBounds(12, 13, 200, 200);
-		pane.add(card);
-		
 		buildRoles();
 	}
 	
@@ -131,6 +123,11 @@ public class AreaView {
 		}
 	}
 	
+	public void replaceCard(CardView card) {
+		this.card = card;
+		// this.cardPanel = this.card.getPanelInvisible(); // Should set card invisible by default.
+		this.cardPanel = this.card.getPanelVisible(); // setting to visible for testing purposes.
+	}
 
 	public String getAreaName() {
 		return labelTitle.getText();
@@ -138,14 +135,6 @@ public class AreaView {
 
 	public void setAreaName(String areaName) {
 		this.labelTitle.setText(areaName);
-	}
-
-	public CardView getCard() {
-		return card;
-	}
-
-	public void setCard(CardView card) {
-		this.card = card;
 	}
 
 	public ArrayList<RoleView> getRoles() {

@@ -65,4 +65,11 @@ public class Card {
         return state;
     }
 
+    public String getTitle() {
+    	return title;
+    }
+    
+    public String getDescription() {
+    	return description;
+    }
 }
