@@ -339,9 +339,13 @@ public class MainWindow {
 	}
 	
 	public void updatePlayerInfo(String name) {
-		comboBox.setSelectedItem(name);
-		String message = Controller.displayPlayerState(name);
-		txtpnPlayerInfo.setText(message);
+		for (int i = 0; i < comboBox.getItemCount(); i++) {
+			if (comboBox.getItemAt(i).toString().equals(name)) {
+				comboBox.setSelectedItem(i);
+				String message = Controller.displayPlayerState(comboBox.getSelectedItem().toString());
+				txtpnPlayerInfo.setText(message);
+			}
+		}
 	}
 	
 	public void updateGeneralInfo(String message) {
