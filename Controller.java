@@ -94,13 +94,13 @@ public class Controller {
 		view = new MainWindow();
 		view.buildAreas(buildAreaViews());
 		view.buildCards(buildCardViews());
-
+		
 		//Prompt game start
 		System.out.println("Let the acting begin!");
 		manager.startGame();
-		view.setPlayers(names);
 
 		updateAreaCards();
+		view.setPlayers(names);
 	}
 
 	public static void dayUpdate(Scanner reader) {
