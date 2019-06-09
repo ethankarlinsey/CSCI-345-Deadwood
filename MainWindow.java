@@ -19,6 +19,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Optional;
+
 import javax.swing.JSpinner;
 import javax.swing.JTree;
 import java.awt.Choice;
@@ -247,10 +249,18 @@ public class MainWindow {
 		addPlayerToArea(playerName, newArea);
 	}
 	private void addPlayerToArea(String playerName, String areaName) {
-		
+		Optional<AreaView> area = areas.stream().filter(a -> a.getAreaName().equals(areaName)).findFirst();
+		if (area.isPresent()) {
+			area.get().addPlayer(playerName);
+		}
+		else System.out.println(areaName + " was not found in MainWindow.addPlayerToArea");
 	}
 	private void removePlayerFromArea(String playerName, String areaName) {
-		
+		Optional<AreaView> area = areas.stream().filter(a -> a.getAreaName().equals(areaName)).findFirst();
+		if (area.isPresent()) {
+			area.get().removePlayer(playerName);
+		}
+		else System.out.println(areaName + " was not found in MainWindow.addPlayerToArea");
 	}
 	
 	public void addToRole(String playerName, String areaName, String roleName) {

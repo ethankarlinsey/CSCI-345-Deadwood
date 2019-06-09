@@ -183,6 +183,18 @@ public class AreaView {
 		
 		this.labelOccupiedBy.setText(occupancy);
 	}
+	
+	public void addPlayer(String name) {
+		players.add(name);
+		setPlayers(players);
+		System.out.println("added " + name);
+	}
+	
+	public void removePlayer(String name) {
+		if (players.remove(name)) System.out.println("sucessfully removed " + name);
+		else System.out.println("could not remove " + name + " probably because is doesn't exist");
+		setPlayers(players);
+	}
 
 	public JLayeredPane getAreaPane() {
 		return areaPane;
