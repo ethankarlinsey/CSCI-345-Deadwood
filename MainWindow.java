@@ -37,6 +37,7 @@ public class MainWindow {
 	private JLayeredPane menuBar;
 	private JLayeredPane playerInfoPane, generalInfoPane, controlPane;
 	private JComboBox comboBox;
+	private JTextPane txtpnPlayerInfo, txtpnGeneralInfo;
 	private ArrayList<AreaView> areas;
 	private ArrayList<CardView> cards;
 	private HashMap<String, JButton> buttons = new HashMap<String, JButton>();
@@ -135,7 +136,7 @@ public class MainWindow {
 		comboBox.setBounds(12, 13, 240, 22);
 		playerInfoPane.add(comboBox);
 		
-		JTextPane txtpnPlayerInfo = new JTextPane();
+		txtpnPlayerInfo = new JTextPane();
 		txtpnPlayerInfo.setEditable(false);
 		txtpnPlayerInfo.setText("Player info");
 		txtpnPlayerInfo.setBounds(12, 48, 240, 164);
@@ -146,7 +147,7 @@ public class MainWindow {
 		generalInfoPane.setBounds(0, 225, 264, 396);
 		menuBar.add(generalInfoPane);
 		
-		JTextPane txtpnGeneralInfo = new JTextPane();
+		txtpnGeneralInfo = new JTextPane();
 		txtpnGeneralInfo.setEditable(false);
 		txtpnGeneralInfo.setText("General Info");
 		txtpnGeneralInfo.setBounds(12, 13, 240, 370);
@@ -342,7 +343,8 @@ public class MainWindow {
 	
 	public void updatePlayerInfo(String name) {
 		comboBox.setSelectedItem(name);
-		//TODO: get playerInfoMessage and display it in the text box.
+		String message = Controller.displayPlayerState(name);
+		txtpnPlayerInfo.setText(message);
 	}
 	
 	public void updateGeneralInfo(String message) {

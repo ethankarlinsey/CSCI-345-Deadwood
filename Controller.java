@@ -347,9 +347,11 @@ public class Controller {
 		System.out.println(manager.getAreaStateString(areaName));
 	}
 	
-	public static void displayPlayerState(String playerName) {
-		System.out.println("\n" + playerName + " state: \n");
-		System.out.println(manager.getPlayerStateString(playerName));
+	public static String displayPlayerState(String playerName) {
+		String message = playerName + " state: \n";
+		message += manager.getPlayerStateString(playerName);
+		System.out.println(message);
+		return message;
 	}
 	
 	public static void displayRoleState(String roleName) {
@@ -443,6 +445,7 @@ public class Controller {
 		CardView viewCard = new CardView(modelCard.getTitle(), view);
 		viewCard.setBudget(modelCard.getBudget());
 		viewCard.setDesctription(modelCard.getDescription());
+		System.out.println("CARD DESCRIPTION------ " + modelCard.getDescription());
 		viewCard.setRoles(buildRoleViews(modelCard));
 		
 		return viewCard;
