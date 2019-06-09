@@ -97,6 +97,7 @@ public class Controller {
 		view = new MainWindow();
 		view.buildAreas(buildAreaViews());
 		view.buildCards(buildCardViews());
+		view.setPlayers(names);
 		
 		
 		//Prompt game start

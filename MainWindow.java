@@ -36,7 +36,7 @@ public class MainWindow {
 	private JLayeredPane boardView;
 	private JLayeredPane menuBar;
 	private JLayeredPane playerInfoPane, generalInfoPane, controlPane;
-	private JComboBox comboBox;
+	private JComboBox<String> comboBox;
 	private JTextPane txtpnPlayerInfo, txtpnGeneralInfo;
 	private ArrayList<AreaView> areas;
 	private ArrayList<CardView> cards;
@@ -399,5 +399,11 @@ public class MainWindow {
 		if (card.isPresent()) return card.get();
 		System.out.println("tried getting the cardView but it didn't exist: "+ cardTitle);
 		return null;
+	}
+	
+	public void setPlayers(ArrayList<String> names) {
+		for (String name: names) {
+			comboBox.addItem(name);
+		}
 	}
 }
