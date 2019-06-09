@@ -55,31 +55,30 @@ public class Controller {
 		
 		//First prompts - board layout, player count and player names
 		System.out.println("Welcome to Deadwood! The cheapass game of acting badly!");
-		
-		int playerCount = -1;
-		
-		while (true) {
-			System.out.println("How many players are there? (There can be 2 to 8.)");
-			try {
-				playerCount = reader.nextInt();
-			}
-			catch (InputMismatchException e) {
-				reader.next();
-			}
-			if (playerCount > 1 && playerCount < 9) break;
-			
-			System.out.println("That's an invalid number of players!");
-		}
+
+		// Initialize the board
+		manager.initializeBoard();
+
+		//INITIALIZE WINDOW
+		view = new MainWindow();
+		view.buildAreas(buildAreaViews());
+		view.buildCards(buildCardViews());
+		int playerCount = view.getNumPlayers();
+
+
 		ArrayList<String> names = new ArrayList<String>();
 		
 		for (int i = 0; i < playerCount; i++) { //prompts for player names and adds to list.
 			while(true) {
 				Integer playerNum = i + 1;
 				System.out.println("What is player " + playerNum.toString() + "'s name? (three characters)");
-				String name = reader.next();
-				if (!names.contains(name) && name.length() < 4 && name.length() > 2) {		//If a name has already been added, the user is re-prompted
-					names.add(name.substring(0, 3));
-					break;
+				//String name = reader.next();
+				String name = view.getPlayerName(i+1);
+				if(name != null) {
+					if (!names.contains(name) && name.length() < 4 && name.length() > 2) {        //If a name has already been added, the user is re-prompted
+						names.add(name.substring(0, 3));
+						break;
+					}
 				}
 				System.out.println("That's an invalid name!");
 			}
@@ -89,15 +88,6 @@ public class Controller {
 		//Initialize the players
 		manager.initializePlayers(names);
 
-		// Initialize the board
-		System.out.println("What board layout will you use? (default)");
-		manager.initializeBoard(reader.next());
-		
-		//INITIALIZE WINDOW
-		view = new MainWindow();
-		view.buildAreas(buildAreaViews());
-		view.buildCards(buildCardViews());
-		
 		
 		//Prompt game start
 		System.out.println("Let the acting begin!");
