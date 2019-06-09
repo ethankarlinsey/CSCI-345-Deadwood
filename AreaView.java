@@ -124,9 +124,12 @@ public class AreaView {
 	}
 	
 	public void replaceCard(CardView card) {
+		areaPane.remove(cardPanel);
 		this.card = card;
 		// this.cardPanel = this.card.getPanelInvisible(); // Should set card invisible by default.
 		this.cardPanel = this.card.getPanelVisible(); // setting to visible for testing purposes.
+		System.out.println("CARDS WERE REPLACED -------- " + card.getTitle());
+		areaPane.add(cardPanel);
 	}
 
 	public String getAreaName() {

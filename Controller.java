@@ -450,7 +450,19 @@ public class Controller {
 	}
 	
 	public static void updateAreaCards() {
-		// TODO: update the AreaView with new CardViews.
+		ArrayList<Area> modelAreas = manager.getAreas();
+		
+		for (Area modelArea: modelAreas) {
+			if (modelArea instanceof Set) {
+				Set modelSet = (Set) modelArea;
+				String areaName = modelSet.getName();
+				String cardTitle = modelSet.getCard().getTitle();
+				
+				AreaView viewArea = view.getAreaByName(areaName);
+				CardView viewCard = view.getCardByTitle(cardTitle);
+				viewArea.replaceCard(viewCard);
+			}
+		}
 	}
 	
 	public static void main(String[] args) {

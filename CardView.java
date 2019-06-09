@@ -24,6 +24,7 @@ public class CardView {
 	
 	public CardView(String title, MainWindow view) {
 		// TODO Auto-generated constructor stub
+		setTitle(title);
 		this.view = view;
 	}
 	
@@ -49,7 +50,7 @@ public class CardView {
 		buildRoles();
 	}
 	
-	public void buildRoles() {
+	private void buildRoles() {
 		for (int i = 0; i < roles.size(); i++) {
 			roles.get(i).buildRoleView(roleBounds[i]);
 		}
@@ -76,7 +77,7 @@ public class CardView {
 	}
 
 	public void setDesctription(String description) {
-		this.lblDescription.setText(description);;
+		this.lblDescription.setText(description);
 	}
 
 	public int getBudget() {

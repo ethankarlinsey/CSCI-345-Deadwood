@@ -248,7 +248,13 @@ public class MainWindow {
 	}
 	
 	public void buildCards(ArrayList<CardView> cards) {
+		this.cards = cards;
 		
+		for (CardView card: this.cards) {
+			System.out.println(card.getTitle());
+			card.build();
+		}
+		System.out.println("CARDS WERE BUILT!!!! --------------------------");
 	}
 	
 	private void moveClicked() {
@@ -355,5 +361,27 @@ public class MainWindow {
 	
 	public void removeFromRole(String playerName, String areaName, String roleName) {
 		
+	}
+	
+	public ArrayList<AreaView> getAreas(){
+		return areas;
+	}
+	
+	public AreaView getAreaByName(String areaName) {
+		Optional<AreaView> area = areas.stream().filter(a -> a.getAreaName().equalsIgnoreCase(areaName)).findFirst();
+		if (area.isPresent()) return area.get();
+		System.out.println("tried getting the areaView but it didn't exist: " + areaName);
+		return null;
+	}
+	
+	public ArrayList<CardView> getCards(){
+		return cards;
+	}
+	
+	public CardView getCardByTitle(String cardTitle) {
+		Optional<CardView> card = cards.stream().filter(c -> c.getTitle().equalsIgnoreCase(cardTitle)).findFirst();
+		if (card.isPresent()) return card.get();
+		System.out.println("tried getting the cardView but it didn't exist: "+ cardTitle);
+		return null;
 	}
 }
