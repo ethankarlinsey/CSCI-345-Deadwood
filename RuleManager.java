@@ -237,14 +237,14 @@ public class RuleManager {
 		return false;
 	}
 	
-	public String tryUpgrade(int rank, String currency) {
+	public boolean tryUpgrade(int rank, String currency) {
 		Upgrade upgrade = new Upgrade(activePlayer, rank, currency);
 		
 		if (upgrade.isValid()) {
 			upgrade.excecute();
-			return activePlayer.getName() + " upgraded to rank " + rank;
+			return true;
 		}
-		return "That upgrade isn't going to work out buddy.";
+		return false;
 	}
 
 	public String cheatMove(String playerName, String areaName) {
