@@ -516,4 +516,19 @@ public class MainWindow {
 			comboBox.addItem(name);
 		}
 	}
+
+	public void displayMoveError(String areaName) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void displayRehearseError() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void displayTakeRoleError(String roleName) {
+		// TODO Auto-generated method stub
+		
+	}
 }
