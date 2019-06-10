@@ -355,10 +355,10 @@ public class Controller {
 			if (modelArea instanceof Set) {
 				Set modelSet = (Set) modelArea;
 				String areaName = modelSet.getName();
-				String cardTitle = modelSet.getCard().getTitle();
+				String cardDescription = modelSet.getCard().getDescription();
 
 				AreaView viewArea = view.getAreaByName(areaName);
-				CardView viewCard = view.getCardByTitle(cardTitle);
+				CardView viewCard = view.getCardByDescription(cardDescription);
 				viewArea.replaceCard(viewCard);
 			}
 		}

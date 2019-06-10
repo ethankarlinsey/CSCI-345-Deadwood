@@ -24,9 +24,18 @@ public class TakeRole implements Action {
 			if (!optRole.isPresent()) {
 				// get on-card roles
 				optRole = s.getCard().getFreeCRoles().stream().filter(r -> r.getName().equalsIgnoreCase(roleName)).findAny();
+				System.out.println("In TakeRole.isValid(), searched for a role on the card. Is it present? " + String.valueOf(optRole.isPresent()));
 			}
 			if(optRole.isPresent()){
 				role = optRole.get();
+				
+				//Messages to check why the card roles are sometimes rejected...
+				System.out.println(role.getStateString());
+				System.out.println("Player rank: " + String.valueOf(player.getRank()));
+				System.out.println("Role rank: " + String.valueOf(role.getRank()));
+				System.out.println("Has no role: " + String.valueOf(hasNoRole));
+				System.out.println("Has not acted: " + String.valueOf(hasNotActed));
+				
 				return (s.getShotsRemaining() > 0) && (player.getRank() >= role.getRank()) && hasNoRole && hasNotActed;
 			}
 		}
