@@ -333,7 +333,7 @@ public class MainWindow {
 		Controller.tryUpgrade(rank, currency);
 	}
 
-	public void upgradeError() {
+	public void displayUpgradeError() {
 		JOptionPane.showMessageDialog(null, "Error: Upgrade unsuccessful.");
 	}
 	
@@ -557,6 +557,15 @@ public class MainWindow {
 		JLabel lbl = new JLabel("You aren't allowed to take the role " + roleName + " right now.");
 		panel.add(lbl);
 		int selectedOption = JOptionPane.showOptionDialog(null, panel, "Uh oh...", JOptionPane.NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options , options[0]);	
+	}
+
+	public void displayActError() {
+		String[] options = {"OK"};
+		JPanel panel = new JPanel();
+		JLabel lbl = new JLabel("Hold yer horses. You can't act right now.");
+		panel.add(lbl);
+		int selectedOption = JOptionPane.showOptionDialog(null, panel, "Uh oh...", JOptionPane.NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options , options[0]);	
+	
 	}
 
 
