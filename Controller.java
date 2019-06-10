@@ -1,3 +1,4 @@
+import java.lang.reflect.Array;
 import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.io.Reader;
@@ -105,7 +106,6 @@ public class Controller {
 		//TODO: reflect this in the view
 		if (!manager.scenesLeft()) dayUpdate();
 		updateViewValidActions();
-		view.newTurn(manager.getActivePlayer().getName());
 	}
 
 	private static void cheatMove(Scanner reader) { // cheat format: sendto [playername] [areaname]
@@ -142,46 +142,56 @@ public class Controller {
 //	}
 
 	public static void tryAct(){
-		String roleName = manager.getActivePlayer().getRole().getName();
+		String areaName = manager.getActivePlayer().getArea().getName();
+		ArrayList<Role> heldRoles = new ArrayList<>();
+		ArrayList<String> playersInArea = new ArrayList<>();
+		manager.getPlayersByArea(manager.getActivePlayer().getArea()).forEach(p -> playersInArea.add(p.getName()));
+		manager.getPlayersByArea(manager.getActivePlayer().getArea()).forEach(p -> heldRoles.add(p.getRole()));
+
 		String act = manager.tryAct();
 		if(act != null){
 			view.actStatus(act);
+			view.decrementShot(areaName);
 
 			// check if the scene wrapped
 			if(manager.getActivePlayer().getRole() == null){
-				view.removeFromRole(manager.getActivePlayer().getName(), manager.getActivePlayer().getArea().toString(), roleName);
-				view.updatePlayerInfo(manager.getActivePlayer().getName());
+				// update the view for all players who were on the card/ area
+				for(int i = 0; i < playersInArea.size(); i++){
+					if(heldRoles.get(i) != null){
+						view.removeFromRole(areaName, heldRoles.get(i).getName());
+						view.updatePlayerInfo(playersInArea.get(i));
+					}
+				}
 			}
 
 			updateViewValidActions();
 		}
 	}
 
-
-	private static void tryView(Scanner reader) {
-		try {
-			String viewType = reader.next();
-			if (viewType.equalsIgnoreCase("player")) {
-				displayPlayerState(reader.nextLine().trim());
-			}
-			else if (viewType.equalsIgnoreCase("area")) {
-				displayAreaState(reader.nextLine().trim());
-			}
-			else if (viewType.equalsIgnoreCase("board")) {
-				displayBoardState();
-			}
-			else if (viewType.equalsIgnoreCase("gamestate")) {
-				displayGameState();
-			}
-			else System.out.println("that is an invalid view request.");
-		}
-		catch (Exception e) {
-			System.out.println("Error viewing");
-			System.out.println(e.getMessage());
-			e.printStackTrace(System.out);
-			System.out.println(defaultErrorString);
-		}
-	}
+//	private static void tryView(Scanner reader) {
+//		try {
+//			String viewType = reader.next();
+//			if (viewType.equalsIgnoreCase("player")) {
+//				displayPlayerState(reader.nextLine().trim());
+//			}
+//			else if (viewType.equalsIgnoreCase("area")) {
+//				displayAreaState(reader.nextLine().trim());
+//			}
+//			else if (viewType.equalsIgnoreCase("board")) {
+//				displayBoardState();
+//			}
+//			else if (viewType.equalsIgnoreCase("gamestate")) {
+//				displayGameState();
+//			}
+//			else System.out.println("that is an invalid view request.");
+//		}
+//		catch (Exception e) {
+//			System.out.println("Error viewing");
+//			System.out.println(e.getMessage());
+//			e.printStackTrace(System.out);
+//			System.out.println(defaultErrorString);
+//		}
+//	}
 	
 	public static void tryMove(String areaName) {
 		String oldAreaName = manager.getActivePlayer().getArea().getName();
@@ -218,24 +228,24 @@ public class Controller {
 		}
 	}
 
-	private static void tryUpgrade(Scanner reader) { // verifies command syntax and prompts manager to try the action
-		try {
-			if (reader.next().toLowerCase().equals("to")) {
-				int rank = reader.nextInt();
-				if (reader.next().toLowerCase().equals("with")) {
-					String currency = reader.nextLine().toLowerCase().trim();
-					String message = manager.tryUpgrade(rank, currency);
-					System.out.println(message);
-					return;
-				}
-			}
-		}
-		catch (Exception e) {
-			System.out.println("Error upgrading - enough to throw an error... try matching the format listed under help");
-			return;
-		}
-		System.out.println("Error upgrading, but not enough to throw an error... try getting your words right");
-	}
+//	private static void tryUpgrade(Scanner reader) { // verifies command syntax and prompts manager to try the action
+//		try {
+//			if (reader.next().toLowerCase().equals("to")) {
+//				int rank = reader.nextInt();
+//				if (reader.next().toLowerCase().equals("with")) {
+//					String currency = reader.nextLine().toLowerCase().trim();
+//					String message = manager.tryUpgrade(rank, currency);
+//					System.out.println(message);
+//					return;
+//				}
+//			}
+//		}
+//		catch (Exception e) {
+//			System.out.println("Error upgrading - enough to throw an error... try matching the format listed under help");
+//			return;
+//		}
+//		System.out.println("Error upgrading, but not enough to throw an error... try getting your words right");
+//	}
 
 	public static void displayBoardState() {
 		System.out.println("\nBoard state:\n");
