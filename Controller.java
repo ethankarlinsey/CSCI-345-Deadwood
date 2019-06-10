@@ -5,6 +5,7 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Controller {
 
@@ -91,15 +92,18 @@ public class Controller {
 		updateAreaCards();
 		view.setPlayers(names);
 		turnUpdate();
-		view.newDay();
 		view.sendPlayersToTrailers(names);
 	}
 
 	private static void dayUpdate() {
 		if (!manager.daysLeft()) end();
 		manager.newDay();
-		//view.newDay();
+		
 		//TODO: start a new day in the view
+		view.sendPlayersToTrailers(manager.getPlayerNames());
+		//TODO: reset shots
+		resetViewShots();
+		view.displayNewDayMessage(manager.getCurrentDay(), manager.getLastDay());
 	}
 
 	// Called when the player ends their turn.
@@ -109,6 +113,12 @@ public class Controller {
 		//TODO: reflect this in the view
 		if (!manager.scenesLeft()) dayUpdate();
 		updateViewValidActions();
+	}
+	
+	public static void resetViewShots() {
+		ArrayList<Area> modelAreas = manager.getAreas();
+		ArrayList<Set> modelSets = (ArrayList<Set>) modelAreas.stream().filter(a -> a instanceof Set).map(a -> (Set) a).collect(Collectors.toList());
+		modelSets.stream().forEach(s -> view.getAreaByName(s.getName()).setShotsLeft(s.getInitialShots()));
 	}
 
 	private static void cheatMove(Scanner reader) { // cheat format: sendto [playername] [areaname]
@@ -125,24 +135,6 @@ public class Controller {
 	private static void help() {
 		Arrays.stream(commandDescriptions).forEach(str -> System.out.println(str));
 	}
-
-	private static boolean tryEndTurn(Scanner reader) { // if the command was "end turn" return false to end the turn.
-		if (reader.next().toLowerCase().equals("turn")) return false;
-		System.out.println("Error ending turn");
-		System.out.println(defaultErrorString);
-		return true;
-	}
-
-//	private static void tryAct(Scanner reader) { // verifies command syntax and prompts manager to try the action
-//		if (reader.nextLine().trim().length() > 0) {
-//			System.out.println("Error acting");
-//			System.out.println(defaultErrorString); // if the command has more elements than "act", write an error and return.
-//			return;
-//		}
-//
-//		String message = manager.tryAct();
-//		System.out.println(message);
-//	}
 
 	public static void tryAct(){
 		String areaName = manager.getActivePlayer().getArea().getName();
@@ -166,100 +158,46 @@ public class Controller {
 					}
 				}
 			}
+			else view.displayActError();
 
 			updateViewValidActions();
 		}
 	}
 
-//	private static void tryView(Scanner reader) {
-//		try {
-//			String viewType = reader.next();
-//			if (viewType.equalsIgnoreCase("player")) {
-//				displayPlayerState(reader.nextLine().trim());
-//			}
-//			else if (viewType.equalsIgnoreCase("area")) {
-//				displayAreaState(reader.nextLine().trim());
-//			}
-//			else if (viewType.equalsIgnoreCase("board")) {
-//				displayBoardState();
-//			}
-//			else if (viewType.equalsIgnoreCase("gamestate")) {
-//				displayGameState();
-//			}
-//			else System.out.println("that is an invalid view request.");
-//		}
-//		catch (Exception e) {
-//			System.out.println("Error viewing");
-//			System.out.println(e.getMessage());
-//			e.printStackTrace(System.out);
-//			System.out.println(defaultErrorString);
-//		}
-//	}
 	
 	public static void tryMove(String areaName) {
 		String oldAreaName = manager.getActivePlayer().getArea().getName();
 		boolean moveSuccessful = manager.tryMove(areaName);
 		if(moveSuccessful){
 			view.movePlayer(manager.getActivePlayer().getName(), oldAreaName, manager.getActivePlayer().getArea().getName());
-			updateViewValidActions();
 		}
 		else view.displayMoveError(areaName);
+		updateViewValidActions();
 	}
-
-//	private static void tryRehearse(Scanner reader) { // verifies command syntax and prompts manager to try the action
-//		if (reader.nextLine().trim().length() > 0) {
-//			System.out.println("Error rehearsing - too many arguments");
-//			System.out.println(defaultErrorString);
-//			return;
-//		}
-//
-//		String message = manager.tryRehearse();
-//		System.out.println(message);
-//	}
 
 	public static void tryRehearse(){
 		boolean rehearse = manager.tryRehearse();
-		if(rehearse){
-			updateViewValidActions();
-		}
-		else view.displayRehearseError();
+		if(!rehearse) view.displayRehearseError();
+		updateViewValidActions();
 	}
 
 	public static void tryTakeRole(String roleName){
 		boolean takeRoleSuccessful = manager.tryTakeRole(roleName);
 		if(takeRoleSuccessful){
 			view.addToRole(manager.getActivePlayer().getName(), manager.getActivePlayer().getArea().getName(), roleName);
-			updateViewValidActions();
 		}
 		else view.displayTakeRoleError(roleName);
+		updateViewValidActions();
 	}
-
-//	private static void tryUpgrade(Scanner reader) { // verifies command syntax and prompts manager to try the action
-//		try {
-//			if (reader.next().toLowerCase().equals("to")) {
-//				int rank = reader.nextInt();
-//				if (reader.next().toLowerCase().equals("with")) {
-//					String currency = reader.nextLine().toLowerCase().trim();
-//					String message = manager.tryUpgrade(rank, currency);
-//					System.out.println(message);
-//					return;
-//				}
-//			}
-//		}
-//		catch (Exception e) {
-//			System.out.println("Error upgrading - enough to throw an error... try matching the format listed under help");
-//			return;
-//		}
-//		System.out.println("Error upgrading, but not enough to throw an error... try getting your words right");
-//	}
 
 	public static void tryUpgrade(int rank, String currency){
 		boolean upgrade = manager.tryUpgrade(rank, currency);
 		if(upgrade){
 			view.updatePlayerInfo(manager.getActivePlayer().getName());
 		} else {
-			view.upgradeError();
+			view.displayUpgradeError();
 		}
+		updateViewValidActions();
 	}
 
 	public static void displayBoardState() {
@@ -295,15 +233,8 @@ public class Controller {
 
 	public static void displayCardState(String cardTitle) {
 		// TODO Auto-generated method stub
-		
+		view.updateGeneralInfo(cardTitle);
 	}
-
-//	private static void displayValidActions(ArrayList<Class> actions) {
-//		System.out.println();
-//		System.out.println("It is " + manager.getActivePlayer().getName() + "'s turn. Right now you can");
-//		actions.stream().map(c -> actionTypeToString.get((Class) c)).forEach(str -> System.out.println(str));
-//		System.out.println("End turn");
-//	}
 
 	public static void end() {
 		System.out.println(manager.getEndStateString());

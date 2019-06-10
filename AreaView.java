@@ -23,6 +23,7 @@ public class AreaView {
 	private ArrayList<RoleView> roles = new ArrayList<RoleView>();
 	ArrayList<String> players = new ArrayList<String>();
 	private JPanel cardPanel = new JPanel();
+	private boolean isSet = true;
 	
 	private MainWindow view;
 	
@@ -72,6 +73,8 @@ public class AreaView {
 	
 	//TODO: implement construction of non-set areas
 	public void buildNonSetAreas(JLayeredPane pane) {
+		
+		isSet = false;
 		
 		labelTitle.setLabelFor(pane);
 		labelTitle.setFont(new Font("Tahoma", Font.BOLD, 13));
@@ -252,6 +255,13 @@ public class AreaView {
 	public void setShotsLeft(int shotsLeft) {
 		this.shotsLeft = shotsLeft;
 		this.labelShots.setText("Shots left: " + String.valueOf(this.shotsLeft));
+	}
+
+	public void clearRoles() {
+		if (isSet) {
+			roles.stream().forEach(r -> r.setPlayer(null));
+			card.clearRoles();
+		}
 	}
 	
 }

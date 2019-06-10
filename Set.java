@@ -144,4 +144,8 @@ class Set extends Area {
     private void setCardInvisible() {
         cardVisible = false;
     }
+
+	public int getInitialShots() {
+		return shots;
+	}
 }

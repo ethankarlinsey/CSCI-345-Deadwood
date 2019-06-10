@@ -106,4 +106,8 @@ public class CardView {
 	public ArrayList<RoleView> getRoles() {
 		return roles;
 	}
+
+	public void clearRoles() {
+		roles.stream().forEach(r -> r.setPlayer(null));
+	}
 }
