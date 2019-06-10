@@ -112,7 +112,9 @@ public class Controller {
 	public static void turnUpdate() {
 		manager.setNextPlayerActive();
 		view.setActivePlayer(manager.getActivePlayer().getName());
-		//TODO: reflect this in the view
+		
+		System.out.println("Turn update was called. there are this many scenes left: " + String.valueOf(manager.scenesLeft()));
+		
 		if (!manager.scenesLeft()) dayUpdate();
 		updateViewValidActions();
 	}
@@ -152,7 +154,6 @@ public class Controller {
 
 			// check if the scene wrapped
 			if (manager.getActivePlayer().getRole() == null) {
-				view.removeCard(areaName);
 				// update the view for all players who were on the card/ area
 				for (int i = 0; i < playersInArea.size(); i++) {
 					if (heldRoles.get(i) != null) {
@@ -160,8 +161,10 @@ public class Controller {
 						view.updatePlayerInfo(playersInArea.get(i));
 					}
 				}
+				view.removeCard(areaName);
 			}
-		} else view.displayActError();
+		} 
+		else view.displayActError();
 
 		updateViewValidActions();
 	}
