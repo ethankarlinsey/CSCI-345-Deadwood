@@ -146,7 +146,7 @@ public class Controller {
 		String act = manager.tryAct();
 		if(act != null){
 			view.actStatus(act);
-			view.decrementShot(areaName);
+			view.setShot(areaName, ((Set) manager.getActivePlayer().getArea()).getShotsRemaining());
 
 			// check if the scene wrapped
 			if(manager.getActivePlayer().getRole() == null){
@@ -158,10 +158,10 @@ public class Controller {
 					}
 				}
 			}
-			else view.displayActError();
-
-			updateViewValidActions();
 		}
+		else view.displayActError();
+
+		updateViewValidActions();
 	}
 
 	
