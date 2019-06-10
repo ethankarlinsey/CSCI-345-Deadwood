@@ -17,7 +17,11 @@ public class Act implements Action {
 	@Override
 	public boolean isValid() {
 		// As long as the player has a role, hasn't simply taken the role this turn, hasn't rehearsed in the same turn, and hasn't acted yet, she can act
-		return player.getRole() != null && !player.hasPerformedAction(Act.class) && !player.hasPerformedAction(TakeRole.class) && !player.hasPerformedAction(Rehearse.class);
+		return player.getRole() != null 
+				&& !player.hasPerformedAction(Act.class) 
+				&& !player.hasPerformedAction(TakeRole.class) 
+				&& !player.hasPerformedAction(Rehearse.class)
+				&& ((Set) player.getArea()).getShotsRemaining() > 0;
 	}
 
 	@Override
