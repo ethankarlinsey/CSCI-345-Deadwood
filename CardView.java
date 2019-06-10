@@ -33,6 +33,12 @@ public class CardView {
 	
 	public void build() {
 		panelInvisible = new JPanel();
+		panelInvisible.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				view.cardClicked(getInvisibleStateString());
+			}
+		});
 		panelInvisible.setBackground(new Color(139, 69, 19));
 		panelInvisible.setBounds(12, 13, 200, 200);
 		
@@ -40,7 +46,7 @@ public class CardView {
 		panelVisible.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				view.cardClicked(getTitle());
+				view.cardClicked(getVisibleStateString());
 			}
 		});
 		panelVisible.setBackground(new Color(139, 69, 19));
@@ -64,6 +70,16 @@ public class CardView {
 			roles.get(i).buildRoleView(roleBounds[i]);
 			panelVisible.add(roles.get(i).getPanel());
 		}
+	}
+	
+
+	private String getVisibleStateString() {
+		return this.getTitle() + "\n" 
+					+ this.getDescription();
+	}
+	
+	private String getInvisibleStateString() {
+		return "The card is face down";
 	}
 	
 	public JPanel getPanelVisible() {

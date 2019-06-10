@@ -32,7 +32,7 @@ public class RoleView {
 		panel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				view.roleClicked(getName());
+				view.roleClicked(getName(), getStateString());
 			}
 		});
 		
@@ -56,6 +56,13 @@ public class RoleView {
 		actorLabel.setBounds(5, 42, 85, 16);
 		panel.add(actorLabel);
 		
+	}
+
+	public String getStateString() {
+		return this.getName() + "\n"
+				+ this.getLine() + "\n"
+				+ "Rank: " + this.getRank() + "\n"
+				+ "Actor: " + this.getPlayer();
 	}
 	
 	public JPanel getPanel() {

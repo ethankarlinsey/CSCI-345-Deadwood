@@ -219,10 +219,8 @@ public class Controller {
 
 	// displays the area info including occupants and neighbors
 	// if set, display roles (open or taken by ___) budget info shot info, and card role info.
-	public static void displayAreaState(String areaName) {
-		String message = areaName + " state: \n" + manager.getAreaStateString(areaName);
-		System.out.println(message);
-		view.updateGeneralInfo(message);
+	public static void displayAreaState(String areaStateString) {
+		view.updateGeneralInfo(areaStateString);
 	}
 
 	public static String displayPlayerState(String playerName) {
@@ -232,15 +230,13 @@ public class Controller {
 		return message;
 	}
 
-	public static void displayRoleState(String roleName) {
-		System.out.println("Role state " + roleName);
-		// TODO: Make better message
-		view.updateGeneralInfo(roleName);
+	public static void displayRoleState(String roleStateString) {
+		view.updateGeneralInfo(roleStateString);
 	}
 
-	public static void displayCardState(String cardTitle) {
+	public static void displayCardState(String cardStateString) {
 		// TODO Auto-generated method stub
-		view.updateGeneralInfo(cardTitle);
+		view.updateGeneralInfo(cardStateString);
 	}
 
 	public static void end() {

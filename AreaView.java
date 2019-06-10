@@ -23,6 +23,7 @@ public class AreaView {
 	private ArrayList<RoleView> roles = new ArrayList<RoleView>();
 	ArrayList<String> players = new ArrayList<String>();
 	private JPanel cardPanel = new JPanel();
+	JTextPane messageBox;
 	private boolean isSet = true;
 	
 	private MainWindow view;
@@ -56,7 +57,7 @@ public class AreaView {
 		areaPane.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				view.areaClicked(getAreaName());
+				view.areaClicked(getAreaName(), getStateString());
 			}
 		});
 		areaPane.setBorder(new LineBorder(new Color(244, 164, 96), 3));
@@ -69,6 +70,19 @@ public class AreaView {
 		else buildNonSetAreas(areaPane);
 		
 		areaPane.add(cardPanel);
+	}
+	
+	public String getStateString() {
+		if (isSet) {
+			return this.getAreaName() + "\n"
+					+ "Shots left: " + String.valueOf(this.getShotsLeft()) + "\n"
+					+ labelOccupiedBy.getText();
+		}
+		else {
+			return this.getAreaName() + "\n"
+					+ labelOccupiedBy.getText() + "\n"
+					+ messageBox.getText();
+		}
 	}
 	
 	//TODO: implement construction of non-set areas
@@ -85,7 +99,7 @@ public class AreaView {
 		labelOccupiedBy.setBounds(12, 40, 200, 16);
 		pane.add(labelOccupiedBy);
 		
-		JTextPane messageBox = new JTextPane();
+		messageBox = new JTextPane();
 		messageBox.setEditable(false);
 		messageBox.setText("General Info");
 		messageBox.setBounds(12, 68, 200, 145);

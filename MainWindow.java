@@ -358,10 +358,10 @@ public class MainWindow {
 		askForEnabledButtons();
 	}
 	
-	public void areaClicked(String areaName) {
+	public void areaClicked(String areaName, String areaStateString) {
 		switch (selectionState) {
 		case normalState:
-			Controller.displayAreaState(areaName);
+			Controller.displayAreaState(areaStateString);
 			break;
 		case moveState:
 			Controller.tryMove(areaName);
@@ -371,10 +371,10 @@ public class MainWindow {
 		}
 	}
 	
-	public void roleClicked(String roleName) {
+	public void roleClicked(String roleName, String roleStateString) {
 		switch (selectionState) {
 		case normalState:
-			Controller.displayRoleState(roleName);
+			Controller.displayRoleState(roleStateString);
 			break;
 		case moveState:
 			break;
@@ -384,10 +384,10 @@ public class MainWindow {
 		}
 	}
 	
-	public void cardClicked(String cardTitle) {
+	public void cardClicked(String cardStateString) {
 		switch (selectionState) {
 		case normalState:
-			Controller.displayCardState(cardTitle);
+			Controller.displayCardState(cardStateString);
 			break;
 		case moveState:
 			break;
