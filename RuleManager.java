@@ -190,9 +190,10 @@ public class RuleManager {
 					"\n\tDid your performance pass muster? : " + act.getActingSuccess() +
 					"\n\tYou receive a payment of [credits, dollars]: " + Arrays.toString(act.getPayment());
 			String potentialBonus = checkSetShots((Set) activePlayer.getArea());
-			return state + potentialBonus;
+			state += potentialBonus;
+			return state;
 		}
-		return "You cannot act right now.";
+		return null;
 	}
 	
 	public String checkSetShots(Set set) {
