@@ -332,7 +332,6 @@ public class Controller {
 	
 	public static AreaView buildAreaView(Area modelArea) {
 		AreaView viewArea = new AreaView(modelArea.getName(), view);
-		viewArea.setPlayers(null);
 		
 		if (modelArea instanceof Set) {
 			viewArea.setShotsLeft(((Set) modelArea).getShotsRemaining());
