@@ -108,7 +108,6 @@ public class Controller {
 		manager.newDay();
 		//view.newDay();
 		//TODO: start a new day in the view
-
 	}
 
 	// Called when the player ends their turn.
@@ -176,24 +175,7 @@ public class Controller {
 			System.out.println(defaultErrorString);
 		}
 	}
-
-//	private static void tryMove(Scanner reader) { // verifies command syntax and prompts manager to try the action
-//		try {
-//			if (reader.next().toLowerCase().equals("to")){
-//				String areaName = reader.nextLine().trim();
-//				String message = manager.tryMove(areaName);
-//				System.out.println(message);
-//				return;
-//			}
-//		}
-//		catch (Exception e) {
-//			System.out.println("Error moving");
-//			System.out.println(e.getMessage());
-//			e.printStackTrace(System.out);
-//			System.out.println(defaultErrorString);
-//		}
-//	}
-
+	
 	public static void tryMove(String areaName) {
 		String oldAreaName = manager.getActivePlayer().getArea().getName();
 		boolean moveSuccessful = manager.tryMove(areaName);
@@ -213,23 +195,6 @@ public class Controller {
 		String message = manager.tryRehearse();
 		System.out.println(message);
 	}
-
-//	private static void tryTakeRole(Scanner reader) { // verifies command syntax and prompts manager to try the action
-//		try {
-//			if (reader.next().toLowerCase().equals("role")) {
-//				String roleName = reader.nextLine().trim();
-//				String message = manager.tryTakeRole(roleName);
-//				System.out.println(message);
-//			}
-//		}
-//		catch (Exception e) {
-//			System.out.println("Error taking role.");
-//			System.out.println(e.getMessage());
-//			e.printStackTrace();
-//			System.out.println(defaultErrorString);
-//			return;
-//		}
-//	}
 
 	public static void tryTakeRole(String roleName){
 		boolean takeRoleSuccessful = manager.tryTakeRole(roleName);
@@ -271,8 +236,9 @@ public class Controller {
 	// displays the area info including occupants and neighbors
 	// if set, display roles (open or taken by ___) budget info shot info, and card role info.
 	public static void displayAreaState(String areaName) {
-		System.out.println("\n" + areaName + " state: \n");
-		System.out.println(manager.getAreaStateString(areaName));
+		String message = areaName + " state: \n" + manager.getAreaStateString(areaName);
+		System.out.println(message);
+		view.updateGeneralInfo(message);
 	}
 
 	public static String displayPlayerState(String playerName) {
@@ -284,6 +250,13 @@ public class Controller {
 
 	public static void displayRoleState(String roleName) {
 		System.out.println("Role statae " + roleName);
+		// TODO: Make better message
+		view.updateGeneralInfo(roleName);
+	}
+
+	public static void displayCardState(String cardTitle) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	private static void displayValidActions(ArrayList<Class> actions) {

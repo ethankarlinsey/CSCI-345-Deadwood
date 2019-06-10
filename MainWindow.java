@@ -304,6 +304,7 @@ public class MainWindow {
 	public void roleClicked(String roleName) {
 		switch (selectionState) {
 		case normalState:
+			Controller.displayRoleState(roleName);
 			break;
 		case moveState:
 			break;
@@ -314,7 +315,15 @@ public class MainWindow {
 	}
 	
 	public void cardClicked(String cardTitle) {
-		// TODO: display card info when clicked
+		switch (selectionState) {
+		case normalState:
+			Controller.displayCardState(cardTitle);
+			break;
+		case moveState:
+			break;
+		case roleState:
+			break;
+		}
 	}
 	
 	// Called by Controller
@@ -349,7 +358,7 @@ public class MainWindow {
 	}
 	
 	public void updateGeneralInfo(String message) {
-		
+		txtpnGeneralInfo.setText(message);
 	}
 	
 	public void movePlayer(String playerName, String oldArea, String newArea) {
