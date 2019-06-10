@@ -89,6 +89,7 @@ public class Controller {
 
 		updateAreaCards();
 		view.setPlayers(names);
+		turnUpdate();
 	}
 
 	private static void dayUpdate() {
@@ -282,6 +283,7 @@ public class Controller {
 
 	public static void end() {
 		System.out.println(manager.getEndStateString());
+		
 		// TODO: Should we exit here?
 	}
 

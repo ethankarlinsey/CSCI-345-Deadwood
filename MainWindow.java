@@ -238,7 +238,37 @@ public class MainWindow {
 	}
 
 	public String getPlayerName(int playerNum){ // called by Controller
-		return JOptionPane.showInputDialog("Please enter a 3 character name for player number " + playerNum + ":");
+		
+		String[] options = {"OK"};
+		JPanel panel = new JPanel();
+		JLabel lbl = new JLabel("Please enter a 3 character name for player number " + playerNum + ":");
+		JTextField txt = new JTextField(3);
+		panel.add(lbl);
+		panel.add(txt);
+		txt.requestFocus();
+		int selectedOption = JOptionPane.showOptionDialog(null, panel, "Let's get to know each other", JOptionPane.NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options , options[0]);
+
+		if(selectedOption == 0)
+		{
+		    return txt.getText();
+		}
+		
+		return null;
+	}
+	
+	public void displayWinner(String message) {
+
+		String[] options = {"Exit"};
+		JPanel panel = new JPanel();
+		JLabel lbl = new JLabel(message);
+		panel.add(lbl);
+		int selectedOption = JOptionPane.showOptionDialog(null, panel, "There are no more yees left to haw.", JOptionPane.NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options , options[0]);
+
+		if(selectedOption == 0)
+		{
+		    frmDeadwood.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		    System.exit(0);
+		}
 	}
 	
 	public void buildAreas(ArrayList<AreaView> areas) { // called by Controller
