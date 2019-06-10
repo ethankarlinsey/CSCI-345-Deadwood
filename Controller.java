@@ -157,11 +157,11 @@ public class Controller {
 						view.updatePlayerInfo(playersInArea.get(i));
 					}
 				}
-			}
-			else view.displayActError();
-
-			updateViewValidActions();
+			}	
 		}
+		else view.displayActError();
+
+		updateViewValidActions();
 	}
 
 	
@@ -238,7 +238,7 @@ public class Controller {
 
 	public static void end() {
 		System.out.println(manager.getEndStateString());
-		
+		view.displayWinner(manager.getEndStateString());
 		// TODO: Should we exit here?
 	}
 
