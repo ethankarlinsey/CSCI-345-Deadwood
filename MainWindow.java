@@ -308,6 +308,7 @@ public class MainWindow {
 		case moveState:
 			break;
 		case roleState:
+			Controller.tryTakeRole(roleName);
 			break;
 		}
 	}
@@ -368,11 +369,20 @@ public class MainWindow {
 		if (area.isPresent()) {
 			area.get().removePlayer(playerName);
 		}
-		else System.out.println(areaName + " was not found in MainWindow.addPlayerToArea");
+		else System.out.println(areaName + " was not found in MainWindow.removePlayerFromArea");
 	}
 	
 	public void addToRole(String playerName, String areaName, String roleName) {
-		
+		Optional<AreaView> area = areas.stream().filter(a -> a.getAreaName().equals(areaName)).findFirst();
+		if (area.isPresent()){
+			ArrayList<RoleView> roles = area.get().getRoles();
+			Optional<RoleView> role = roles.stream().filter(r -> r.getName().equals(roleName)).findFirst();
+			if (role.isPresent()){
+				role.get().setPlayer(playerName);
+			}
+			else System.out.println(roleName + " in " + areaName + " was not found in MainWindow.addToRole");
+		}
+		else System.out.println(areaName + " was not found in MainWindow.addToRole");
 	}
 	
 	public void removeFromRole(String playerName, String areaName, String roleName) {

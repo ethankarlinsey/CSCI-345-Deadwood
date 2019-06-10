@@ -165,7 +165,7 @@ public class Controller {
 			tryRehearse(reader);
 			break;
 		case "take":
-			tryTakeRole(reader);
+//			tryTakeRole(reader);
 			break;
 		case "upgrade":
 			tryUpgrade(reader);
@@ -180,7 +180,7 @@ public class Controller {
 			manager.newDay();
 			break;
 		case "endgame":
-			end(reader);
+			end();
 			break;
 		case "setinactive":
 			cheatSetInactive();
@@ -272,6 +272,7 @@ public class Controller {
 		boolean moveSuccessful = manager.tryMove(areaName);
 		if(moveSuccessful){
 			view.movePlayer(manager.getActivePlayer().getName(), oldAreaName, manager.getActivePlayer().getArea().getName());
+			updateViewValidActions();
 		}
 	}
 	
@@ -286,20 +287,28 @@ public class Controller {
 		System.out.println(message);
 	}
 
-	private static void tryTakeRole(Scanner reader) { // verifies command syntax and prompts manager to try the action
-		try {
-			if (reader.next().toLowerCase().equals("role")) {
-				String roleName = reader.nextLine().trim();
-				String message = manager.tryTakeRole(roleName);
-				System.out.println(message);
-			}
-		}
-		catch (Exception e) {
-			System.out.println("Error taking role.");
-			System.out.println(e.getMessage());
-			e.printStackTrace();
-			System.out.println(defaultErrorString);
-			return;
+//	private static void tryTakeRole(Scanner reader) { // verifies command syntax and prompts manager to try the action
+//		try {
+//			if (reader.next().toLowerCase().equals("role")) {
+//				String roleName = reader.nextLine().trim();
+//				String message = manager.tryTakeRole(roleName);
+//				System.out.println(message);
+//			}
+//		}
+//		catch (Exception e) {
+//			System.out.println("Error taking role.");
+//			System.out.println(e.getMessage());
+//			e.printStackTrace();
+//			System.out.println(defaultErrorString);
+//			return;
+//		}
+//	}
+
+	public static void tryTakeRole(String roleName){
+		boolean takeRoleSuccessful = manager.tryTakeRole(roleName);
+		if(takeRoleSuccessful){
+			view.addToRole(manager.getActivePlayer().getName(), manager.getActivePlayer().getArea().getName(), roleName);
+			updateViewValidActions();
 		}
 	}
 

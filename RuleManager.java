@@ -226,14 +226,14 @@ public class RuleManager {
 		return "You can't rehearse right now.";
 	}
 	
-	public String tryTakeRole(String roleName) {
+	public boolean tryTakeRole(String roleName) {
 		TakeRole takeRole = new TakeRole(activePlayer, roleName);
 		
 		if (takeRole.isValid()) {
 			takeRole.excecute();
-			return activePlayer.getName() + " is now acting as " + roleName;
+			return true;
 		}
-		return "You can't take this role.";
+		return false;
 	}
 	
 	public String tryUpgrade(int rank, String currency) {
