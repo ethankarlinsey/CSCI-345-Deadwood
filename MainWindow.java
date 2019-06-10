@@ -535,13 +535,14 @@ public class MainWindow {
 	public ArrayList<CardView> getCards(){
 		return cards;
 	}
-	
-	public CardView getCardByTitle(String cardTitle) {
-		Optional<CardView> card = cards.stream().filter(c -> c.getTitle().equalsIgnoreCase(cardTitle)).findFirst();
+
+	public CardView getCardByDescription(String cardDescription) {
+		Optional<CardView> card = cards.stream().filter(c -> c.getDescription().equalsIgnoreCase(cardDescription)).findFirst();
 		if (card.isPresent()) return card.get();
-		System.out.println("tried getting the cardView but it didn't exist: "+ cardTitle);
+		System.out.println("tried getting the cardView but it didn't exist: "+ cardDescription);
 		return null;
 	}
+	
 	
 	public void setPlayers(ArrayList<String> names) {
 		for (String name: names) {
@@ -594,5 +595,5 @@ public class MainWindow {
 		int selectedOption = JOptionPane.showOptionDialog(null, panel, "Uh oh...", JOptionPane.NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options , options[0]);	
 	
 	}
-	
+
 }
