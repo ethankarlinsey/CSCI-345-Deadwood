@@ -60,7 +60,7 @@ public class Controller {
 		manager.initializeBoard();
 
 		//INITIALIZE WINDOW
-		view = new MainWindow();
+		view = MainWindow.getInstance();
 		view.buildAreas(buildAreaViews());
 		view.buildCards(buildCardViews());
 		int playerCount = view.getNumPlayers();
@@ -82,13 +82,6 @@ public class Controller {
 
 		//Initialize the players
 		manager.initializePlayers(names);
-
-		manager.initializeBoard();
-
-		//INITIALIZE WINDOW
-		view = new MainWindow();
-		view.buildAreas(buildAreaViews());
-		view.buildCards(buildCardViews());
 
 		//Prompt game start
 		System.out.println("Let the acting begin!");
