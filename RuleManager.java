@@ -167,7 +167,7 @@ public class RuleManager {
 	}
 	
 	public boolean daysLeft() {
-		return currentDay < lastDay;
+		return currentDay <= lastDay;
 	}
 	
 	public boolean scenesLeft() { // checks whether there are scenes left to continue the day

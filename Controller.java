@@ -122,11 +122,6 @@ public class Controller {
 		ArrayList<Set> modelSets = (ArrayList<Set>) modelAreas.stream().filter(a -> a instanceof Set).map(a -> (Set) a).collect(Collectors.toList());
 		modelSets.stream().forEach(s -> view.getAreaByName(s.getName()).setShotsLeft(s.getInitialShots()));
 	}
-	
-	private static void replaceViewCards() {
-		// TODO Auto-generated method stub
-		
-	}
 
 	private static void cheatMove(Scanner reader) { // cheat format: sendto [playername] [areaname]
 		String playerName = reader.next();
