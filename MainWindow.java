@@ -336,7 +336,7 @@ public class MainWindow {
 	}
 	
 	private void upgradeClicked() {
-		Integer[] possibleRanks = {2, 3, 4, 5, 6, 7, 8};
+		Integer[] possibleRanks = {2, 3, 4, 5};
 		String[] possibleCurrencies = {"dollars", "credits"};
 		int rank = (Integer) JOptionPane.showInputDialog(null, "Please select rank to upgrade to:", "Input", JOptionPane.INFORMATION_MESSAGE, null, possibleRanks, possibleRanks[0]);
 		String currency = (String) JOptionPane.showInputDialog(null, "Please select currency to use for upgrade:", "Input", JOptionPane.INFORMATION_MESSAGE, null, possibleCurrencies, possibleCurrencies[0]);
@@ -514,11 +514,10 @@ public class MainWindow {
 		else System.out.println(areaName + " was not found in MainWindow.removeFromRole");
 	}
 
-	public void decrementShot(String areaName) {
+	public void setShot(String areaName, int shots) {
 		Optional<AreaView> area = areas.stream().filter(a -> a.getAreaName().equals(areaName)).findFirst();
 		if (area.isPresent()) {
-			int shots = area.get().getShotsLeft();
-			area.get().setShotsLeft(shots - 1);
+			area.get().setShotsLeft(shots);
 		}
 	}
 

@@ -151,22 +151,21 @@ public class Controller {
 		manager.getPlayersByArea(manager.getActivePlayer().getArea()).forEach(p -> heldRoles.add(p.getRole()));
 
 		String act = manager.tryAct();
-		if(act != null){
+		if(act != null) {
 			view.actStatus(act);
-			view.decrementShot(areaName);
+			view.setShot(areaName, ((Set) manager.getActivePlayer().getArea()).getShotsRemaining());
 
 			// check if the scene wrapped
-			if(manager.getActivePlayer().getRole() == null){
+			if (manager.getActivePlayer().getRole() == null) {
 				// update the view for all players who were on the card/ area
-				for(int i = 0; i < playersInArea.size(); i++){
-					if(heldRoles.get(i) != null){
+				for (int i = 0; i < playersInArea.size(); i++) {
+					if (heldRoles.get(i) != null) {
 						view.removeFromRole(areaName, heldRoles.get(i).getName());
 						view.updatePlayerInfo(playersInArea.get(i));
 					}
 				}
-			}	
-		}
-		else view.displayActError();
+			}
+		} else view.displayActError();
 
 		updateViewValidActions();
 	}
