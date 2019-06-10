@@ -8,6 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
@@ -46,6 +47,7 @@ public class AreaView {
 	public AreaView(String areaName, MainWindow view) {
 		this.view = view;
 		this.setAreaName(areaName);
+		labelOccupiedBy.setText("Occupied by: ");
 	}
 	
 	public void buildAreaView(int[] bounds) {
@@ -71,6 +73,34 @@ public class AreaView {
 	//TODO: implement construction of non-set areas
 	public void buildNonSetAreas(JLayeredPane pane) {
 		
+		labelTitle.setLabelFor(pane);
+		labelTitle.setFont(new Font("Tahoma", Font.BOLD, 13));
+		labelTitle.setBounds(12, 13, 200, 16);
+		pane.add(labelTitle);
+		
+		labelOccupiedBy.setLabelFor(pane);
+		labelOccupiedBy.setBounds(12, 40, 200, 16);
+		pane.add(labelOccupiedBy);
+		
+		JTextPane messageBox = new JTextPane();
+		messageBox.setEditable(false);
+		messageBox.setText("General Info");
+		messageBox.setBounds(12, 68, 200, 145);
+		pane.add(messageBox);
+		
+		if (getAreaName().equalsIgnoreCase("Trailer")) {
+			messageBox.setText("Start here every day\n");
+		}
+		if (getAreaName().equalsIgnoreCase("Casting Office" )) {
+			String message = "Pay dollars OR credits to upgrade\n"
+					+ "Rank" + "\t" + "Dollars" + "\t" + "Credits\n"
+					+ "2" + "\t" + "4" + "\t" + "5" + "\n"
+					+ "3" + "\t" + "10" + "\t" + "10" + "\n"
+					+ "4" + "\t" + "18" + "\t" + "15" + "\n"
+					+ "5" + "\t" + "28" + "\t" + "25" + "\n";
+			messageBox.setText(message);
+		}
+		else System.out.println("In AreaView - buildNonSetAreas - the area name was wrong");
 	}
 	
 	//TODO: integrate pane builders with the controller and boardModel

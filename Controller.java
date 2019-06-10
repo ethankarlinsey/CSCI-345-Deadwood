@@ -418,7 +418,11 @@ public class Controller {
 	
 	public static AreaView buildAreaView(Area modelArea) {
 		AreaView viewArea = new AreaView(modelArea.getName(), view);
+<<<<<<< HEAD
+		
+=======
 
+>>>>>>> c6e5da02f8b8a0934529d92c550254b2a50bcad4
 		if (modelArea instanceof Set) {
 			viewArea.setShotsLeft(((Set) modelArea).getShotsRemaining());
 			viewArea.setRoles(buildRoleViews((Set) modelArea));
