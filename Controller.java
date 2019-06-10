@@ -111,10 +111,10 @@ public class Controller {
 
 	// Called when the player ends their turn.
 	public static void turnUpdate() {
+		if (!manager.scenesLeft()) dayUpdate();
 		manager.setNextPlayerActive();
 		view.setActivePlayer(manager.getActivePlayer().getName());
 		//TODO: reflect this in the view
-		if (!manager.scenesLeft()) dayUpdate();
 		updateViewValidActions();
 	}
 	
