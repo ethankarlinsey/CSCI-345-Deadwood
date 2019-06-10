@@ -14,7 +14,7 @@ public class Controller {
 	private static HashMap<Class, String> actionTypeToString = new HashMap<Class, String>();
 
 	private static String defaultErrorString = "Incorrect Syntax. Type 'help' to see valid commands";
-	
+
 	private static String[] commandDescriptions = {
 			"help - displays available commands",
 			"exit - exits the game",
@@ -29,8 +29,8 @@ public class Controller {
 			"take role [roleName] - if valid, the player takes the [roleName] role",
 			"upgrade to [rankNumber] with [currencyType] - if valid, the player's rank will be upgraded to [rankNumber]. [currencyType] can be 'dollars' or 'credits'"
 	};
-	
-	
+
+
 	public static void initialize() {//initializes maps and Scanner
 
 		actionTypeToString = new HashMap<>();
@@ -49,10 +49,10 @@ public class Controller {
 	 */
 
 	public static void start() {
-		
+
 		// Begin initializing the game
 		manager = new RuleManager();
-		
+
 		//First prompts - board layout, player count and player names
 		System.out.println("Welcome to Deadwood! The cheapass game of acting badly!");
 
@@ -67,7 +67,7 @@ public class Controller {
 
 
 		ArrayList<String> names = new ArrayList<String>();
-		
+
 		for (int i = 0; i < playerCount; i++) { //prompts for player names and adds to list.
 			while(true) {
 				Integer playerNum = i + 1;
@@ -84,17 +84,17 @@ public class Controller {
 			}
 		}
 		names.stream().forEach(s -> System.out.println(s));
-		
+
 		//Initialize the players
 		manager.initializePlayers(names);
 
 		manager.initializeBoard();
-		
+
 		//INITIALIZE WINDOW
 		view = new MainWindow();
 		view.buildAreas(buildAreaViews());
 		view.buildCards(buildCardViews());
-		
+
 		//Prompt game start
 		System.out.println("Let the acting begin!");
 		manager.startGame();
@@ -108,7 +108,6 @@ public class Controller {
 		manager.newDay();
 		//view.newDay();
 		//TODO: start a new day in the view
-		
 	}
 
 	// Called when the player ends their turn.
@@ -117,18 +116,18 @@ public class Controller {
 		//TODO: reflect this in the view
 		if (!manager.scenesLeft()) dayUpdate();
 	}
-	
+
 	private static void cheatMove(Scanner reader) { // cheat format: sendto [playername] [areaname]
 		String playerName = reader.next();
 		String areaName = reader.nextLine().trim();
-		
+
 		System.out.println(manager.cheatMove(playerName, areaName));
 	}
-	
+
 	private static void cheatSetInactive() {
 		System.out.println(manager.cheatSetInactive());
 	}
-	
+
 	private static void help() {
 		Arrays.stream(commandDescriptions).forEach(str -> System.out.println(str));
 	}
@@ -146,7 +145,7 @@ public class Controller {
 			System.out.println(defaultErrorString); // if the command has more elements than "act", write an error and return.
 			return;
 		}
-		
+
 		String message = manager.tryAct();
 		System.out.println(message);
 	}
@@ -184,14 +183,14 @@ public class Controller {
 			updateViewValidActions();
 		}
 	}
-	
+
 	private static void tryRehearse(Scanner reader) { // verifies command syntax and prompts manager to try the action
 		if (reader.nextLine().trim().length() > 0) {
 			System.out.println("Error rehearsing - too many arguments");
 			System.out.println(defaultErrorString);
 			return;
 		}
-		
+
 		String message = manager.tryRehearse();
 		System.out.println(message);
 	}
@@ -222,12 +221,12 @@ public class Controller {
 		}
 		System.out.println("Error upgrading, but not enough to throw an error... try getting your words right");
 	}
-	
+
 	public static void displayBoardState() {
 		System.out.println("\nBoard state:\n");
 		System.out.println(manager.getBoardStateAsString());
 	}
-	
+
 	// displays the number of days left, maybe number of scenes left in the day and who is in the lead?
 	public static void displayGameState() {
 		System.out.println(manager.getGameStateString());
@@ -240,15 +239,14 @@ public class Controller {
 		System.out.println(message);
 		view.updateGeneralInfo(message);
 	}
-	
+
 	public static String displayPlayerState(String playerName) {
 		String message = playerName + " state: \n";
 		message += manager.getPlayerStateString(playerName);
 		System.out.println(message);
-		view.updateGeneralInfo(message);
 		return message;
 	}
-	
+
 	public static void displayRoleState(String roleName) {
 		System.out.println("Role statae " + roleName);
 		// TODO: Make better message
@@ -259,83 +257,84 @@ public class Controller {
 		// TODO Auto-generated method stub
 		
 	}
-	
+
 	private static void displayValidActions(ArrayList<Class> actions) {
 		System.out.println();
 		System.out.println("It is " + manager.getActivePlayer().getName() + "'s turn. Right now you can");
 		actions.stream().map(c -> actionTypeToString.get((Class) c)).forEach(str -> System.out.println(str));
 		System.out.println("End turn");
 	}
-	
+
 	public static void end() {
 		System.out.println(manager.getEndStateString());
 	}
-	
-	
+
+
 	// View builder methods
 	public static ArrayList<AreaView> buildAreaViews() {
 		ArrayList<Area> modelAreas = manager.getAreas();
 		ArrayList<AreaView> viewAreas = new ArrayList<AreaView>();
-		
+
 		for (Area a: modelAreas) {
 			viewAreas.add(buildAreaView(a));
 		}
-		
+
 		return viewAreas;
 	}
-	
+
 	public static ArrayList<RoleView> buildRoleViews(Set modelSet) {
 		ArrayList<Role> modelRoles = modelSet.getRoles();
 		ArrayList<RoleView> viewRoles = new ArrayList<RoleView>();
-		
+
 		for (Role r: modelRoles) {
 			viewRoles.add(buildRoleView(r));
 		}
-		
+
 		return viewRoles;
 	}
-	
+
 	public static ArrayList<RoleView> buildRoleViews(Card modelCard){
 		ArrayList<Role> modelRoles = modelCard.getCardRoles();
 		ArrayList<RoleView> viewRoles = new ArrayList<RoleView>();
-		
+
 		for (Role r: modelRoles) {
 			viewRoles.add(buildRoleView(r));
 		}
-		
+
 		return viewRoles;
 	}
-	
+
 	public static ArrayList<CardView> buildCardViews(){
 		ArrayList<Card> modelCards = manager.getCards();
 		ArrayList<CardView> viewCards = new ArrayList<CardView>();
-		
+
 		for (Card c: modelCards) {
 			viewCards.add(buildCardView(c));
 		}
-		
+
 		return viewCards;
 	}
-	
+
 	public static AreaView buildAreaView(Area modelArea) {
 		AreaView viewArea = new AreaView(modelArea.getName(), view);
+		//viewArea.setPlayers(null);
 
 		if (modelArea instanceof Set) {
 			viewArea.setShotsLeft(((Set) modelArea).getShotsRemaining());
 			viewArea.setRoles(buildRoleViews((Set) modelArea));
 		}
-		
+
 		return viewArea;
 	}
-	
+
 	public static RoleView buildRoleView(Role modelRole) {
-		RoleView viewRole = new RoleView(modelRole.getName(), view); 
+		RoleView viewRole = new RoleView(modelRole.getName(), view);
 		viewRole.setLine(modelRole.getLine());
 		viewRole.setPlayer(null);
 		viewRole.setRank(modelRole.getRank());
-		
+
 		System.out.println(modelRole.getName() + "\n" + viewRole.getName());
-		
+
 		return viewRole;
 	}
 
@@ -345,7 +344,7 @@ public class Controller {
 		viewCard.setDescription(modelCard.getDescription());
 		System.out.println("CARD DESCRIPTION------ " + modelCard.getDescription());
 		viewCard.setRoles(buildRoleViews(modelCard));
-		
+
 		return viewCard;
 	}
 
@@ -373,29 +372,28 @@ public class Controller {
 
 		view.updateEnabledButtons(validActionNames);
 	}
-	
+
 	public static void updateAreaCards() {
 		ArrayList<Area> modelAreas = manager.getAreas();
-		
+
 		for (Area modelArea: modelAreas) {
 			if (modelArea instanceof Set) {
 				Set modelSet = (Set) modelArea;
 				String areaName = modelSet.getName();
 				String cardTitle = modelSet.getCard().getTitle();
-				
+
 				AreaView viewArea = view.getAreaByName(areaName);
 				CardView viewCard = view.getCardByTitle(cardTitle);
 				viewArea.replaceCard(viewCard);
 			}
 		}
 	}
-	
+
 	public static void main(String[] args) {
-		
+
 		initialize();
-		
+
 		start();
 	}
-
 
 }

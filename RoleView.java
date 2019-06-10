@@ -67,7 +67,7 @@ public class RoleView {
 	}
 
 	public void setName(String name) {
-		nameLabel.setText(name);;
+		nameLabel.setText(name);
 	}
 
 	public int getRank() {
@@ -93,7 +93,11 @@ public class RoleView {
 
 	public void setPlayer(String player) {
 		this.player = player;
-		actorLabel.setText("Actor: " + player);
+		if(player == null){
+			actorLabel.setText("No Actor");
+		} else {
+			actorLabel.setText("Actor: " + player);
+		}
 	}
 	
 }
