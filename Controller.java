@@ -110,86 +110,12 @@ public class Controller {
 		//TODO: start a new day in the view
 		
 	}
-	
-	/*
-	 * Handles turn-by-turn operations
-	 */
-	private static void turnUpdate(Scanner reader) {
-		
 
-		// Display the updated board before each turn
-		displayBoardState();
-		
-		boolean continueTurn = true;
-		while (continueTurn) {
-			continueTurn = actionUpdate(reader);
-		} // continue prompting player for actions until she decides to end her turn
-		
-		manager.setNextPlayerActive(); // move to the next player at the end of each turn
-	}
-	
-	private static boolean actionUpdate(Scanner reader) {
-
-		// clear the reader
-		System.out.println("Press enter to continue.");
-		reader.nextLine();
-		
-		// Display valid actions, which always includes ending the turn
-		ArrayList<Class> actions = manager.getValidActions();	
-		displayValidActions(actions);
-		
-		// Prompt user for command and split the input into words
-		System.out.println("What would you like to do?");
-		String firstWord = reader.next().toLowerCase(); // set commands to lowercase
-		
-		switch (firstWord) { // Parse the first argument of the command and try to execute the corresponding action
-		case "exit":
-			reader.close();
-			System.exit(0);
-			break;
-		case "end":
-			return tryEndTurn(reader);
-		case "view":
-			tryView(reader);
-			break;
-		case "help":
-			help();
-			break;
-		case "act":
-			tryAct(reader);
-			break;
-		case "move":
-//			tryMove(reader);
-			break;
-		case "rehearse":
-			tryRehearse(reader);
-			break;
-		case "take":
-//			tryTakeRole(reader);
-			break;
-		case "upgrade":
-			tryUpgrade(reader);
-			break;
-			
-			// ------------------ Cheat codes for debugging are below this line --------------------------
-			
-		case "sendto":	// cheat code sends active player to specified area
-			cheatMove(reader);
-			break;
-		case "newday":
-			manager.newDay();
-			break;
-		case "endgame":
-			end();
-			break;
-		case "setinactive":
-			cheatSetInactive();
-			break;
-		default:
-			System.out.println(defaultErrorString);
-			break;
-		}
-		return true;
+	// Called when the player ends their turn.
+	private static void turnUpdate() {
+		manager.setNextPlayerActive();
+		//TODO: reflect this in the view
+		if (!manager.scenesLeft()) dayUpdate();
 	}
 	
 	private static void cheatMove(Scanner reader) { // cheat format: sendto [playername] [areaname]
@@ -250,23 +176,6 @@ public class Controller {
 		}
 	}
 	
-//	private static void tryMove(Scanner reader) { // verifies command syntax and prompts manager to try the action
-//		try {
-//			if (reader.next().toLowerCase().equals("to")){
-//				String areaName = reader.nextLine().trim();
-//				String message = manager.tryMove(areaName);
-//				System.out.println(message);
-//				return;
-//			}
-//		}
-//		catch (Exception e) {
-//			System.out.println("Error moving");
-//			System.out.println(e.getMessage());
-//			e.printStackTrace(System.out);
-//			System.out.println(defaultErrorString);
-//		}
-//	}
-	
 	public static void tryMove(String areaName) {
 		String oldAreaName = manager.getActivePlayer().getArea().getName();
 		boolean moveSuccessful = manager.tryMove(areaName);
@@ -286,23 +195,6 @@ public class Controller {
 		String message = manager.tryRehearse();
 		System.out.println(message);
 	}
-
-//	private static void tryTakeRole(Scanner reader) { // verifies command syntax and prompts manager to try the action
-//		try {
-//			if (reader.next().toLowerCase().equals("role")) {
-//				String roleName = reader.nextLine().trim();
-//				String message = manager.tryTakeRole(roleName);
-//				System.out.println(message);
-//			}
-//		}
-//		catch (Exception e) {
-//			System.out.println("Error taking role.");
-//			System.out.println(e.getMessage());
-//			e.printStackTrace();
-//			System.out.println(defaultErrorString);
-//			return;
-//		}
-//	}
 
 	public static void tryTakeRole(String roleName){
 		boolean takeRoleSuccessful = manager.tryTakeRole(roleName);
@@ -344,19 +236,28 @@ public class Controller {
 	// displays the area info including occupants and neighbors
 	// if set, display roles (open or taken by ___) budget info shot info, and card role info.
 	public static void displayAreaState(String areaName) {
-		System.out.println("\n" + areaName + " state: \n");
-		System.out.println(manager.getAreaStateString(areaName));
+		String message = areaName + " state: \n" + manager.getAreaStateString(areaName);
+		System.out.println(message);
+		view.updateGeneralInfo(message);
 	}
 	
 	public static String displayPlayerState(String playerName) {
 		String message = playerName + " state: \n";
 		message += manager.getPlayerStateString(playerName);
 		System.out.println(message);
+		view.updateGeneralInfo(message);
 		return message;
 	}
 	
 	public static void displayRoleState(String roleName) {
 		System.out.println("Role statae " + roleName);
+		// TODO: Make better message
+		view.updateGeneralInfo(roleName);
+	}
+
+	public static void displayCardState(String cardTitle) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	private static void displayValidActions(ArrayList<Class> actions) {
@@ -495,5 +396,6 @@ public class Controller {
 		
 		start();
 	}
+
 
 }
