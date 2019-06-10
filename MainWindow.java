@@ -19,6 +19,7 @@ import java.awt.event.ItemEvent;
 
 public class MainWindow {
 
+	private static MainWindow window;
 	private JFrame frmDeadwood;
 	//private Controller controller;
 	private JLayeredPane boardView;
@@ -56,13 +57,18 @@ public class MainWindow {
 	/**
 	 * Create the application.
 	 */
-	public MainWindow() {
+	private MainWindow() {
 		initialize();
 		try {
 			frmDeadwood.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public MainWindow getInstance() {
+		if (window != null) window = new MainWindow();
+		return window; 
 	}
 
 	/**
@@ -254,6 +260,11 @@ public class MainWindow {
 		System.out.println("CARDS WERE BUILT!!!! --------------------------");
 	}
 	
+	public void setActivePlayer(String playerName) {
+		updatePlayerInfo(playerName);
+		JOptionPane.showMessageDialog(frmDeadwood, "It is " + playerName + "'s turn!");
+	}
+	
 	private void moveClicked() {
 		// TODO: set selectionState to moveState and disable all buttons except cancel.
 		this.selectionState = this.moveState;
@@ -353,6 +364,8 @@ public class MainWindow {
 				comboBox.setSelectedItem(i);
 				String message = Controller.displayPlayerState(comboBox.getSelectedItem().toString());
 				txtpnPlayerInfo.setText(message);
+				
+				System.out.println("------------------------ Updated " + name);
 			}
 		}
 	}
