@@ -282,6 +282,10 @@ public class RuleManager {
 
 		return "\nThis Scene is wrapped.\n" + payoutDetails;
 	}
+
+	public ArrayList<Player> getPlayersByArea(Area a){
+		return board.getPlayersByArea(a);
+	}
 	
 	public String payout(Set set) {
 		

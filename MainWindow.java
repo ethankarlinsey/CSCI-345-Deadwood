@@ -329,10 +329,6 @@ public class MainWindow {
 		Controller.turnUpdate();
 	}
 
-	public void newTurn(String playerTurn){
-		JOptionPane.showMessageDialog(null, "It's now " + playerTurn + "'s turn!");
-	}
-	
 	private void cancelClicked() {
 		// TODO: enable appropriate buttons and set selectionState to normal.
 		selectionState = normalState;
@@ -462,10 +458,37 @@ public class MainWindow {
 		else System.out.println(areaName + " was not found in MainWindow.addToRole");
 	}
 	
-	public void removeFromRole(String playerName, String areaName, String roleName) {
-		
+	public void removeFromRole(String areaName, String roleName) {
+		Optional<AreaView> area = areas.stream().filter(a -> a.getAreaName().equals(areaName)).findFirst();
+		if (area.isPresent()){
+			// check if role is on the area or the card
+			ArrayList<RoleView> roles = area.get().getRoles();
+			Optional<RoleView> role = roles.stream().filter(r -> r.getName().equals(roleName)).findFirst();
+			if (role.isPresent()){
+				role.get().setPlayer(null);
+			}
+			else {
+				roles = area.get().getCard().getRoles();
+				role = roles.stream().filter(r -> r.getName().equals(roleName)).findFirst();
+				if (role.isPresent()){
+					role.get().setPlayer(null);
+				}
+				else{
+					System.out.println(roleName + " in " + areaName + " was not found in MainWindow.removeFromRole, either on area or on card");
+				}
+			}
+		}
+		else System.out.println(areaName + " was not found in MainWindow.removeFromRole");
 	}
-	
+
+	public void decrementShot(String areaName) {
+		Optional<AreaView> area = areas.stream().filter(a -> a.getAreaName().equals(areaName)).findFirst();
+		if (area.isPresent()) {
+			int shots = area.get().getShotsLeft();
+			area.get().setShotsLeft(shots - 1);
+		}
+	}
+
 	public ArrayList<AreaView> getAreas(){
 		return areas;
 	}
