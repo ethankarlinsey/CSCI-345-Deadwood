@@ -5,6 +5,7 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class Controller {
@@ -110,6 +111,7 @@ public class Controller {
 
 	// Called when the player ends their turn.
 	public static void turnUpdate() {
+		if (!manager.scenesLeft()) dayUpdate();
 		manager.setNextPlayerActive();
 		view.setActivePlayer(manager.getActivePlayer().getName());
 		
@@ -244,7 +246,16 @@ public class Controller {
 	public static void end() {
 		System.out.println(manager.getEndStateString());
 		view.displayWinner(manager.getEndStateString());
-		// TODO: Should we exit here?
+		// TODO: Should we exit here? yes.
+		try
+		{
+			Thread.sleep(10000);
+		}
+		catch(InterruptedException ex)
+		{
+			Thread.currentThread().interrupt();
+		}
+		System.exit(0);
 	}
 
 

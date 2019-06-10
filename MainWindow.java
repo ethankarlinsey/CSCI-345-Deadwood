@@ -259,9 +259,15 @@ public class MainWindow {
 		JTextField txt = new JTextField(3);
 		panel.add(lbl);
 		panel.add(txt);
+		txt.requestFocusInWindow();
+		int selectedOption = JOptionPane.showOptionDialog(null, panel, "Let's get to know each other", JOptionPane.NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, null);
 
-		return JOptionPane.showInputDialog(panel, lbl, "Let's get to know each other", JOptionPane.QUESTION_MESSAGE);
+		if(selectedOption == 0)
+		{
+			return txt.getText();
+		}
 
+		return null;
 	}
 	
 	public void displayWinner(String message) {
