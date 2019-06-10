@@ -196,7 +196,7 @@ public class RuleManager {
 		return null;
 	}
 	
-	public String checkSetShots(Set set) {
+	private String checkSetShots(Set set) {
 		if (set.getShotsRemaining() <= 0) {
 			return wrapScene(set); //Payout should also reset player rehearsals and roles
 			// countRemainingScenes(); NOTE: controller counts how many scenes are left at the end of each turn
@@ -270,7 +270,7 @@ public class RuleManager {
 	}
 	
 	//The controller calls newDay, so no need to worry about counting scenes
-	public String wrapScene(Set set) {//pays the players when a scene wraps. Also resets their roles and rehearsals
+	private String wrapScene(Set set) {//pays the players when a scene wraps. Also resets their roles and rehearsals
 		String payoutDetails = payout(set);
 		//release the players
 		ArrayList<Player> playersOnSet = board.getPlayersByArea(set);

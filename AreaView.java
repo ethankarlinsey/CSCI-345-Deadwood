@@ -264,5 +264,14 @@ public class AreaView {
 			card.clearRoles();
 		}
 	}
+
+	public void removeCard() {
+		System.out.println("Card was removed? " + this.getAreaName());
+		this.card = null;
+		areaPane.remove(cardPanel);
+		this.cardPanel = new JPanel();
+		areaPane.add(cardPanel);
+		areaPane.repaint();
+	}
 	
 }
