@@ -405,4 +405,16 @@ public class RuleManager {
 	public ArrayList<Card> getCards() {
 		return board.getCards();
 	}
+
+	public ArrayList<String> getPlayerNames() {
+		return (ArrayList<String>) players.stream().map(p -> p.getName()).collect(Collectors.toList());
+	}
+
+	public int getLastDay() {
+		return lastDay;
+	}
+	
+	public int getCurrentDay() {
+		return currentDay;
+	}
 }

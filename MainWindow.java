@@ -232,10 +232,6 @@ public class MainWindow {
 		buttons.put("Cancel", btnCancel);
 	}
 
-	public void newDay() {
-		//TODO: what to do when the view sets a new day
-	}
-	
 	public int getNumPlayers(){
 		Integer[] possiblePlayerNum = {2, 3, 4, 5, 6, 7, 8};
 		return (Integer) JOptionPane.showInputDialog(null, "Please choose number of players:", "Input", JOptionPane.INFORMATION_MESSAGE, null, possiblePlayerNum, possiblePlayerNum[0]);
@@ -429,7 +425,11 @@ public class MainWindow {
 	}
 	
 	public void sendPlayersToTrailers(ArrayList<String> playerNames) {
+		//Remove players from areas
 		areas.stream().forEach(a -> a.clearPlayers());
+		//Remove players from roles
+		areas.parallelStream().forEach(a -> a.clearRoles());
+		//Send players to trailers
 		playerNames.stream().forEach(p -> addPlayerToArea(p, "Trailer"));
 	}
 	
@@ -569,5 +569,16 @@ public class MainWindow {
 	
 	}
 
-
+	public void displayNewDayMessage(int currentDay, int lastDay) {
+		String[] options = {"OK"};
+		JPanel panel = new JPanel();
+		JLabel message1 = new JLabel("It's time for a new day! Today is day " + String.valueOf(currentDay)
+									+ " out of " + String.valueOf(lastDay) + ".");
+		JLabel message2 = new JLabel("All players have been moved to the trailer");
+		panel.add(message1);
+		panel.add(message2);
+		int selectedOption = JOptionPane.showOptionDialog(null, panel, "Uh oh...", JOptionPane.NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options , options[0]);	
+	
+	}
+	
 }

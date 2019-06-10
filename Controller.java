@@ -5,6 +5,7 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Controller {
 
@@ -91,15 +92,18 @@ public class Controller {
 		updateAreaCards();
 		view.setPlayers(names);
 		turnUpdate();
-		view.newDay();
 		view.sendPlayersToTrailers(names);
 	}
 
 	private static void dayUpdate() {
 		if (!manager.daysLeft()) end();
 		manager.newDay();
-		//view.newDay();
+		
 		//TODO: start a new day in the view
+		view.sendPlayersToTrailers(manager.getPlayerNames());
+		//TODO: reset shots
+		resetViewShots();
+		view.displayNewDayMessage(manager.getCurrentDay(), manager.getLastDay());
 	}
 
 	// Called when the player ends their turn.
@@ -109,6 +113,12 @@ public class Controller {
 		//TODO: reflect this in the view
 		if (!manager.scenesLeft()) dayUpdate();
 		updateViewValidActions();
+	}
+	
+	public static void resetViewShots() {
+		ArrayList<Area> modelAreas = manager.getAreas();
+		ArrayList<Set> modelSets = (ArrayList<Set>) modelAreas.stream().filter(a -> a instanceof Set).map(a -> (Set) a).collect(Collectors.toList());
+		modelSets.stream().forEach(s -> view.getAreaByName(s.getName()).setShotsLeft(s.getInitialShots()));
 	}
 
 	private static void cheatMove(Scanner reader) { // cheat format: sendto [playername] [areaname]
