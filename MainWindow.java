@@ -338,6 +338,7 @@ public class MainWindow {
 	}
 	
 	private void endTurnClicked() {
+		selectionState = normalState;
 		Controller.turnUpdate();
 	}
 
@@ -387,6 +388,7 @@ public class MainWindow {
 	
 	// Called by Controller
 	public void updateEnabledButtons(ArrayList<String> validActions) {
+		this.selectionState = normalState;
 		// TODO: update which buttons are enabled based on the general validity check in ruleManager
 		for(String action : buttons.keySet()){
 			if(validActions.contains(action)){
@@ -400,7 +402,6 @@ public class MainWindow {
 	
 	private void askForEnabledButtons() {
 		Controller.updateViewValidActions();
-		this.selectionState = normalState;
 	}
 	
 	public void disableButtons() {

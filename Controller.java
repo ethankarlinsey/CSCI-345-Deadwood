@@ -160,26 +160,24 @@ public class Controller {
 		boolean moveSuccessful = manager.tryMove(areaName);
 		if(moveSuccessful){
 			view.movePlayer(manager.getActivePlayer().getName(), oldAreaName, manager.getActivePlayer().getArea().getName());
-			updateViewValidActions();
 		}
 		else view.displayMoveError(areaName);
+		updateViewValidActions();
 	}
 
 	public static void tryRehearse(){
 		boolean rehearse = manager.tryRehearse();
-		if(rehearse){
-			updateViewValidActions();
-		}
-		else view.displayRehearseError();
+		if(!rehearse) view.displayRehearseError();
+		updateViewValidActions();
 	}
 
 	public static void tryTakeRole(String roleName){
 		boolean takeRoleSuccessful = manager.tryTakeRole(roleName);
 		if(takeRoleSuccessful){
 			view.addToRole(manager.getActivePlayer().getName(), manager.getActivePlayer().getArea().getName(), roleName);
-			updateViewValidActions();
 		}
 		else view.displayTakeRoleError(roleName);
+		updateViewValidActions();
 	}
 
 	public static void tryUpgrade(int rank, String currency){
@@ -189,6 +187,7 @@ public class Controller {
 		} else {
 			view.displayUpgradeError();
 		}
+		updateViewValidActions();
 	}
 
 	public static void displayBoardState() {
