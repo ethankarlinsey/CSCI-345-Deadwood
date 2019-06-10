@@ -279,7 +279,7 @@ public class MainWindow {
 	}
 	
 	private void endTurnClicked() {
-		
+		Controller.turnUpdate();
 	}
 	
 	private void cancelClicked() {

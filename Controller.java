@@ -112,10 +112,11 @@ public class Controller {
 	}
 
 	// Called when the player ends their turn.
-	private static void turnUpdate() {
+	public static void turnUpdate() {
 		manager.setNextPlayerActive();
 		//TODO: reflect this in the view
 		if (!manager.scenesLeft()) dayUpdate();
+		updateViewValidActions();
 	}
 
 	private static void cheatMove(Scanner reader) { // cheat format: sendto [playername] [areaname]
