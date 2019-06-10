@@ -156,8 +156,11 @@ public class AreaView {
 	public void replaceCard(CardView card) {
 		areaPane.remove(cardPanel);
 		this.card = card;
-		this.cardPanel = this.card.getPanelInvisible(); // Should set card invisible by default.
-		//this.cardPanel = this.card.getPanelVisible(); // setting to visible for testing purposes.
+		if(this.players.size() == 0) {
+			this.cardPanel = this.card.getPanelInvisible(); // Should set card invisible by default/ if the room is empty.
+		} else {
+			this.cardPanel = this.card.getPanelVisible();
+		}
 		System.out.println("CARDS WERE REPLACED -------- " + card.getTitle());
 		areaPane.add(cardPanel);
 	}
@@ -223,6 +226,13 @@ public class AreaView {
 	public void addPlayer(String name) {
 		players.add(name);
 		setPlayers(players);
+		if(this.card != null){
+			if(this.cardPanel != card.getPanelVisible()) {
+				areaPane.remove(cardPanel);
+				this.cardPanel = this.card.getPanelVisible();
+				areaPane.add(cardPanel);
+			}
+		}
 		System.out.println("added " + name);
 	}
 	

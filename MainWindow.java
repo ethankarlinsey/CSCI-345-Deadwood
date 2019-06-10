@@ -158,7 +158,9 @@ public class MainWindow {
 		btnMove.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				moveClicked();
+				if(btnMove.isEnabled()) {
+					moveClicked();
+				}
 			}
 		});
 		btnMove.setBounds(12, 13, 240, 25);
@@ -169,7 +171,9 @@ public class MainWindow {
 		btnTakeRole.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				takeRoleClicked();
+				if(btnTakeRole.isEnabled()) {
+					takeRoleClicked();
+				}
 			}
 		});
 		btnTakeRole.setBounds(12, 51, 240, 25);
@@ -180,7 +184,9 @@ public class MainWindow {
 		btnAct.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				actClicked();
+				if(btnAct.isEnabled()) {
+					actClicked();
+				}
 			}
 		});
 		btnAct.setBounds(12, 89, 240, 25);
@@ -191,7 +197,9 @@ public class MainWindow {
 		btnRehearse.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				rehearseClicked();
+				if(btnRehearse.isEnabled()) {
+					rehearseClicked();
+				}
 			}
 		});
 		btnRehearse.setBounds(12, 127, 240, 25);
@@ -202,7 +210,9 @@ public class MainWindow {
 		btnUpgrade.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				upgradeClicked();
+				if(btnUpgrade.isEnabled()) {
+					upgradeClicked();
+				}
 			}
 		});
 		btnUpgrade.setBounds(12, 165, 240, 25);
@@ -213,7 +223,9 @@ public class MainWindow {
 		btnEndTurn.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				endTurnClicked();
+				if(btnEndTurn.isEnabled()) {
+					endTurnClicked();
+				}
 			}
 		});
 		btnEndTurn.setBounds(12, 203, 240, 25);
@@ -224,7 +236,9 @@ public class MainWindow {
 		btnCancel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				cancelClicked();
+				if(btnCancel.isEnabled()) {
+					cancelClicked();
+				}
 			}
 		});
 		btnCancel.setBounds(12, 241, 240, 25);
@@ -444,6 +458,7 @@ public class MainWindow {
 		}
 		else System.out.println(areaName + " was not found in MainWindow.addPlayerToArea");
 	}
+
 	private void removePlayerFromArea(String playerName, String areaName) {
 		Optional<AreaView> area = areas.stream().filter(a -> a.getAreaName().equals(areaName)).findFirst();
 		if (area.isPresent()) {
