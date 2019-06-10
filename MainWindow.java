@@ -513,6 +513,10 @@ public class MainWindow {
 		}
 		else System.out.println(areaName + " was not found in MainWindow.removeFromRole");
 	}
+	
+	public void removeCard(String areaName) {
+		getAreaByName(areaName).removeCard();
+	}
 
 	public void setShot(String areaName, int shots) {
 		Optional<AreaView> area = areas.stream().filter(a -> a.getAreaName().equals(areaName)).findFirst();
@@ -556,7 +560,7 @@ public class MainWindow {
 		JPanel panel = new JPanel();
 		JLabel lbl = new JLabel("You are currently unable to move to " + areaName + ".");
 		panel.add(lbl);
-		int selectedOption = JOptionPane.showOptionDialog(null, panel, "Uh oh...", JOptionPane.NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options , options[0]);
+		JOptionPane.showOptionDialog(null, panel, "Uh oh...", JOptionPane.NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options , options[0]);
 	}
 
 	public void displayRehearseError() {
@@ -564,7 +568,7 @@ public class MainWindow {
 		JPanel panel = new JPanel();
 		JLabel lbl = new JLabel("Their ain't no time to rehearse right now!");
 		panel.add(lbl);
-		int selectedOption = JOptionPane.showOptionDialog(null, panel, "Uh oh...", JOptionPane.NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options , options[0]);
+		JOptionPane.showOptionDialog(null, panel, "Uh oh...", JOptionPane.NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options , options[0]);
 	}
 
 	public void displayTakeRoleError(String roleName) {
@@ -572,7 +576,7 @@ public class MainWindow {
 		JPanel panel = new JPanel();
 		JLabel lbl = new JLabel("You aren't allowed to take the role " + roleName + " right now.");
 		panel.add(lbl);
-		int selectedOption = JOptionPane.showOptionDialog(null, panel, "Uh oh...", JOptionPane.NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options , options[0]);	
+		JOptionPane.showOptionDialog(null, panel, "Uh oh...", JOptionPane.NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options , options[0]);	
 	}
 
 	public void displayActError() {
@@ -580,7 +584,7 @@ public class MainWindow {
 		JPanel panel = new JPanel();
 		JLabel lbl = new JLabel("Hold yer horses. You can't act right now.");
 		panel.add(lbl);
-		int selectedOption = JOptionPane.showOptionDialog(null, panel, "Uh oh...", JOptionPane.NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options , options[0]);	
+		JOptionPane.showOptionDialog(null, panel, "Uh oh...", JOptionPane.NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options , options[0]);	
 	
 	}
 
@@ -592,8 +596,9 @@ public class MainWindow {
 		JLabel message2 = new JLabel("All players have been moved to the trailer");
 		panel.add(message1);
 		panel.add(message2);
-		int selectedOption = JOptionPane.showOptionDialog(null, panel, "Uh oh...", JOptionPane.NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options , options[0]);	
+		JOptionPane.showOptionDialog(null, panel, "Uh oh...", JOptionPane.NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options , options[0]);	
 	
 	}
+
 
 }

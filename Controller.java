@@ -153,6 +153,7 @@ public class Controller {
 
 			// check if the scene wrapped
 			if (manager.getActivePlayer().getRole() == null) {
+				view.removeCard(areaName);
 				// update the view for all players who were on the card/ area
 				for (int i = 0; i < playersInArea.size(); i++) {
 					if (heldRoles.get(i) != null) {
