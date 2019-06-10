@@ -98,7 +98,7 @@ public class Controller {
 		//Prompt game start
 		System.out.println("Let the acting begin!");
 		manager.startGame();
-		
+
 		updateAreaCards();
 		view.setPlayers(names);
 	}
@@ -111,11 +111,85 @@ public class Controller {
 		
 	}
 	
-	// Called when the player ends their turn.
-	private static void turnUpdate() {
-		manager.setNextPlayerActive();
-		//TODO: reflect this in the view
-		if (!manager.scenesLeft()) dayUpdate();
+	/*
+	 * Handles turn-by-turn operations
+	 */
+	private static void turnUpdate(Scanner reader) {
+		
+
+		// Display the updated board before each turn
+		displayBoardState();
+		
+		boolean continueTurn = true;
+		while (continueTurn) {
+			continueTurn = actionUpdate(reader);
+		} // continue prompting player for actions until she decides to end her turn
+		
+		manager.setNextPlayerActive(); // move to the next player at the end of each turn
+	}
+	
+	private static boolean actionUpdate(Scanner reader) {
+
+		// clear the reader
+		System.out.println("Press enter to continue.");
+		reader.nextLine();
+		
+		// Display valid actions, which always includes ending the turn
+		ArrayList<Class> actions = manager.getValidActions();	
+		displayValidActions(actions);
+		
+		// Prompt user for command and split the input into words
+		System.out.println("What would you like to do?");
+		String firstWord = reader.next().toLowerCase(); // set commands to lowercase
+		
+		switch (firstWord) { // Parse the first argument of the command and try to execute the corresponding action
+		case "exit":
+			reader.close();
+			System.exit(0);
+			break;
+		case "end":
+			return tryEndTurn(reader);
+		case "view":
+			tryView(reader);
+			break;
+		case "help":
+			help();
+			break;
+		case "act":
+			tryAct(reader);
+			break;
+		case "move":
+//			tryMove(reader);
+			break;
+		case "rehearse":
+			tryRehearse(reader);
+			break;
+		case "take":
+			tryTakeRole(reader);
+			break;
+		case "upgrade":
+			tryUpgrade(reader);
+			break;
+			
+			// ------------------ Cheat codes for debugging are below this line --------------------------
+			
+		case "sendto":	// cheat code sends active player to specified area
+			cheatMove(reader);
+			break;
+		case "newday":
+			manager.newDay();
+			break;
+		case "endgame":
+			end(reader);
+			break;
+		case "setinactive":
+			cheatSetInactive();
+			break;
+		default:
+			System.out.println(defaultErrorString);
+			break;
+		}
+		return true;
 	}
 	
 	private static void cheatMove(Scanner reader) { // cheat format: sendto [playername] [areaname]
@@ -176,26 +250,29 @@ public class Controller {
 		}
 	}
 	
-	private static void tryMove(Scanner reader) { // verifies command syntax and prompts manager to try the action
-		try {
-			if (reader.next().toLowerCase().equals("to")){
-				String areaName = reader.nextLine().trim();
-				String message = manager.tryMove(areaName);
-				System.out.println(message);
-				return;
-			}
-		}
-		catch (Exception e) {
-			System.out.println("Error moving");
-			System.out.println(e.getMessage());
-			e.printStackTrace(System.out);
-			System.out.println(defaultErrorString);
-		}
-	}
+//	private static void tryMove(Scanner reader) { // verifies command syntax and prompts manager to try the action
+//		try {
+//			if (reader.next().toLowerCase().equals("to")){
+//				String areaName = reader.nextLine().trim();
+//				String message = manager.tryMove(areaName);
+//				System.out.println(message);
+//				return;
+//			}
+//		}
+//		catch (Exception e) {
+//			System.out.println("Error moving");
+//			System.out.println(e.getMessage());
+//			e.printStackTrace(System.out);
+//			System.out.println(defaultErrorString);
+//		}
+//	}
 	
 	public static void tryMove(String areaName) {
-		String message = manager.tryMove(areaName);
-		System.out.println(message);
+		String oldAreaName = manager.getActivePlayer().getArea().getName();
+		boolean moveSuccessful = manager.tryMove(areaName);
+		if(moveSuccessful){
+			view.movePlayer(manager.getActivePlayer().getName(), oldAreaName, manager.getActivePlayer().getArea().getName());
+		}
 	}
 	
 	private static void tryRehearse(Scanner reader) { // verifies command syntax and prompts manager to try the action
@@ -332,7 +409,11 @@ public class Controller {
 	
 	public static AreaView buildAreaView(Area modelArea) {
 		AreaView viewArea = new AreaView(modelArea.getName(), view);
+<<<<<<< HEAD
 		
+=======
+
+>>>>>>> c6e5da02f8b8a0934529d92c550254b2a50bcad4
 		if (modelArea instanceof Set) {
 			viewArea.setShotsLeft(((Set) modelArea).getShotsRemaining());
 			viewArea.setRoles(buildRoleViews((Set) modelArea));
@@ -355,7 +436,7 @@ public class Controller {
 	public static CardView buildCardView(Card modelCard) {
 		CardView viewCard = new CardView(modelCard.getTitle(), view);
 		viewCard.setBudget(modelCard.getBudget());
-		viewCard.setDesctription(modelCard.getDescription());
+		viewCard.setDescription(modelCard.getDescription());
 		System.out.println("CARD DESCRIPTION------ " + modelCard.getDescription());
 		viewCard.setRoles(buildRoleViews(modelCard));
 		

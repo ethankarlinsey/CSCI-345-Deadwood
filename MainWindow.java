@@ -230,7 +230,7 @@ public class MainWindow {
 	}
 
 	public String getPlayerName(int playerNum){ // called by Controller
-		return JOptionPane.showInputDialog("Please enter a name for player number " + playerNum + ":");
+		return JOptionPane.showInputDialog("Please enter a 3 character name for player number " + playerNum + ":");
 	}
 	
 	public void buildAreas(ArrayList<AreaView> areas) { // called by Controller
@@ -258,7 +258,6 @@ public class MainWindow {
 		// TODO: set selectionState to moveState and disable all buttons except cancel.
 		this.selectionState = this.moveState;
 		this.disableButtons();
-
 	}
 	
 	private void takeRoleClicked() {
