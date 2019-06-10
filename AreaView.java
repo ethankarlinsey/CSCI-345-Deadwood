@@ -47,7 +47,7 @@ public class AreaView {
 	public AreaView(String areaName, MainWindow view) {
 		this.view = view;
 		this.setAreaName(areaName);
-		labelOccupiedBy.setText("Occupied by: ");
+		setPlayers(players);
 	}
 	
 	public void buildAreaView(int[] bounds) {
@@ -213,6 +213,11 @@ public class AreaView {
 		}
 		
 		this.labelOccupiedBy.setText(occupancy);
+	}
+	
+	public void clearPlayers() {
+		this.players.clear();
+		setPlayers(this.players);
 	}
 	
 	public void addPlayer(String name) {

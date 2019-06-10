@@ -91,6 +91,8 @@ public class Controller {
 		updateAreaCards();
 		view.setPlayers(names);
 		turnUpdate();
+		view.newDay();
+		view.sendPlayersToTrailers(names);
 	}
 
 	private static void dayUpdate() {

@@ -232,6 +232,10 @@ public class MainWindow {
 		buttons.put("Cancel", btnCancel);
 	}
 
+	public void newDay() {
+		//TODO: what to do when the view sets a new day
+	}
+	
 	public int getNumPlayers(){
 		Integer[] possiblePlayerNum = {2, 3, 4, 5, 6, 7, 8};
 		return (Integer) JOptionPane.showInputDialog(null, "Please choose number of players:", "Input", JOptionPane.INFORMATION_MESSAGE, null, possiblePlayerNum, possiblePlayerNum[0]);
@@ -415,6 +419,11 @@ public class MainWindow {
 		txtpnGeneralInfo.setText(message);
 	}
 	
+	public void sendPlayersToTrailers(ArrayList<String> playerNames) {
+		areas.stream().forEach(a -> a.clearPlayers());
+		playerNames.stream().forEach(p -> addPlayerToArea(p, "Trailer"));
+	}
+	
 	public void movePlayer(String playerName, String oldArea, String newArea) {
 		removePlayerFromArea(playerName, oldArea);
 		addPlayerToArea(playerName, newArea);
@@ -518,17 +527,29 @@ public class MainWindow {
 	}
 
 	public void displayMoveError(String areaName) {
-		// TODO Auto-generated method stub
-		
+
+		String[] options = {"OK"};
+		JPanel panel = new JPanel();
+		JLabel lbl = new JLabel("You are currently unable to move to " + areaName + ".");
+		panel.add(lbl);
+		int selectedOption = JOptionPane.showOptionDialog(null, panel, "Uh oh...", JOptionPane.NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options , options[0]);
 	}
 
 	public void displayRehearseError() {
-		// TODO Auto-generated method stub
-		
+		String[] options = {"OK"};
+		JPanel panel = new JPanel();
+		JLabel lbl = new JLabel("Their ain't no time to rehearse right now!");
+		panel.add(lbl);
+		int selectedOption = JOptionPane.showOptionDialog(null, panel, "Uh oh...", JOptionPane.NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options , options[0]);
 	}
 
 	public void displayTakeRoleError(String roleName) {
-		// TODO Auto-generated method stub
-		
+		String[] options = {"OK"};
+		JPanel panel = new JPanel();
+		JLabel lbl = new JLabel("You aren't allowed to take the role " + roleName + " right now.");
+		panel.add(lbl);
+		int selectedOption = JOptionPane.showOptionDialog(null, panel, "Uh oh...", JOptionPane.NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options , options[0]);	
 	}
+
+
 }
