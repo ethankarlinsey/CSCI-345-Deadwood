@@ -162,6 +162,10 @@ public class AreaView {
 		areaPane.add(cardPanel);
 	}
 
+	public CardView getCard(){
+		return this.card;
+	}
+
 	public String getAreaName() {
 		return labelTitle.getText();
 	}

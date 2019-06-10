@@ -56,15 +56,15 @@ public class Controller {
 		//First prompts - board layout, player count and player names
 		System.out.println("Welcome to Deadwood! The cheapass game of acting badly!");
 
-		// Initialize the board
+		//Initialize the board
 		manager.initializeBoard();
 
 		//INITIALIZE WINDOW
 		view = new MainWindow();
 		view.buildAreas(buildAreaViews());
 		view.buildCards(buildCardViews());
-		int playerCount = view.getNumPlayers();
 
+		int playerCount = view.getNumPlayers();
 
 		ArrayList<String> names = new ArrayList<String>();
 
@@ -82,13 +82,6 @@ public class Controller {
 
 		//Initialize the players
 		manager.initializePlayers(names);
-
-		manager.initializeBoard();
-
-		//INITIALIZE WINDOW
-		view = new MainWindow();
-		view.buildAreas(buildAreaViews());
-		view.buildCards(buildCardViews());
 
 		//Prompt game start
 		System.out.println("Let the acting begin!");
@@ -111,6 +104,7 @@ public class Controller {
 		//TODO: reflect this in the view
 		if (!manager.scenesLeft()) dayUpdate();
 		updateViewValidActions();
+		view.newTurn(manager.getActivePlayer().getName());
 	}
 
 	private static void cheatMove(Scanner reader) { // cheat format: sendto [playername] [areaname]
@@ -147,9 +141,17 @@ public class Controller {
 //	}
 
 	public static void tryAct(){
+		String roleName = manager.getActivePlayer().getRole().getName();
 		String act = manager.tryAct();
 		if(act != null){
 			view.actStatus(act);
+
+			// check if the scene wrapped
+			if(manager.getActivePlayer().getRole() == null){
+				view.removeFromRole(manager.getActivePlayer().getName(), manager.getActivePlayer().getArea().toString(), roleName);
+				view.updatePlayerInfo(manager.getActivePlayer().getName());
+			}
+
 			updateViewValidActions();
 		}
 	}
@@ -189,15 +191,22 @@ public class Controller {
 		}
 	}
 
-	private static void tryRehearse(Scanner reader) { // verifies command syntax and prompts manager to try the action
-		if (reader.nextLine().trim().length() > 0) {
-			System.out.println("Error rehearsing - too many arguments");
-			System.out.println(defaultErrorString);
-			return;
-		}
+//	private static void tryRehearse(Scanner reader) { // verifies command syntax and prompts manager to try the action
+//		if (reader.nextLine().trim().length() > 0) {
+//			System.out.println("Error rehearsing - too many arguments");
+//			System.out.println(defaultErrorString);
+//			return;
+//		}
+//
+//		String message = manager.tryRehearse();
+//		System.out.println(message);
+//	}
 
-		String message = manager.tryRehearse();
-		System.out.println(message);
+	public static void tryRehearse(){
+		boolean rehearse = manager.tryRehearse();
+		if(rehearse){
+			updateViewValidActions();
+		}
 	}
 
 	public static void tryTakeRole(String roleName){
@@ -253,7 +262,7 @@ public class Controller {
 	}
 
 	public static void displayRoleState(String roleName) {
-		System.out.println("Role statae " + roleName);
+		System.out.println("Role state " + roleName);
 		// TODO: Make better message
 		view.updateGeneralInfo(roleName);
 	}
@@ -263,15 +272,16 @@ public class Controller {
 		
 	}
 
-	private static void displayValidActions(ArrayList<Class> actions) {
-		System.out.println();
-		System.out.println("It is " + manager.getActivePlayer().getName() + "'s turn. Right now you can");
-		actions.stream().map(c -> actionTypeToString.get((Class) c)).forEach(str -> System.out.println(str));
-		System.out.println("End turn");
-	}
+//	private static void displayValidActions(ArrayList<Class> actions) {
+//		System.out.println();
+//		System.out.println("It is " + manager.getActivePlayer().getName() + "'s turn. Right now you can");
+//		actions.stream().map(c -> actionTypeToString.get((Class) c)).forEach(str -> System.out.println(str));
+//		System.out.println("End turn");
+//	}
 
 	public static void end() {
 		System.out.println(manager.getEndStateString());
+		// TODO: Should we exit here?
 	}
 
 
@@ -376,6 +386,7 @@ public class Controller {
 		validActionNames.add("End Turn");
 
 		view.updateEnabledButtons(validActionNames);
+		view.updatePlayerInfo(manager.getActivePlayer().getName());
 	}
 
 	public static void updateAreaCards() {

@@ -217,14 +217,14 @@ public class RuleManager {
 		return false;
 	}
 
-	public String tryRehearse() {
+	public boolean tryRehearse() {
 		Rehearse rehearse = new Rehearse(activePlayer);
 		
 		if (rehearse.isValid()) {
 			rehearse.excecute();
-			return "Nice practice. You're getting better!";
+			return true;
 		}
-		return "You can't rehearse right now.";
+		return false;
 	}
 	
 	public boolean tryTakeRole(String roleName) {

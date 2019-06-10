@@ -275,7 +275,7 @@ public class MainWindow {
 	}
 	
 	private void rehearseClicked() {
-		
+		Controller.tryRehearse();
 	}
 	
 	private void upgradeClicked() {
@@ -284,6 +284,10 @@ public class MainWindow {
 	
 	private void endTurnClicked() {
 		Controller.turnUpdate();
+	}
+
+	public void newTurn(String playerTurn){
+		JOptionPane.showMessageDialog(null, "It's now " + playerTurn + "'s turn!");
 	}
 	
 	private void cancelClicked() {
@@ -336,8 +340,11 @@ public class MainWindow {
 		for(String action : buttons.keySet()){
 			if(validActions.contains(action)){
 				buttons.get(action).setEnabled(true);
+			} else {
+				buttons.get(action).setEnabled(false);
 			}
 		}
+		buttons.get("Cancel").setEnabled(true);
 	}
 	
 	private void askForEnabledButtons() {
@@ -389,12 +396,22 @@ public class MainWindow {
 	public void addToRole(String playerName, String areaName, String roleName) {
 		Optional<AreaView> area = areas.stream().filter(a -> a.getAreaName().equals(areaName)).findFirst();
 		if (area.isPresent()){
+			// check if role is on the area or the card
 			ArrayList<RoleView> roles = area.get().getRoles();
 			Optional<RoleView> role = roles.stream().filter(r -> r.getName().equals(roleName)).findFirst();
 			if (role.isPresent()){
 				role.get().setPlayer(playerName);
 			}
-			else System.out.println(roleName + " in " + areaName + " was not found in MainWindow.addToRole");
+			else {
+				roles = area.get().getCard().getRoles();
+				role = roles.stream().filter(r -> r.getName().equals(roleName)).findFirst();
+				if (role.isPresent()){
+					role.get().setPlayer(playerName);
+				}
+				else{
+					System.out.println(roleName + " in " + areaName + " was not found in MainWindow.addToRole, either on area or on card");
+				}
+			}
 		}
 		else System.out.println(areaName + " was not found in MainWindow.addToRole");
 	}
