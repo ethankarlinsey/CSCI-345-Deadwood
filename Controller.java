@@ -60,7 +60,7 @@ public class Controller {
 		manager.initializeBoard();
 
 		//INITIALIZE WINDOW
-		view = new MainWindow();
+		view = MainWindow.getInstance();
 		view.buildAreas(buildAreaViews());
 		view.buildCards(buildCardViews());
 
@@ -101,6 +101,7 @@ public class Controller {
 	// Called when the player ends their turn.
 	public static void turnUpdate() {
 		manager.setNextPlayerActive();
+		view.setActivePlayer(manager.getActivePlayer().getName());
 		//TODO: reflect this in the view
 		if (!manager.scenesLeft()) dayUpdate();
 		updateViewValidActions();

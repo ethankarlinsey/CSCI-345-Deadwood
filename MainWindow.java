@@ -19,6 +19,7 @@ import java.awt.event.ItemEvent;
 
 public class MainWindow {
 
+	private static MainWindow instance;
 	private JFrame frmDeadwood;
 	//private Controller controller;
 	private JLayeredPane boardView;
@@ -36,6 +37,7 @@ public class MainWindow {
 	private final int normalState = 0;
 	private final int moveState = 1;
 	private final int roleState = 2;
+	private boolean changingComboBox = false;
 
 	/**
 	 * Launch the application.
@@ -56,13 +58,18 @@ public class MainWindow {
 	/**
 	 * Create the application.
 	 */
-	public MainWindow() {
+	private MainWindow() {
 		initialize();
 		try {
 			frmDeadwood.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static MainWindow getInstance() {
+		if (instance == null) instance = new MainWindow();
+		return instance; 
 	}
 
 	/**
@@ -118,7 +125,8 @@ public class MainWindow {
 		comboBox = new JComboBox();
 		comboBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
-				updatePlayerInfo(String.valueOf(comboBox.getSelectedItem()));
+				if (!changingComboBox)
+					updatePlayerInfo(String.valueOf(comboBox.getSelectedItem()));
 			}
 		});
 		comboBox.setBounds(12, 13, 240, 22);
@@ -254,6 +262,11 @@ public class MainWindow {
 		System.out.println("CARDS WERE BUILT!!!! --------------------------");
 	}
 	
+	public void setActivePlayer(String playerName) {
+		updatePlayerInfo(playerName);
+		JOptionPane.showMessageDialog(frmDeadwood, "It is " + playerName + "'s turn!");
+	}
+	
 	private void moveClicked() {
 		// TODO: set selectionState to moveState and disable all buttons except cancel.
 		this.selectionState = this.moveState;
@@ -362,9 +375,12 @@ public class MainWindow {
 	public void updatePlayerInfo(String name) {
 		for (int i = 0; i < comboBox.getItemCount(); i++) {
 			if (comboBox.getItemAt(i).toString().equals(name)) {
-				comboBox.setSelectedItem(i);
+				changingComboBox = true;
+				comboBox.setSelectedIndex(i);
 				String message = Controller.displayPlayerState(comboBox.getSelectedItem().toString());
 				txtpnPlayerInfo.setText(message);
+				changingComboBox = false;
+				//System.out.println("------------------------ Updated " + name);
 			}
 		}
 	}
