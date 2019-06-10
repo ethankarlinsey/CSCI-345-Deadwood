@@ -231,7 +231,7 @@ public class AreaView {
 		players.add(name);
 		setPlayers(players);
 		if(this.card != null){
-			if(this.cardPanel != card.getPanelVisible()) {
+			if(this.cardPanel == card.getPanelInvisible()) {
 				areaPane.remove(cardPanel);
 				this.cardPanel = this.card.getPanelVisible();
 				areaPane.add(cardPanel);
