@@ -90,6 +90,7 @@ public class Controller {
 
 		updateAreaCards();
 		view.setPlayers(names);
+		turnUpdate();
 	}
 
 	private static void dayUpdate() {
@@ -200,6 +201,7 @@ public class Controller {
 			view.movePlayer(manager.getActivePlayer().getName(), oldAreaName, manager.getActivePlayer().getArea().getName());
 			updateViewValidActions();
 		}
+		else view.displayMoveError(areaName);
 	}
 
 //	private static void tryRehearse(Scanner reader) { // verifies command syntax and prompts manager to try the action
@@ -218,6 +220,7 @@ public class Controller {
 		if(rehearse){
 			updateViewValidActions();
 		}
+		else view.displayRehearseError();
 	}
 
 	public static void tryTakeRole(String roleName){
@@ -226,6 +229,7 @@ public class Controller {
 			view.addToRole(manager.getActivePlayer().getName(), manager.getActivePlayer().getArea().getName(), roleName);
 			updateViewValidActions();
 		}
+		else view.displayTakeRoleError(roleName);
 	}
 
 //	private static void tryUpgrade(Scanner reader) { // verifies command syntax and prompts manager to try the action
@@ -301,6 +305,7 @@ public class Controller {
 
 	public static void end() {
 		System.out.println(manager.getEndStateString());
+		
 		// TODO: Should we exit here?
 	}
 
