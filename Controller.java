@@ -70,9 +70,6 @@ public class Controller {
 
 		for (int i = 0; i < playerCount; i++) { //prompts for player names and adds to list.
 			while(true) {
-				Integer playerNum = i + 1;
-				System.out.println("What is player " + playerNum.toString() + "'s name? (three characters)");
-				//String name = reader.next();
 				String name = view.getPlayerName(i+1);
 				if(name != null) {
 					if (!names.contains(name) && name.length() < 4 && name.length() > 2) {        //If a name has already been added, the user is re-prompted
@@ -80,10 +77,8 @@ public class Controller {
 						break;
 					}
 				}
-				System.out.println("That's an invalid name!");
 			}
 		}
-		names.stream().forEach(s -> System.out.println(s));
 
 		//Initialize the players
 		manager.initializePlayers(names);
@@ -141,16 +136,25 @@ public class Controller {
 		return true;
 	}
 
-	private static void tryAct(Scanner reader) { // verifies command syntax and prompts manager to try the action
-		if (reader.nextLine().trim().length() > 0) {
-			System.out.println("Error acting");
-			System.out.println(defaultErrorString); // if the command has more elements than "act", write an error and return.
-			return;
-		}
+//	private static void tryAct(Scanner reader) { // verifies command syntax and prompts manager to try the action
+//		if (reader.nextLine().trim().length() > 0) {
+//			System.out.println("Error acting");
+//			System.out.println(defaultErrorString); // if the command has more elements than "act", write an error and return.
+//			return;
+//		}
+//
+//		String message = manager.tryAct();
+//		System.out.println(message);
+//	}
 
-		String message = manager.tryAct();
-		System.out.println(message);
+	public static void tryAct(){
+		String act = manager.tryAct();
+		if(act != null){
+			view.actStatus(act);
+			updateViewValidActions();
+		}
 	}
+
 
 	private static void tryView(Scanner reader) {
 		try {

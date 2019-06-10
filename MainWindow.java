@@ -278,7 +278,11 @@ public class MainWindow {
 	}
 	
 	private void actClicked() {
-		
+		Controller.tryAct();
+	}
+
+	public void actStatus(String performance){
+		JOptionPane.showMessageDialog(null, performance);
 	}
 	
 	private void rehearseClicked() {
@@ -349,6 +353,7 @@ public class MainWindow {
 	
 	private void askForEnabledButtons() {
 		Controller.updateViewValidActions();
+		this.selectionState = normalState;
 	}
 	
 	public void disableButtons() {
