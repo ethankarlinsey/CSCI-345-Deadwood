@@ -253,6 +253,15 @@ public class Controller {
 //		System.out.println("Error upgrading, but not enough to throw an error... try getting your words right");
 //	}
 
+	public static void tryUpgrade(int rank, String currency){
+		boolean upgrade = manager.tryUpgrade(rank, currency);
+		if(upgrade){
+			view.updatePlayerInfo(manager.getActivePlayer().getName());
+		} else {
+			view.upgradeError();
+		}
+	}
+
 	public static void displayBoardState() {
 		System.out.println("\nBoard state:\n");
 		System.out.println(manager.getBoardStateAsString());
