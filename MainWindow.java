@@ -336,7 +336,7 @@ public class MainWindow {
 	}
 	
 	private void upgradeClicked() {
-		Integer[] possibleRanks = {2, 3, 4, 5};
+		Integer[] possibleRanks = {2, 3, 4, 5, 6};
 		String[] possibleCurrencies = {"dollars", "credits"};
 		int rank = (Integer) JOptionPane.showInputDialog(null, "Please select rank to upgrade to:", "Input", JOptionPane.INFORMATION_MESSAGE, null, possibleRanks, possibleRanks[0]);
 		String currency = (String) JOptionPane.showInputDialog(null, "Please select currency to use for upgrade:", "Input", JOptionPane.INFORMATION_MESSAGE, null, possibleCurrencies, possibleCurrencies[0]);
